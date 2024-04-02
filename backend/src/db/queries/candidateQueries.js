@@ -1,4 +1,4 @@
-const connection = require('./db');
+const connection = require('../connection');
 
 function selectAllCandidates(callback) {
     const query = 'SELECT * FROM candidates';
