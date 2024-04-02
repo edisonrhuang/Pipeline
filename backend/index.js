@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const { selectAllCandidates, createCandidate, updateCandidate, deleteCandidate } = require('./database/queries');
+const { selectAllCandidates, createCandidate, updateCandidate, deleteCandidate } = require('./src/db/queries');
 
 const app = express();
 
