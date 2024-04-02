@@ -1,4 +1,4 @@
-DROP DATABASE pipeline_database;
+DROP DATABASE IF EXISTS pipeline_database;
 
 CREATE DATABASE pipeline_database;
 USE pipeline_database;
