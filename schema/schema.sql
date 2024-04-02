@@ -1,4 +1,5 @@
 CREATE DATABASE pipeline_database;
+USE pipeline_database;
 
 CREATE TABLE candidates (
     candidate_id int NOT NULL AUTO_INCREMENT,
