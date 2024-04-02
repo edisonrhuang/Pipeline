@@ -1,3 +1,5 @@
+DROP DATABASE pipeline_database;
+
 CREATE DATABASE pipeline_database;
 USE pipeline_database;
 

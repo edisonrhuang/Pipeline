@@ -24,7 +24,7 @@ const CandidateInsert = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:5002/api/create-candidates', { data: jsonData });
+            const res = await axios.post(`${process.env.REACT_APP_API_HOST}/api/create-candidates`, { data: jsonData });
             alert('Candidate inserted successfully');
             setFormData({
                 first_name: '',

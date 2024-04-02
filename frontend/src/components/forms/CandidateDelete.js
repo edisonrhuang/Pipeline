@@ -6,7 +6,7 @@ const CandidateDelete = () => {
 
     const handleDelete = async () => {
         try {
-            const res = await axios.post(`http://localhost:5002/api/delete-candidates`, { data: candidate_id });
+            const res = await axios.post(`${process.env.REACT_APP_API_HOST}/api/delete-candidates`, { data: candidate_id });
             alert('Candidate deleted successfully');
             setCandidateId('');
             console.log(res.data);

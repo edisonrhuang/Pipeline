@@ -24,7 +24,7 @@ const CandidateUpdate = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post(`http://localhost:5002/api/update-candidates`, { data: jsonData });
+            const res = await axios.post(`${process.env.REACT_APP_API_HOST}/api/update-candidates`, { data: jsonData });
             alert('Candidate updated successfully');
             setFormData({
                 candidate_id: '',

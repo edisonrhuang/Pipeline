@@ -1,18 +1,18 @@
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
+require('dotenv').config();
 const candidateRoutes = require('./src/routes/candidateRoutes');
 
 const app = express();
 
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: process.env.CORS_ORIGIN,
     credentials: true,
     optionSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send("<h1>Backend Running<h1>");
