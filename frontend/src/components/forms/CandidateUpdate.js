@@ -13,6 +13,8 @@ const CandidateUpdate = () => {
         gender: '',
         ethnicity: '',
         graduation_date: '',
+        field_of_study: '',
+        website: '',
         profile_picture: null
     });
     const jsonData = JSON.stringify(formData);
@@ -37,6 +39,8 @@ const CandidateUpdate = () => {
                 gender: '',
                 ethnicity: '',
                 graduation_date: '',
+                field_of_study: '',
+                website: '',
                 profile_picture: null
             });
             console.log(res.data);
@@ -111,6 +115,16 @@ const CandidateUpdate = () => {
             <label>
                 Graduation Date:
                 <input type="date" name="graduation_date" value={formData.graduation_date} onChange={handleChange} />
+            </label>
+            <br />
+            <label>
+                Field of Study:
+                <input type="text" name="field_of_study" value={formData.field_of_study} onChange={handleChange} />
+            </label>
+            <br />
+            <label>
+                Website:
+                <input type="text" name="website" value={formData.website} onChange={handleChange} />
             </label>
             <br />
             <label>

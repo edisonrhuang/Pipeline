@@ -1,5 +1,6 @@
 const express = require('express');
 const { selectAllCandidates, createCandidate, updateCandidate, deleteCandidate } = require('../db/queries/candidateQueries');
+const { createSkills } = require('../db/queries/skillQueries');
 
 const router = express.Router();
 
@@ -12,10 +13,20 @@ router.get('/data', (req, res) => {
 
 router.post('/api/create-candidates', (req, res) => {
     const candidateData = JSON.parse(req.body.data);
+    const candidateSkills = JSON.parse(req.body.skills);
     createCandidate(candidateData, (err, results) => {
         if (err) { return res.status(500).json({ error: 'Internal Server Error' }); }
-        res.status(201).json({ message: 'Candidate inserted successfully', candidateId: results.candidateId });
-        console.log("Candidate inserted successfully");
+
+        if (Object.keys(candidateSkills).length !== 0) {
+            createSkills(results.insertId, candidateSkills, (err, results) => {
+                if (err) { return res.status(500).json({ error: 'Internal Server Error' }); }
+                res.status(201).json({ message: 'Candidate and skills inserted successfully', candidateId: results.insertId });
+                console.log("Candidate and skills inserted successfully");
+            })
+        } else {
+            res.status(201).json({ message: 'Candidate inserted successfully', candidateId: results.insertId });
+            console.log("Candidate inserted successfully");
+        }
     });
 });
 

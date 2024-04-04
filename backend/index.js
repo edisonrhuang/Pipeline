@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const candidateRoutes = require('./src/routes/candidateRoutes');
+const skillRoutes = require('./src/routes/skillRoutes');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 });
 
 app.use(candidateRoutes);
+app.use(skillRoutes);
 
 app.listen(5002, () => {
     console.log('Server is running on port 5002');
