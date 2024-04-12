@@ -1,20 +1,20 @@
 import './App.css';
-import CandidatesList from './components/queries/CandidatesList';
-import CandidateInsert from './components/forms/CandidateInsert';
-import CandidateUpdate from './components/forms/CandidateUpdate';
-import CandidateDelete from './components/forms/CandidateDelete';
+import CreateCandidate from './pages/Forms/CreateCandidate';
+import UpdateCandidate from './pages/Forms/UpdateCandidate';
+import DeleteCandidate from './pages/Forms/DeleteCandidate';
+import SelectCandidates from './pages/Queries/SelectCandidates';
 
 function App() {
   return (
     <div>
       <h1>Candidates List</h1>
-      <CandidatesList/>
+      <SelectCandidates/>
       <h1>Create Candidate</h1>
-      <CandidateInsert/>
+      <CreateCandidate/>
       <h1>Update Candidate</h1>
-      <CandidateUpdate/>
+      <UpdateCandidate/>
       <h1>Delete Candidate</h1>
-      <CandidateDelete/>
+      <DeleteCandidate/>
     </div>
   );
 }

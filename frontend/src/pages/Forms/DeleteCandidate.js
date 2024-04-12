@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const CandidateDelete = () => {
+const DeleteCandidate = () => {
     const [candidate_id, setCandidateId] = useState('');
 
     const handleDelete = async () => {
@@ -28,4 +28,4 @@ const CandidateDelete = () => {
     );
 };
 
-export default CandidateDelete;
+export default DeleteCandidate;

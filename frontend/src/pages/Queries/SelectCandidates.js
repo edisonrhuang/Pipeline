@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const CandidatesList = () => {
+const SelectCandidates = () => {
     const [candidates, setCandidates] = useState([]);
 
     const fetchCandidates = async () => {
@@ -56,4 +56,4 @@ const CandidatesList = () => {
     );
 };
 
-export default CandidatesList;
+export default SelectCandidates;
