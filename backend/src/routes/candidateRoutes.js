@@ -1,10 +1,10 @@
 const express = require('express');
-const { selectAllCandidates, createCandidate, updateCandidate, deleteCandidate } = require('../db/queries/candidateQueries');
+const { selectAllCandidates, selectCandidateByID, createCandidate, updateCandidate, deleteCandidate } = require('../db/queries/candidateQueries');
 const { createSkills } = require('../db/queries/skillQueries');
 
 const router = express.Router();
 
-router.get('/data', (req, res) => {
+router.get('/candidate-data', (req, res) => {
     selectAllCandidates((err, candidates) => {
         if (err) { return res.status(500).json({ error: 'Internal Server Error' }); }
         res.json(candidates);
@@ -53,6 +53,14 @@ router.get('/api/get-candidates', (req, res) => {
     selectAllCandidates((err, candidates) => {
         if (err) { return res.status(500).json({ error: 'Internal Server Error' }); }
         res.send(candidates);
+    });
+});
+
+router.get('/api/get-candidate/:id', (req, res) => {
+    const candidateId = req.body.data;
+    selectCandidateByID(candidateId, (err, candidate) => {
+        if (err) { return res.status(500).json({ error: 'Internal Server Error' }); }
+        res.send(candidate);
     });
 });
 

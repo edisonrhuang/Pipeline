@@ -59,7 +59,6 @@ const CreateCandidate = () => {
             return updatedSkills;
         });
     };
-    
 
     const handleSubmit = async (e) => {
         e.preventDefault();

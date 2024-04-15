@@ -6,8 +6,19 @@ function selectAllCandidates(callback) {
             console.error('Error fetching candidates: ', err);
             return callback(err, null);
         }
-        callback(null, res);
+        return callback(null, res);
     });
+}
+
+function selectCandidateByID(candidateId, callback) {
+    connection.query('SELECT * FROM candidates WHERE candidate_id = ?', candidateId, (err, res) => {
+        if (err) {
+            console.error('Error fetching candidate with ID ', candidateId, ': ', err);
+            return callback(err, null);
+        }
+        return callback(null, res);
+    });
+
 }
 
 function createCandidate(candidateData, callback) {
@@ -16,8 +27,7 @@ function createCandidate(candidateData, callback) {
             console.error('Error inserting candidate: ', err);
             return callback(err, null);
         }
-
-        callback(null, res);
+        return callback(null, res);
     });
 }
 
@@ -27,11 +37,25 @@ function updateCandidate(candidateData, candidateId, callback) {
             console.error('Error updating candidate: ', err);
             return callback(err, null);
         }
-        callback(null, res);
+        return callback(null, res);
     });
 }
 
 function deleteCandidate(candidateId, callback) {
+    connection.query('DELETE FROM notification WHERE candidate_id = ?', candidateId, (err, notificationDeleteResult) => {
+        if (err) {
+            console.error('Error deleting candidate notifications: ', err);
+            return callback(err, null);
+        }
+    });
+
+    connection.query('DELETE FROM authentication WHERE candidate_id = ?', candidateId, (err, authenticationDeleteResult) => {
+        if (err) {
+            console.error('Error deleting candidate authentication: ', err);
+            return callback(err, null);
+        }
+    });
+
     connection.query('SELECT COUNT(*) AS skillCount FROM candidate_skills WHERE candidate_id = ?', candidateId, (err, skillCountResult) => {
         if (err) {
             console.error('Error checking candidate skills: ', err);
@@ -61,7 +85,7 @@ function deleteCandidate(candidateId, callback) {
                         console.error('Error deleting candidate: ', err);
                         return callback(err, null);
                     }
-                    callback(null, candidateDeleteResult);
+                    return callback(null, candidateDeleteResult);
                 });
             });
         }
@@ -70,6 +94,7 @@ function deleteCandidate(candidateId, callback) {
 
 module.exports = {
     selectAllCandidates,
+    selectCandidateByID,
     createCandidate,
     updateCandidate,
     deleteCandidate,

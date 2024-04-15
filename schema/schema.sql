@@ -8,7 +8,7 @@ USE pipeline_database;
 /* Creates a table for candidates */
 CREATE TABLE candidates (
 	/* Candidate's personal information */
-    candidate_id int NOT NULL AUTO_INCREMENT,
+    candidate_id INT NOT NULL AUTO_INCREMENT,
     first_name VARCHAR(50),
     last_name VARCHAR(50) NOT NULL,
     email VARCHAR(254) NOT NULL,
@@ -34,15 +34,15 @@ CREATE INDEX candidate_index ON candidates (candidate_id);
 
 /* Creates a table for skills */
 CREATE TABLE skills (
-	skill_id int NOT NULL AUTO_INCREMENT,
+	skill_id INT NOT NULL AUTO_INCREMENT,
     skill VARCHAR(100),
     PRIMARY KEY (skill_id)
 );
 
 /* Creates a table that forms the relationship between candidates and skills */
 CREATE TABLE candidate_skills (
-	candidate_id int,
-    skill_id int,
+	candidate_id INT,
+    skill_id INT,
     FOREIGN KEY (candidate_id) REFERENCES candidates(candidate_id),
     FOREIGN KEY (skill_id) REFERENCES skills(skill_id)
 );
@@ -51,8 +51,8 @@ CREATE TABLE candidate_skills (
 CREATE INDEX candidate_skills_index ON candidate_skills (candidate_id, skill_id);
 
 /* Creates a table for employers */
-CREATE TABLE employer (
-    employer_id int NOT NULL AUTO_INCREMENT,
+CREATE TABLE employers (
+    employer_id INT NOT NULL AUTO_INCREMENT,
     first_name VARCHAR(50),
     last_name VARCHAR(50) NOT NULL,
     email VARCHAR(254) NOT NULL,
@@ -61,14 +61,24 @@ CREATE TABLE employer (
     PRIMARY KEY (employer_id)
 );
 
+/* Creates a table for authentication */
+CREATE TABLE authentication (
+	email VARCHAR(254) NOT NULL,
+    user_type ENUM('Candidate', 'Employer') NOT NULL,
+    candidate_id INT,
+    FOREIGN KEY (candidate_id) REFERENCES candidates(candidate_id),
+    employer_id INT,
+    FOREIGN KEY (employer_id) REFERENCES employers(employer_id)
+);
+
 /* Creates a table for notifications */ 
 CREATE TABLE notification (
     notification_id NUMERIC(9, 0) PRIMARY KEY,
     content VARCHAR(5000),
-    candidate_id int NOT NULL, 
+    candidate_id INT NOT NULL,
     FOREIGN KEY (candidate_id) REFERENCES candidates(candidate_id),
-    employer_id int NOT NULL,
-    FOREIGN KEY (employer_id) REFERENCES employer(employer_id)
+    employer_id INT NOT NULL,
+    FOREIGN KEY (employer_id) REFERENCES employers(employer_id)
 );
 
 /* Creates an index on the candidate_id and employer_id of the notification table */
@@ -100,6 +110,29 @@ INSERT INTO candidates (first_name, last_name, email, phone_number, date_of_birt
 ('Daniel', 'Lee', 'daniel.lee@example.com', '5554446699', '1990-10-17', 'Experienced accountant with a strong background in auditing and financial analysis.', 'Male', 'Asian/Pacific Islander', '2012-05-30', 'Accounting', 'http://www.daniellee.com', '2024-04-03', NULL),
 ('Sophia', 'Jackson', 'sophia.jackson@example.com', '2229998888', '1992-07-14', 'Dedicated social worker committed to advocating for marginalized communities.', 'Female', 'Black or African American', '2014-08-25', 'Social Work', 'http://www.sophiajackson.com', '2024-04-03', NULL),
 ('Ethan', 'Hernandez', 'ethan.hernandez@example.com', '9994443322', '1991-04-05', 'Innovative product manager skilled in product development and launch strategies.', 'Male', 'Hispanic', '2013-10-10', 'Product Management', 'http://www.ethanhernandez.com', '2024-04-03', NULL);
+
+/* Filler employer insertion */
+INSERT INTO employers (first_name, last_name, email, company_name, info) VALUES
+('John', 'Doe', 'john.doe@example.com', 'ABC Company', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),
+('Jane', 'Smith', 'jane.smith@example.com', 'XYZ Corporation', 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
+('Michael', 'Johnson', 'michael.johnson@example.com', '123 Industries', 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'),
+('Emily', 'Williams', 'emily.williams@example.com', 'Tech Innovations Ltd.', 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'),
+('David', 'Brown', 'david.brown@example.com', 'Global Solutions Inc.', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+('Sarah', 'Davis', 'sarah.davis@example.com', 'Sunset Enterprises', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),
+('Christopher', 'Miller', 'christopher.miller@example.com', 'Peak Performance Group', 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
+('Jessica', 'Wilson', 'jessica.wilson@example.com', 'Future Innovations LLC', 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'),
+('Matthew', 'Moore', 'matthew.moore@example.com', 'Dynamic Solutions Co.', 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'),
+('Amanda', 'Taylor', 'amanda.taylor@example.com', 'Innovative Technologies', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+('James', 'Anderson', 'james.anderson@example.com', 'Visionary Ventures', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),
+('Melissa', 'Martinez', 'melissa.martinez@example.com', 'Pioneer Enterprises', 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
+('Daniel', 'Hernandez', 'daniel.hernandez@example.com', 'Dynamic Innovations Inc.', 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'),
+('Jennifer', 'Garcia', 'jennifer.garcia@example.com', 'Innovative Solutions Ltd.', 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'),
+('Ryan', 'Lopez', 'ryan.lopez@example.com', 'Future Trends Group', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+('Ashley', 'Gonzalez', 'ashley.gonzalez@example.com', 'Tech Savvy Inc.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),
+('Joshua', 'Wilson', 'joshua.wilson@example.com', 'Innovative Solutions Co.', 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
+('Rebecca', 'Rivera', 'rebecca.rivera@example.com', 'Advanced Technologies Ltd.', 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'),
+('Justin', 'Lee', 'justin.lee@example.com', 'Future Dynamics Inc.', 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'),
+('Laura', 'Walker', 'laura.walker@example.com', 'Tech Genius Group', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
 
 /* Insertion of CS programming languages */
 INSERT INTO skills (skill) VALUES
