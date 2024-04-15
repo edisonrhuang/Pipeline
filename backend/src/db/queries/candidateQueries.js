@@ -21,7 +21,7 @@ function selectAllCandidates(callback) {
 function selectCandidateByID(candidateId, callback) {
     const query = 
     `
-    SELECT c.*, GROUP_CONCAT(s.skill) AS askills
+    SELECT c.*, GROUP_CONCAT(s.skill) AS skills
     FROM candidates c
     LEFT JOIN candidate_skills cs ON c.candidate_id = cs.candidate_id
     LEFT JOIN skills s on cs.skill_id = s.skill_id
@@ -35,7 +35,39 @@ function selectCandidateByID(candidateId, callback) {
         }
         return callback(null, res);
     });
+}
 
+function selectCandidateByFilter(filters, callback) {
+    const query =
+    `
+    SELECT c.*, GROUP_CONCAT(s.skill) AS skills
+    FROM candidates c
+    LEFT JOIN candidate_skills cs on c.candidate_id = cs.candidate_id
+    LEFT JOIN skills s on cs.skill_id = s.skill_id
+    WHERE 1=1
+    `
+
+    if (filters.graduationStartDate && filters.graduationEndDate) {
+        query += ' AND c.graduation_date BETWEEN ? AND ?';
+    }
+
+    if (filters.fieldOfStudy) {
+        query += ' AND c.field_of_study = ?';
+    }
+
+    if (filters.skills && filters.skills.length > 0) {
+        sqlQuery += ` AND s.skill IN (?)`;
+    }
+
+    query += ' GROUP BY c.candidate_id;'
+
+    connection.query(query, [filters.graduationStartDate, filters.graduationEndDate, filters.fieldOfStudy, filters.skills], (err, res) => {
+        if (err) {
+            console.error('Error fetching candidates with filters: ', err);
+            return callback(err, null);
+        }
+        return callback(null, res);
+    });
 }
 
 function createCandidate(candidateData, callback) {
