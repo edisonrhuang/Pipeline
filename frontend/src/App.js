@@ -1,5 +1,5 @@
 import './App.css';
-import EmployerOrStudent from './pages/EmployerOrStudent';
+import EmployerOrStudent from './pages/EmployerOrCandidate';
 import { BrowserRouter } from "react-router-dom";
 
 function App() {
