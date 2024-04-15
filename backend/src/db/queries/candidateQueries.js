@@ -1,7 +1,15 @@
 const connection = require('../connection');
 
 function selectAllCandidates(callback) {
-    connection.query('SELECT * FROM candidates', (err, res) => {
+    const query = 
+    `
+    SELECT c.*, GROUP_CONCAT(s.skill) AS skills
+    FROM candidates c
+    LEFT JOIN candidate_skills cs ON c.candidate_id = cs.candidate_id
+    LEFT JOIN skills s on cs.skill_id = s.skill_id
+    GROUP BY c.candidate_id;
+    `;
+    connection.query(query, (err, res) => {
         if (err) {
             console.error('Error fetching candidates: ', err);
             return callback(err, null);
@@ -11,7 +19,16 @@ function selectAllCandidates(callback) {
 }
 
 function selectCandidateByID(candidateId, callback) {
-    connection.query('SELECT * FROM candidates WHERE candidate_id = ?', candidateId, (err, res) => {
+    const query = 
+    `
+    SELECT c.*, GROUP_CONCAT(s.skill) AS askills
+    FROM candidates c
+    LEFT JOIN candidate_skills cs ON c.candidate_id = cs.candidate_id
+    LEFT JOIN skills s on cs.skill_id = s.skill_id
+    WHERE c.candidate_id = ?
+    GROUP BY c.candidate_id;
+    `;
+    connection.query(query, candidateId, (err, res) => {
         if (err) {
             console.error('Error fetching candidate with ID ', candidateId, ': ', err);
             return callback(err, null);
