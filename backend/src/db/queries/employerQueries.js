@@ -40,7 +40,7 @@ function updateEmployer(employerData, employerId, callback) {
     })
 }
 
-function deleteCandidate(employerId, callback) {
+function deleteEmployer(employerId, callback) {
     connection.query('DELETE FROM notifications where employer_id = ?', employerId, (err, res) => {
         if (err) {
             console.error('Error deleting notifications: ', err);
@@ -69,5 +69,5 @@ module.exports = {
     selectEmployerByID,
     createEmployer,
     updateEmployer,
-    deleteCandidate,
+    deleteEmployer,
 }

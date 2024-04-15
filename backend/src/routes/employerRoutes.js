@@ -1,5 +1,5 @@
 const express = require('express');
-const {     selectAllEmployers, selectEmployerByID, createEmployer, updateEmployer, deleteCandidate, } = require('../db/queries/employerQueries');
+const { selectAllEmployers, selectEmployerByID, updateEmployer, deleteEmployer } = require('../db/queries/employerQueries');
 
 const router = express.Router();
 
