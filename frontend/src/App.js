@@ -4,17 +4,22 @@ import UpdateCandidate from './pages/Forms/UpdateCandidate';
 import DeleteCandidate from './pages/Forms/DeleteCandidate';
 import SelectCandidates from './pages/Queries/SelectCandidates';
 
+
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Login } from './pages/Login/Login';
+
 function App() {
   return (
     <div>
-      <h1>Candidates List</h1>
-      <SelectCandidates/>
-      <h1>Create Candidate</h1>
-      <CreateCandidate/>
-      <h1>Update Candidate</h1>
-      <UpdateCandidate/>
-      <h1>Delete Candidate</h1>
-      <DeleteCandidate/>
+      <BrowserRouter>
+        <Routes>
+         
+            <Route path="/login" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
+
+    
     </div>
   );
 }
