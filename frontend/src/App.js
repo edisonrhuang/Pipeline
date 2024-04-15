@@ -1,8 +1,8 @@
 import './App.css';
-import CreateCandidate from './pages/Forms/CreateCandidate';
-import UpdateCandidate from './pages/Forms/UpdateCandidate';
-import DeleteCandidate from './pages/Forms/DeleteCandidate';
-import SelectCandidates from './pages/Queries/SelectCandidates';
+import CreateCandidate from './pages/Forms/CreateCandidate/index';
+import UpdateCandidate from './pages/Forms/UpdateCandidate/index';
+import DeleteCandidate from './pages/Forms/DeleteCandidate/index';
+import SelectCandidates from './pages/Queries/SelectCandidates/index';
 
 function App() {
   return (
