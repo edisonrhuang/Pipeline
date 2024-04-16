@@ -31,7 +31,7 @@ router.post('/api/create-employers', (req, res) => {
 });
 
 // Route to update an existing employer
-router.post('/api/update-employers', (req, res) => {
+router.put('/api/update-employers', (req, res) => {
     // Parse request body to extract employer data and employer ID
     const employerData = JSON.parse(req.body.data);
     const employerId = employerData.employer_id;
@@ -47,7 +47,7 @@ router.post('/api/update-employers', (req, res) => {
 })
 
 // Route to delete an employer
-router.post('/api/delete-employers', (req, res) => {
+router.delete('/api/delete-employers', (req, res) => {
     // Extract employer ID from request body
     const employerId = req.body.data;
     deleteEmployer(employerId, (err, results) => {
