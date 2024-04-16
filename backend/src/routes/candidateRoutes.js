@@ -47,7 +47,7 @@ router.post('/api/create-candidates', (req, res) => {
 });
 
 // Route to update an existing candidate
-router.post('/api/update-candidates', (req, res) => {
+router.put('/api/update-candidates', (req, res) => {
     // Parse request body to extract candidate data and candidate ID
     const candidateData = JSON.parse(req.body.data);
     const candidateId = candidateData.candidate_id;
@@ -63,7 +63,7 @@ router.post('/api/update-candidates', (req, res) => {
 });
 
 // Route to delete a candidate
-router.post('/api/delete-candidates', (req, res) => {
+router.delete('/api/delete-candidates', (req, res) => {
     // Extract candidate ID from request body
     const candidateId = req.body.data;
     deleteCandidate(candidateId, (err, results) => {
