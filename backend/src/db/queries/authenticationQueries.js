@@ -11,10 +11,10 @@ const connection = require('../connection');
  *   object.
  * - If the query is successful, `res` will contain the fetched candidates.
  */
-function getUserInfo(authEmail, callback) {
-    connection.query('SELECT * FROM users WHERE email = ?', authEmail, (err, res) => {
+function getUserInfo(email, callback) {
+    connection.query('SELECT * FROM users WHERE email = ?', email, (err, res) => {
         if (err) {
-            console.error('Error fetching user with email ', authEmail, ': ', err);
+            console.error('Error fetching user with email ', emailmail, ': ', err);
             return callback(err, null);
         }
 
