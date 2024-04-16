@@ -7,6 +7,7 @@ import CandidateProfile from "./pages/CandidateProfile"
 import EmployerProfile from "./pages/EmployerProfile"
 import EmployerUpdate from "./pages/EmployerUpdate"
 import CandidateUpdate from "./pages/CandidateUpdate"
+import Login from './pages/Login';
 
 // import EmployerProfile from "./pages/EmployerProfile"
 
@@ -17,7 +18,6 @@ function App() {
     <div>
 
         <Routes>
-          <Route path="/login" /> {}
           <Route path="/employerorcandidate" element={<EmployerOrCandidate/>} />
           <Route path="/candidatecreate" element={<CandidateCreate/>} />
           <Route path="/candidateprofile" element={<CandidateProfile/>} />
@@ -27,6 +27,7 @@ function App() {
           <Route path="/candidateupdate" element={<CandidateUpdate/>} />
           <Route path="/employerprofile" element={<EmployerProfile/>} />
           <Route path="/employerupdate" element={<EmployerUpdate/>} />
+          <Route path="/login" element={<Login/>} />
 
         </Routes>
     </div>
