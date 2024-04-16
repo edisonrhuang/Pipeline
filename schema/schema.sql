@@ -72,17 +72,12 @@ CREATE TABLE authentication (
 );
 
 /* Creates a table for notifications */ 
-CREATE TABLE notification (
-    notification_id NUMERIC(9, 0) PRIMARY KEY,
-    content VARCHAR(5000),
+CREATE TABLE connection (
     candidate_id INT NOT NULL,
     FOREIGN KEY (candidate_id) REFERENCES candidates(candidate_id),
     employer_id INT NOT NULL,
     FOREIGN KEY (employer_id) REFERENCES employers(employer_id)
 );
-
-/* Creates an index on the candidate_id and employer_id of the notification table */
-CREATE INDEX notification_index ON notification (candidate_id, employer_id);
 
 /* Main candidate insertion */
 INSERT INTO candidates (first_name, last_name, email, phone_number, date_of_birth, info, gender, ethnicity, graduation_date, field_of_study, website, account_created, profile_picture)
