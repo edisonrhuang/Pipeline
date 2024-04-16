@@ -15,8 +15,8 @@ function selectAllCandidates(callback) {
     `
     SELECT c.*, GROUP_CONCAT(s.skill_name) AS skills
     FROM candidate c
-    JOIN candidate_skill cs ON c.candidate_id = cs.candidate_id
-    JOIN skill s on cs.skill_id = s.skill_id
+    LEFT JOIN candidate_skill cs ON c.candidate_id = cs.candidate_id
+    LEFT JOIN skill s on cs.skill_id = s.skill_id
     GROUP BY c.candidate_id;
     `;
     connection.query(query, (err, res) => {
@@ -46,8 +46,8 @@ function selectCandidateByID(candidateId, callback) {
     `
     SELECT c.*, GROUP_CONCAT(s.skill_name) AS skills
     FROM candidate c
-    JOIN candidate_skill cs ON c.candidate_id = cs.candidate_id
-    JOIN skill s on cs.skill_id = s.skill_id
+    LEFT JOIN candidate_skill cs ON c.candidate_id = cs.candidate_id
+    LEFT JOIN skill s on cs.skill_id = s.skill_id
     WHERE c.candidate_id = ?
     GROUP BY c.candidate_id;
     `;
@@ -85,8 +85,8 @@ function selectCandidateByFilter(filters, callback) {
     `
     SELECT c.*, GROUP_CONCAT(s.skill_name) AS skills
     FROM candidate c
-    JOIN candidate_skill cs on c.candidate_id = cs.candidate_id
-    JOIN skill s on cs.skill_id = s.skill_id
+    LEFT JOIN candidate_skill cs on c.candidate_id = cs.candidate_id
+    LEFT JOIN skill s on cs.skill_id = s.skill_id
     WHERE 1=1
     `;
 
