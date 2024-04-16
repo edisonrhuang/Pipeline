@@ -18,34 +18,34 @@ function getUserInfo(email, callback) {
             return callback(err, null);
         }
 
+        // Extract user type and user id from the fetched user information
         const userType = res.uers_type;
         const userId = res.user_id;
 
+        // If the user type is "Candidate"
         if (userType == 'Candidate') {
             connection.query('SELECT * FROM candidate WHERE candidate_id = ?', userId, (err, res) => {
                 if (err) {
                     console.error('Error fetching candidate with id ', userId, ': ', err);
                     return callback(err, null);
                 }
-
                 return callback(null, res);
             })
         }
-
+        // If the user type is "Employer"
         else if (userType == 'Employer') {
             connection.query('SELECT * FROM employer WHERE employer_id = ?', userId, (err, res) => {
                 if (err) {
                     console.error('Error fetching employer with id ', userId, ': ', err);
                     return callback(err, null);
                 }
-
                 return callback(null, res);
             });
         }
-
-         else {
+        // If the user type is neither "Candidate" nor "Employer"
+        else {
             return console.error('Error: Could not find user with email ', authEmail, ' in the database.');
-         }
+        }
     });
 }
 

@@ -12,7 +12,7 @@ router.get('/api/get-skills', (req, res) => {
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         // If successful, send the fetched skills as JSON response
-        res.send(skills);
+        return res.send(skills);
     })
 })
 

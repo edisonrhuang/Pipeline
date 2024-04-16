@@ -16,7 +16,7 @@ function selectAllSkills(callback) {
             console.error('Error fetching skills: ', err);
             return callback(err, null);
         }
-        callback(null, res);
+        return callback(null, res);
     });
 }
 
@@ -67,8 +67,7 @@ function createSkills(candidateId, skillsData, callback) {
                 console.error('Error inserting candidate skills: ', err);
                 return callback(err, null);
             }
-            
-            callback(null, skillResult);
+            return callback(null, skillResult);
         });
     });
 }

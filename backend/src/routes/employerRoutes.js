@@ -11,7 +11,7 @@ router.get('/employer-data', (req, res) => {
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         // If successful, send the fetched employers as JSON response
-        res.json(employers);
+        return res.json(employers);
     });
 });
 
@@ -26,7 +26,7 @@ router.post('/api/create-employers', (req, res) => {
         }
         // If successful, return 201 Created along with a success message and employer ID
         res.status(201).json({ message: 'Employer inserted successfully', employerId: results.insertId });
-        console.log("Employer inserted successfully");
+        return console.log("Employer inserted successfully");
     })
 });
 
@@ -42,7 +42,7 @@ router.post('/api/update-employers', (req, res) => {
         }
         // If successful, return 200 Created along with a success message and employer ID
         res.status(200).json({ message: 'Employer updated successfully', employerId: results.employerId });
-        console.log("Employer updated successfully");
+        return console.log("Employer updated successfully");
     });
 })
 
@@ -57,7 +57,7 @@ router.post('/api/delete-employers', (req, res) => {
         }
         // If successful, return 200 Created along with a success message and employer ID
         res.status(200).json({ message: 'Employer deleted successfully', employerId: results.employerId });
-        console.log("Employer deleted successfully");
+        return console.log("Employer deleted successfully");
     });
 });
 
@@ -69,7 +69,7 @@ router.get('/api/get-employers', (req, res) => {
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         // If successful, send the fetched employers as JSON response
-        res.send(results);
+        return res.send(results);
     });
 });
 
@@ -83,7 +83,7 @@ router.get('/api/get-employer/:id', (req, res) => {
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         // If successful, send the fetched employer as JSON response
-        res.send(results);
+        return res.send(results);
     });
 });
 
@@ -98,7 +98,7 @@ router.get('/api/get-employer-connections/:id', (req, res) => {
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         // If successful, send the fetched connections as JSON response
-        res.send(results);
+        return res.send(results);
     });
 });
 

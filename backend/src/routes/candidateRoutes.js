@@ -12,7 +12,7 @@ router.get('/candidate-data', (req, res) => {
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         // If successful, send the fetched candidates as JSON response
-        res.json(candidates);
+        return res.json(candidates);
     });
 });
 
@@ -36,12 +36,12 @@ router.post('/api/create-candidates', (req, res) => {
                 }
                 // If successful, return 201 Created along with a success message and candidate ID
                 res.status(201).json({ message: 'Candidate and skills inserted successfully', candidateId: results.insertId });
-                console.log("Candidate and skills inserted successfully");
+                return console.log("Candidate and skills inserted successfully");
             })
         } else {
             // If candidate has no skills, return 201 Created along with a success message and candidate ID
             res.status(201).json({ message: 'Candidate inserted successfully', candidateId: results.insertId });
-            console.log("Candidate inserted successfully");
+            return console.log("Candidate inserted successfully");
         }
     });
 });
@@ -58,7 +58,7 @@ router.post('/api/update-candidates', (req, res) => {
         }
         // If successful, return 200 OK along with a success message and candidate ID
         res.status(200).json({ message: 'Candidate updated successfully', candidateId: results.candidateId });
-        console.log("Candidate updated successfully");
+        return console.log("Candidate updated successfully");
     });
 });
 
@@ -73,7 +73,7 @@ router.post('/api/delete-candidates', (req, res) => {
         }
         // If successful, return 200 OK along with a success message and candidate ID
         res.status(200).json({ message: 'Candidate deleted successfully', candidateId: results.candidateId });
-        console.log("Candidate deleted successfully");
+        return console.log("Candidate deleted successfully");
     });
 });
 
@@ -85,7 +85,7 @@ router.get('/api/get-candidates', (req, res) => {
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         // If successful, send the fetched candidates as JSON response
-        res.send(results);
+        return res.send(results);
     });
 });
 
@@ -99,7 +99,7 @@ router.get('/api/get-candidate/:id', (req, res) => {
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         // If successful, send the fetched candidate as JSON response
-        res.send(results);
+        return res.send(results);
     });
 });
 
@@ -114,7 +114,7 @@ router.get('/api/get-candidate-connections/:id', (req, res) => {
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         // If successful, send the fetched connections as JSON response
-        res.send(results);
+        return res.send(results);
     });
 });
 

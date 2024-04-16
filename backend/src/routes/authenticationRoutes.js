@@ -14,7 +14,7 @@ router.get('/user-info', (req, res) => {
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         // If successful, return user information
-        res.json(results);
+        return res.json(results);
     });
 });
 
