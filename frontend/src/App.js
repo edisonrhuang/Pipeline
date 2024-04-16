@@ -1,18 +1,16 @@
 import './App.css';
-import EmployerOrStudent from './pages/EmployerOrCandidate';
-import { BrowserRouter } from "react-router-dom";
+import EmployerOrCandidate from './pages/EmployerOrCandidate';
+import { Route, Routes } from "react-router-dom"
 
 function App() {
   return (
     <div>
 
-      <BrowserRouter basename="/app">
         <Routes>
           <Route path="/" /> {}
-          <Route path="/employerorstudent" element={<EmployerOrStudent/>} /> {}
+          <Route path="/employerorcandidate" element={<EmployerOrCandidate/>} /> {}
 
         </Routes>
-      </BrowserRouter>
     </div>
   );
 }

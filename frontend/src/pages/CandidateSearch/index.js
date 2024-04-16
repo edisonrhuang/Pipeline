@@ -1,1 +1,1 @@
-export default EmployerOrStudent 
+export {default} from "./CandidateSearch" 
