@@ -92,7 +92,7 @@ function selectCandidateByFilter(filters, callback) {
 
     // Check if school filter is provided
     if (filters.school) {
-        query += ' AND c.school = ?';
+        query += ' AND c.school_name = ?';
     }
 
     // Check if both graduation start and end date are provided in the filters
@@ -185,7 +185,7 @@ function deleteCandidate(candidateId, callback) {
     // Delete notifications associated with the candidate
     connection.query('DELETE FROM connection WHERE candidate_id = ?', candidateId, (err, notificationDeleteResult) => {
         if (err) {
-            console.error('Error deleting candidate notifications: ', err);
+            console.error('Error deleting candidate connections: ', err);
             return callback(err, null);
         }
     });
@@ -255,7 +255,7 @@ function getCandidateConnections(candidateId, callback) {
     `
     SELECT e.*
     FROM connection cn
-    JOIN employers e ON cn.employer_id = e.employer_id
+    JOIN employer e ON cn.employer_id = e.employer_id
     WHERE cn.candidate_id = ?;
     `;
     connection.query(query, candidateId, (err, res) => {

@@ -19,7 +19,7 @@ CREATE TABLE candidate (
     ethnicity ENUM ('American Indian or Alaskan Native', 'Asian/Pacific Islander', 'Black or African American', 'Hispanic', 'White/Caucasian', 'Two or more', 'Other'),
     
     /* Candidate's academic information */
-    school VARCHAR(75) NOT NULL,
+    school_name VARCHAR(75) NOT NULL,
     graduation_date DATE NOT NULL,
     field_of_study VARCHAR(75) NOT NULL,
     website VARCHAR(2048),
@@ -81,7 +81,7 @@ CREATE TABLE connection (
 );
 
 /* Main candidate insertion */
-INSERT INTO candidate (first_name, last_name, email, phone_number, date_of_birth, info, gender, ethnicity, school, graduation_date, field_of_study, website, account_created, profile_picture)
+INSERT INTO candidate (first_name, last_name, email, phone_number, date_of_birth, info, gender, ethnicity, school_name, graduation_date, field_of_study, website, account_created, profile_picture)
 VALUES
 ('Edison', 'Huang', 'edisonrhuang@vt.edu', '3016559732', '2002-11-26', NULL, 'Male', 'Asian/Pacific Islander', 'Virginia Tech', '2025-05-12', 'Computer Science', NULL, '2025-1-1', NULL),
 ('Sandiliya', 'Bhamidipati', 'sandiroc@vt.edu', '9083427668', '2003-08-19', NULL, 'Male', 'Asian/Pacific Islander', 'Virginia Tech', '2024-05-13', 'Computational Modeling and Data Analytics', NULL, '2025-1-1', NULL),
@@ -90,7 +90,7 @@ VALUES
 ('Ethan', 'Chi', 'ethanc03@example.com', '7034209566', '2003-11-05', NULL, 'Male', 'Asian/Pacific Islander', 'Virginia Tech', '2025-05-12', 'Industrial and Systems Engineering', NULL, '2025-1-1', NULL);
 
 /* Filler candidate insertion */
-INSERT INTO candidate (first_name, last_name, email, phone_number, date_of_birth, info, gender, ethnicity, school, graduation_date, field_of_study, website, account_created, profile_picture) VALUES
+INSERT INTO candidate (first_name, last_name, email, phone_number, date_of_birth, info, gender, ethnicity, school_name, graduation_date, field_of_study, website, account_created, profile_picture) VALUES
 ('John', 'Doe', 'john.doe@example.com', '1234567890', '1990-05-15', 'Experienced software engineer specializing in backend development.', 'Male', 'White/Caucasian', 'Harvard University', '2012-06-30', 'Computer Science', 'http://www.johndoe.com', '2024-04-03', NULL),
 ('Jane', 'Smith', 'jane.smith@example.com', '1987654321', '1992-09-20', 'Recent graduate with a passion for data analysis and visualization.', 'Female', 'Black or African American', 'Stanford University', '2023-05-25', 'Data Science', 'http://www.janesmith.com', '2024-04-03', NULL),
 ('David', 'Brown', 'david.brown@example.com', '1122334455', '1991-03-10', 'Seasoned marketing professional with expertise in digital marketing strategies.', 'Male', 'Hispanic', 'MIT', '2013-08-15', 'Marketing', 'http://www.davidbrown.com', '2024-04-03', NULL),
@@ -201,4 +201,5 @@ INSERT INTO skill (skill_name) VALUES
 ('Communication Skills for Data Presentation and Reporting');
 
 INSERT INTO candidate_skill VALUES
-(1, 1), (1, 2), (1, 3), (1, 5), (1, 6), (1, 21), (1, 22), (1, 23), (1, 24), (1, 25), (1, 28), (1, 29), (1, 30), (1, 31), (1, 32), (1, 33), (1, 34), (1, 45);
+(1, 1), (1, 2), (1, 3), (1, 5), (1, 6), (1, 21), (1, 22), (1, 23), (1, 24), (1, 25), (1, 28), (1, 29), (1, 30), (1, 31), (1, 32), (1, 33), (1, 34), (1, 45),
+(2, 1), (2, 2), (2, 3), (2, 7), (2, 15), (2, 21), (2, 22), (2, 29), (2, 31), (2, 32), (2, 34), (2, 39), (2, 45), (2, 46), (2, 48), (2, 49), (2, 52), (2, 57);
