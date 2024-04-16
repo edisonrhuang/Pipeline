@@ -90,12 +90,12 @@ function selectCandidateByFilter(filters, callback) {
     `
 
     // Check if both graduation start and end date are provided in the filters
-    if (filters.graduationStartDate && filters.graduationEndDate) {
+    if (filters.graduation_start_date && filters.graduation_end_date) {
         query += ' AND c.graduation_date BETWEEN ? AND ?';
     }
 
     // Check if field of study filter is provided
-    if (filters.fieldOfStudy) {
+    if (filters.field_of_study) {
         query += ' AND c.field_of_study = ?';
     }
 

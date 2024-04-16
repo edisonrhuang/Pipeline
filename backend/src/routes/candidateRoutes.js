@@ -92,7 +92,7 @@ router.get('/api/get-candidates', (req, res) => {
 // Route to fetch a specific candidate by ID
 router.get('/api/get-candidate/:id', (req, res) => {
     // Extract candidate ID from request parameters
-    const candidateId = req.params.id;
+    const candidateId = req.body.data;
     selectCandidateByID(candidateId, (err, candidate) => {
         if (err) {
             // If an error occurs during database query, return 500 Internal Server Error

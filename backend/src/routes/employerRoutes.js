@@ -76,7 +76,7 @@ router.get('/api/get-employers', (req, res) => {
 // Route to fetch a specific employer by ID
 router.get('/api/get-employer/:id', (req, res) => {
     // Extract employer ID from request parameters
-    const employerId = req.params.id;
+    const employerId = req.body.data;
     selectEmployerByID(employerId, (err, employer) => {
         if (err) {
             // If an error occurs during database query, return 500 Internal Server Error
