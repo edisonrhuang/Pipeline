@@ -125,7 +125,20 @@ function deleteEmployer(employerId, callback) {
 }
 
 function getEmployerConnections(employerId, callback) {
-
+    const query =
+    `
+    SELECT c.*
+    FROM connection cn
+    JOIN candidates c ON cn.candidate_id = c.candidate_id
+    WHERE cn.employer_id = ?;
+    `;
+    connection.query(query, employerId, (err, res) => {
+        if (err) {
+            console.error('Error fetching employer connections: ', err);
+            return callback(err, null);
+        }
+        return callback(null, res);
+    });
 }
 
 
@@ -135,4 +148,5 @@ module.exports = {
     createEmployer,
     updateEmployer,
     deleteEmployer,
+    getEmployerConnections,
 }

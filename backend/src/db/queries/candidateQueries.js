@@ -15,8 +15,8 @@ function selectAllCandidates(callback) {
     `
     SELECT c.*, GROUP_CONCAT(s.skill_name) AS skills
     FROM candidate c
-    LEFT JOIN candidate_skill cs ON c.candidate_id = cs.candidate_id
-    LEFT JOIN skill s on cs.skill_id = s.skill_id
+    JOIN candidate_skill cs ON c.candidate_id = cs.candidate_id
+    JOIN skill s on cs.skill_id = s.skill_id
     GROUP BY c.candidate_id;
     `;
     connection.query(query, (err, res) => {
@@ -46,8 +46,8 @@ function selectCandidateByID(candidateId, callback) {
     `
     SELECT c.*, GROUP_CONCAT(s.skill_name) AS skills
     FROM candidate c
-    LEFT JOIN candidate_skill cs ON c.candidate_id = cs.candidate_id
-    LEFT JOIN skill s on cs.skill_id = s.skill_id
+    JOIN candidate_skill cs ON c.candidate_id = cs.candidate_id
+    JOIN skill s on cs.skill_id = s.skill_id
     WHERE c.candidate_id = ?
     GROUP BY c.candidate_id;
     `;
@@ -84,10 +84,10 @@ function selectCandidateByFilter(filters, callback) {
     `
     SELECT c.*, GROUP_CONCAT(s.skill_name) AS skills
     FROM candidate c
-    LEFT JOIN candidate_skill cs on c.candidate_id = cs.candidate_id
-    LEFT JOIN skill s on cs.skill_id = s.skill_id
+    JOIN candidate_skill cs on c.candidate_id = cs.candidate_id
+    JOIN skill s on cs.skill_id = s.skill_id
     WHERE 1=1
-    `
+    `;
 
     // Check if both graduation start and end date are provided in the filters
     if (filters.graduation_start_date && filters.graduation_end_date) {
@@ -235,10 +235,12 @@ function deleteCandidate(candidateId, callback) {
 function getCandidateConnections(candidateId, callback) {
     const query =
     `
-    SELECT *
-    FROM connectioncs c LEFT JOIN employers e ON c.employer_id = e.employer_id
-    `
-    connection.query('SELECT * FROM connections WHERE candidate_id = ?', candidateId, (err, res) => {
+    SELECT e.*
+    FROM connection cn
+    JOIN employers e ON cn.employer_id = e.employer_id
+    WHERE cn.candidate_id = ?;
+    `;
+    connection.query(query, candidateId, (err, res) => {
         if (err) {
             console.error('Error fetching candidate connections: ', err);
             return callback(err, null);
@@ -254,4 +256,5 @@ module.exports = {
     createCandidate,
     updateCandidate,
     deleteCandidate,
+    getCandidateConnections
 };
