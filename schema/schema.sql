@@ -63,7 +63,7 @@ CREATE TABLE employer (
 
 /* Creates a table for authentication */
 CREATE TABLE authentication (
-	email VARCHAR(254) NOT NULL,
+	email VARCHAR(254) NOT NULL UNIQUE,
     user_type ENUM('Candidate', 'Employer') NOT NULL,
     candidate_id INT,
     FOREIGN KEY (candidate_id) REFERENCES candidate(candidate_id),
