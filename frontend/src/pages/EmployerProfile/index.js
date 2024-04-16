@@ -1,1 +1,1 @@
-export {default} from "./EmoloyerProfile"
+export {default} from "./EmployerProfile"
