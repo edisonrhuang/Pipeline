@@ -66,6 +66,7 @@ function selectCandidateByID(candidateId, callback) {
  * 
  * @param {*} filters 
  * An object containing filters to apply to the candidate selection.
+ * - `school`: The school for filtering candidates.
  * - `graduationStartDate`: The start date for filtering candidates by 
  * graduation date.
  * - `graduationEndDate`: The end date for filtering candidates by graduation 
@@ -88,6 +89,11 @@ function selectCandidateByFilter(filters, callback) {
     JOIN skill s on cs.skill_id = s.skill_id
     WHERE 1=1
     `;
+
+    // Check if school filter is provided
+    if (filters.school) {
+        query += ' AND c.school = ?';
+    }
 
     // Check if both graduation start and end date are provided in the filters
     if (filters.graduation_start_date && filters.graduation_end_date) {
