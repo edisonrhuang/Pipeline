@@ -1,16 +1,20 @@
 import './App.css';
-import EmployerOrCandidate from './pages/EmployerOrCandidate';
-import { Route, Routes } from "react-router-dom"
+import CreateCandidate from './pages/Forms/CreateCandidate/index';
+import UpdateCandidate from './pages/Forms/UpdateCandidate/index';
+import DeleteCandidate from './pages/Forms/DeleteCandidate/index';
+import SelectCandidates from './pages/Queries/SelectCandidates/index';
 
 function App() {
   return (
     <div>
-
-        <Routes>
-          <Route path="/" /> {}
-          <Route path="/employerorcandidate" element={<EmployerOrCandidate/>} /> {}
-
-        </Routes>
+      <h1>Candidates List</h1>
+      <SelectCandidates/>
+      <h1>Create Candidate</h1>
+      <CreateCandidate/>
+      <h1>Update Candidate</h1>
+      <UpdateCandidate/>
+      <h1>Delete Candidate</h1>
+      <DeleteCandidate/>
     </div>
   );
 }
