@@ -1,5 +1,5 @@
 const express = require('express');
-const { selectAllCandidates, selectCandidateByID, createCandidate, updateCandidate, deleteCandidate } = require('../db/queries/candidateQueries');
+const { selectAllCandidates, selectCandidateByID, createCandidate, updateCandidate, deleteCandidate, getCandidateConnections } = require('../db/queries/candidateQueries');
 const { createSkills } = require('../db/queries/skillQueries');
 
 const router = express.Router();
@@ -56,7 +56,7 @@ router.post('/api/update-candidates', (req, res) => {
             // If an error occurs during candidate update, return 500 Internal Server Error
             return res.status(500).json({ error: 'Internal Server Error' });
         }
-        // If successful, return 200 Created along with a success message and candidate ID
+        // If successful, return 200 OK along with a success message and candidate ID
         res.status(200).json({ message: 'Candidate updated successfully', candidateId: results.candidateId });
         console.log("Candidate updated successfully");
     });
@@ -71,7 +71,7 @@ router.post('/api/delete-candidates', (req, res) => {
             // If an error occurs during candidate deletion, return 500 Internal Server Error
             return res.status(500).json({ error: 'Internal Server Error' });
         }
-        // If successful, return 200 Created along with a success message and candidate ID
+        // If successful, return 200 OK along with a success message and candidate ID
         res.status(200).json({ message: 'Candidate deleted successfully', candidateId: results.candidateId });
         console.log("Candidate deleted successfully");
     });
@@ -79,13 +79,13 @@ router.post('/api/delete-candidates', (req, res) => {
 
 // Route to fetch all candidates
 router.get('/api/get-candidates', (req, res) => {
-    selectAllCandidates((err, candidates) => {
+    selectAllCandidates((err, results) => {
         if (err) {
             // If an error occurs during database query, return 500 Internal Server Error
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         // If successful, send the fetched candidates as JSON response
-        res.send(candidates);
+        res.send(results);
     });
 });
 
@@ -93,15 +93,29 @@ router.get('/api/get-candidates', (req, res) => {
 router.get('/api/get-candidate/:id', (req, res) => {
     // Extract candidate ID from request parameters
     const candidateId = req.body.data;
-    selectCandidateByID(candidateId, (err, candidate) => {
+    selectCandidateByID(candidateId, (err, results) => {
         if (err) {
             // If an error occurs during database query, return 500 Internal Server Error
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         // If successful, send the fetched candidate as JSON response
-        res.send(candidate);
+        res.send(results);
     });
 });
 
+// Route to fetch connections for a candidate
+router.get('/api/get-candidate-connections/:id', (req, res) => {
+    // Extract candidate ID from request body
+    const candidateId = req.body.data;
+    // Call function to get connections for the specified candidate
+    getCandidateConnections(candidateId, (err, results) => {
+        // If an error occurs during fetching connections, return 500 Internal Server Error
+        if (err) {
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+        // If successful, send the fetched connections as JSON response
+        res.send(results);
+    });
+});
 
 module.exports = router;

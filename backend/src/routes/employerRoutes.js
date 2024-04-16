@@ -1,5 +1,5 @@
 const express = require('express');
-const { selectAllEmployers, selectEmployerByID, updateEmployer, deleteEmployer } = require('../db/queries/employerQueries');
+const { selectAllEmployers, selectEmployerByID, updateEmployer, deleteEmployer, getEmployerConnections } = require('../db/queries/employerQueries');
 
 const router = express.Router();
 
@@ -63,13 +63,13 @@ router.post('/api/delete-employers', (req, res) => {
 
 // Route to fetch all employers
 router.get('/api/get-employers', (req, res) => {
-    selectAllEmployers((err, employers) => {
+    selectAllEmployers((err, results) => {
         if (err) {
             // If an error occurs during database query, return 500 Internal Server Error
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         // If successful, send the fetched employers as JSON response
-        res.send(employers);
+        res.send(results);
     });
 });
 
@@ -77,15 +77,29 @@ router.get('/api/get-employers', (req, res) => {
 router.get('/api/get-employer/:id', (req, res) => {
     // Extract employer ID from request parameters
     const employerId = req.body.data;
-    selectEmployerByID(employerId, (err, employer) => {
+    selectEmployerByID(employerId, (err, results) => {
         if (err) {
             // If an error occurs during database query, return 500 Internal Server Error
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         // If successful, send the fetched employer as JSON response
-        res.send(employer);
+        res.send(results);
     });
 });
 
+// Route to fetch connections for an employer by ID
+router.get('/api/get-employer-connections/:id', (req, res) => {
+    // Extract employer ID from request parameters
+    const employerId = req.params.id;
+    // Call function to get connections for the specified employer
+    getEmployerConnections(employerId, (err, results) => {
+        // If an error occurs during fetching connections, return 500 Internal Server Error
+        if (err) {
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+        // If successful, send the fetched connections as JSON response
+        res.send(results);
+    });
+});
 
 module.exports = router;
