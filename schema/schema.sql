@@ -6,7 +6,7 @@ CREATE DATABASE pipeline_database;
 USE pipeline_database;
 
 /* Creates a table for candidates */
-CREATE TABLE candidates (
+CREATE TABLE candidate (
 	/* Candidate's personal information */
     candidate_id INT NOT NULL AUTO_INCREMENT,
     first_name VARCHAR(50),
@@ -30,28 +30,28 @@ CREATE TABLE candidates (
 );
 
 /* Creates an index on the candidate_id of the candidates table */
-CREATE INDEX candidate_index ON candidates (candidate_id);
+CREATE INDEX candidate_index ON candidate (candidate_id);
 
 /* Creates a table for skills */
-CREATE TABLE skills (
+CREATE TABLE skill (
 	skill_id INT NOT NULL AUTO_INCREMENT,
-    skill VARCHAR(100),
+    skill_name VARCHAR(100),
     PRIMARY KEY (skill_id)
 );
 
 /* Creates a table that forms the relationship between candidates and skills */
-CREATE TABLE candidate_skills (
+CREATE TABLE candidate_skill (
 	candidate_id INT,
     skill_id INT,
-    FOREIGN KEY (candidate_id) REFERENCES candidates(candidate_id),
-    FOREIGN KEY (skill_id) REFERENCES skills(skill_id)
+    FOREIGN KEY (candidate_id) REFERENCES candidate(candidate_id),
+    FOREIGN KEY (skill_id) REFERENCES skill(skill_id)
 );
 
 /* Creates an index on the candidate_id and skill_id of the candidate_skill table */
-CREATE INDEX candidate_skills_index ON candidate_skills (candidate_id, skill_id);
+CREATE INDEX candidate_skill_index ON candidate_skill (candidate_id, skill_id);
 
 /* Creates a table for employers */
-CREATE TABLE employers (
+CREATE TABLE employer (
     employer_id INT NOT NULL AUTO_INCREMENT,
     first_name VARCHAR(50),
     last_name VARCHAR(50) NOT NULL,
@@ -66,21 +66,21 @@ CREATE TABLE authentication (
 	email VARCHAR(254) NOT NULL,
     user_type ENUM('Candidate', 'Employer') NOT NULL,
     candidate_id INT,
-    FOREIGN KEY (candidate_id) REFERENCES candidates(candidate_id),
+    FOREIGN KEY (candidate_id) REFERENCES candidate(candidate_id),
     employer_id INT,
-    FOREIGN KEY (employer_id) REFERENCES employers(employer_id)
+    FOREIGN KEY (employer_id) REFERENCES employer(employer_id)
 );
 
 /* Creates a table for notifications */ 
 CREATE TABLE connection (
     candidate_id INT NOT NULL,
-    FOREIGN KEY (candidate_id) REFERENCES candidates(candidate_id),
+    FOREIGN KEY (candidate_id) REFERENCES candidate(candidate_id),
     employer_id INT NOT NULL,
-    FOREIGN KEY (employer_id) REFERENCES employers(employer_id)
+    FOREIGN KEY (employer_id) REFERENCES employer(employer_id)
 );
 
 /* Main candidate insertion */
-INSERT INTO candidates (first_name, last_name, email, phone_number, date_of_birth, info, gender, ethnicity, graduation_date, field_of_study, website, account_created, profile_picture)
+INSERT INTO candidate (first_name, last_name, email, phone_number, date_of_birth, info, gender, ethnicity, graduation_date, field_of_study, website, account_created, profile_picture)
 VALUES
 ('Edison', 'Huang', 'edisonrhuang@vt.edu', '3016559732', '2002-11-26', NULL, 'Male', 'Asian/Pacific Islander', '2025-05-12', 'Computer Science', NULL, '2025-1-1', NULL),
 ('Sandiliya', 'Bhamidipati', 'sandiroc@vt.edu', '9083427668', '2003-08-19', NULL, 'Male', 'Asian/Pacific Islander', '2024-05-13', 'Computational Modeling and Data Analytics', NULL, '2025-1-1', NULL),
@@ -89,7 +89,7 @@ VALUES
 ('Ethan', 'Chi', 'ethanc03@example.com', '7034209566', '2003-11-05', NULL, 'Male', 'Asian/Pacific Islander', '2025-05-12', 'Industrial and Systems Engineering', NULL, '2025-1-1', NULL);
 
 /* Filler candidate insertion */
-INSERT INTO candidates (first_name, last_name, email, phone_number, date_of_birth, info, gender, ethnicity, graduation_date, field_of_study, website, account_created, profile_picture) VALUES
+INSERT INTO candidate (first_name, last_name, email, phone_number, date_of_birth, info, gender, ethnicity, graduation_date, field_of_study, website, account_created, profile_picture) VALUES
 ('John', 'Doe', 'john.doe@example.com', '1234567890', '1990-05-15', 'Experienced software engineer specializing in backend development.', 'Male', 'White/Caucasian', '2012-06-30', 'Computer Science', 'http://www.johndoe.com', '2024-04-03', NULL),
 ('Jane', 'Smith', 'jane.smith@example.com', '1987654321', '1992-09-20', 'Recent graduate with a passion for data analysis and visualization.', 'Female', 'Black or African American', '2023-05-25', 'Data Science', 'http://www.janesmith.com', '2024-04-03', NULL),
 ('David', 'Brown', 'david.brown@example.com', '1122334455', '1991-03-10', 'Seasoned marketing professional with expertise in digital marketing strategies.', 'Male', 'Hispanic', '2013-08-15', 'Marketing', 'http://www.davidbrown.com', '2024-04-03', NULL),
@@ -107,7 +107,7 @@ INSERT INTO candidates (first_name, last_name, email, phone_number, date_of_birt
 ('Ethan', 'Hernandez', 'ethan.hernandez@example.com', '9994443322', '1991-04-05', 'Innovative product manager skilled in product development and launch strategies.', 'Male', 'Hispanic', '2013-10-10', 'Product Management', 'http://www.ethanhernandez.com', '2024-04-03', NULL);
 
 /* Filler employer insertion */
-INSERT INTO employers (first_name, last_name, email, company_name, info) VALUES
+INSERT INTO employer (first_name, last_name, email, company_name, info) VALUES
 ('John', 'Doe', 'john.doe@example.com', 'ABC Company', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),
 ('Jane', 'Smith', 'jane.smith@example.com', 'XYZ Corporation', 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
 ('Michael', 'Johnson', 'michael.johnson@example.com', '123 Industries', 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'),
@@ -130,7 +130,7 @@ INSERT INTO employers (first_name, last_name, email, company_name, info) VALUES
 ('Laura', 'Walker', 'laura.walker@example.com', 'Tech Genius Group', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
 
 /* Insertion of CS programming languages */
-INSERT INTO skills (skill) VALUES
+INSERT INTO skill (skill_name) VALUES
 ('Python'),
 ('Java'),
 ('C'),
@@ -153,7 +153,7 @@ INSERT INTO skills (skill) VALUES
 ('TypeScript');
 
 /* Insertion of CS skills */
-INSERT INTO skills (skill) VALUES
+INSERT INTO skill (skill_name) VALUES
 ('Programming (e.g., Python, Java, C/C++)'),
 ('Data Structures and Algorithms'),
 ('Database Management (e.g., SQL)'),
@@ -178,7 +178,7 @@ INSERT INTO skills (skill) VALUES
 ('UI/UX Design Principles');
 
 /* Insertion of CMDA skills */
-INSERT INTO skills (skill) VALUES
+INSERT INTO skill (skill_name) VALUES
 ('Statistics and Probability'),
 ('Data Analysis Techniques'),
 ('Machine Learning Algorithms'),

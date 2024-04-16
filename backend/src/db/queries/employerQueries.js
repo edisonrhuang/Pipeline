@@ -124,6 +124,10 @@ function deleteEmployer(employerId, callback) {
     })
 }
 
+function getEmployerConnections(employerId, callback) {
+
+}
+
 
 module.exports = {
     selectAllEmployers,

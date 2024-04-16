@@ -13,10 +13,10 @@ const connection = require('../connection');
 function selectAllCandidates(callback) {
     const query =
     `
-    SELECT c.*, GROUP_CONCAT(s.skill) AS skills
-    FROM candidates c
-    LEFT JOIN candidate_skills cs ON c.candidate_id = cs.candidate_id
-    LEFT JOIN skills s on cs.skill_id = s.skill_id
+    SELECT c.*, GROUP_CONCAT(s.skill_name) AS skills
+    FROM candidate c
+    LEFT JOIN candidate_skill cs ON c.candidate_id = cs.candidate_id
+    LEFT JOIN skill s on cs.skill_id = s.skill_id
     GROUP BY c.candidate_id;
     `;
     connection.query(query, (err, res) => {
@@ -44,10 +44,10 @@ function selectAllCandidates(callback) {
 function selectCandidateByID(candidateId, callback) {
     const query =
     `
-    SELECT c.*, GROUP_CONCAT(s.skill) AS skills
-    FROM candidates c
-    LEFT JOIN candidate_skills cs ON c.candidate_id = cs.candidate_id
-    LEFT JOIN skills s on cs.skill_id = s.skill_id
+    SELECT c.*, GROUP_CONCAT(s.skill_name) AS skills
+    FROM candidate c
+    LEFT JOIN candidate_skill cs ON c.candidate_id = cs.candidate_id
+    LEFT JOIN skill s on cs.skill_id = s.skill_id
     WHERE c.candidate_id = ?
     GROUP BY c.candidate_id;
     `;
@@ -80,12 +80,12 @@ function selectCandidateByID(candidateId, callback) {
  * - If the query is successful, `res` will contain the fetched candidates.
  */
 function selectCandidateByFilter(filters, callback) {
-    const query =
+    let query =
     `
-    SELECT c.*, GROUP_CONCAT(s.skill) AS skills
-    FROM candidates c
-    LEFT JOIN candidate_skills cs on c.candidate_id = cs.candidate_id
-    LEFT JOIN skills s on cs.skill_id = s.skill_id
+    SELECT c.*, GROUP_CONCAT(s.skill_name) AS skills
+    FROM candidate c
+    LEFT JOIN candidate_skill cs on c.candidate_id = cs.candidate_id
+    LEFT JOIN skill s on cs.skill_id = s.skill_id
     WHERE 1=1
     `
 
@@ -101,7 +101,7 @@ function selectCandidateByFilter(filters, callback) {
 
     // Check if skills filter is provided and contains at least one skill
     if (filters.skills && filters.skills.length > 0) {
-        sqlQuery += ` AND s.skill IN (?)`;
+        sqlQuery += ` AND s.skill_name IN (?)`;
     }
 
     query += ' GROUP BY c.candidate_id;'
@@ -130,7 +130,7 @@ function selectCandidateByFilter(filters, callback) {
  * - If the query is successful, `res` will contain the fetched candidates.
  */
 function createCandidate(candidateData, callback) {
-    connection.query('INSERT INTO candidates SET ?', candidateData, (err, res) => {
+    connection.query('INSERT INTO candidate SET ?', candidateData, (err, res) => {
         if (err) {
             console.error('Error inserting candidate: ', err);
             return callback(err, null);
@@ -154,7 +154,7 @@ function createCandidate(candidateData, callback) {
  * - If the query is successful, `res` will contain the fetched candidates.
  */
 function updateCandidate(candidateData, candidateId, callback) {
-    connection.query('UPDATE candidates SET ? WHERE candidate_id = ?', [candidateData, candidateId], (err, res) => {
+    connection.query('UPDATE candidate SET ? WHERE candidate_id = ?', [candidateData, candidateId], (err, res) => {
         if (err) {
             console.error('Error updating candidate: ', err);
             return callback(err, null);
@@ -177,7 +177,7 @@ function updateCandidate(candidateData, candidateId, callback) {
  */
 function deleteCandidate(candidateId, callback) {
     // Delete notifications associated with the candidate
-    connection.query('DELETE FROM notification WHERE candidate_id = ?', candidateId, (err, notificationDeleteResult) => {
+    connection.query('DELETE FROM connection WHERE candidate_id = ?', candidateId, (err, notificationDeleteResult) => {
         if (err) {
             console.error('Error deleting candidate notifications: ', err);
             return callback(err, null);
@@ -193,7 +193,7 @@ function deleteCandidate(candidateId, callback) {
     });
 
     // Check the number of skills associated with the candidate
-    connection.query('SELECT COUNT(*) AS skillCount FROM candidate_skills WHERE candidate_id = ?', candidateId, (err, skillCountResult) => {
+    connection.query('SELECT COUNT(*) AS skill_count FROM candidate_skill WHERE candidate_id = ?', candidateId, (err, skillCountResult) => {
         if (err) {
             console.error('Error checking candidate skills: ', err);
             return callback(err, null);
@@ -203,7 +203,7 @@ function deleteCandidate(candidateId, callback) {
 
         // If candidate has no skills, directly delete the candidate
         if (skillCount === 0) {
-            connection.query('DELETE FROM candidates WHERE candidate_id = ?', candidateId, (err, candidateDeleteResult) => {
+            connection.query('DELETE FROM candidate WHERE candidate_id = ?', candidateId, (err, candidateDeleteResult) => {
                 if (err) {
                     console.error('Error deleting candidate: ', err);
                     return callback(err, null);
@@ -214,13 +214,13 @@ function deleteCandidate(candidateId, callback) {
         }
         // Else, first delete the associated skills, then delete the candidate
         else {
-            connection.query('DELETE FROM candidate_skills WHERE candidate_id = ?', candidateId, (err, skillDeleteResult) => {
+            connection.query('DELETE FROM candidate_skill WHERE candidate_id = ?', candidateId, (err, skillDeleteResult) => {
                 if (err) {
                     console.error('Error deleting candidate skills: ', err);
                     return callback(err, null);
                 }
 
-                connection.query('DELETE FROM candidates WHERE candidate_id = ?', candidateId, (err, candidateDeleteResult) => {
+                connection.query('DELETE FROM candidate WHERE candidate_id = ?', candidateId, (err, candidateDeleteResult) => {
                     if (err) {
                         console.error('Error deleting candidate: ', err);
                         return callback(err, null);
@@ -229,6 +229,21 @@ function deleteCandidate(candidateId, callback) {
                 });
             });
         }
+    });
+}
+
+function getCandidateConnections(candidateId, callback) {
+    const query =
+    `
+    SELECT *
+    FROM connectioncs c LEFT JOIN employers e ON c.employer_id = e.employer_id
+    `
+    connection.query('SELECT * FROM connections WHERE candidate_id = ?', candidateId, (err, res) => {
+        if (err) {
+            console.error('Error fetching candidate connections: ', err);
+            return callback(err, null);
+        }
+        return callback(null, res);
     });
 }
 
