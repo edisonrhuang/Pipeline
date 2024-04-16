@@ -1,4 +1,5 @@
-const express = require('express');
+import express from 'express'
+
 const { selectAllCandidates, selectCandidateByID, createCandidate, updateCandidate, deleteCandidate } = require('../db/queries/candidateQueries');
 const { createSkills } = require('../db/queries/skillQueries');
 
@@ -104,4 +105,4 @@ router.get('/api/get-candidate/:id', (req, res) => {
 });
 
 
-module.exports = router;
+export default router

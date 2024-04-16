@@ -10,6 +10,7 @@ const Login = () => {
      const signInWithGoogle = async () => {
           try {
                signInWithPopup(auth, googleProvider).then((userCredential) => {
+                    
                     console.log(userCredential)
 
                     
