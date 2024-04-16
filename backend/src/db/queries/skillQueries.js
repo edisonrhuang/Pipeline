@@ -73,7 +73,6 @@ function createSkills(candidateId, skillsData, callback) {
     });
 }
 
-
 module.exports = {
     selectAllSkills,
     createSkills,

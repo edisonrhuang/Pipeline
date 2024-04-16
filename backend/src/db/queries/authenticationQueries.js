@@ -1,5 +1,16 @@
 const connection = require('../connection');
 
+/**
+ * Retrieves user information from the database based on the provided email address.
+ * @param {*} authEmail The email address of the user whose information is to be 
+ * retrieved.
+ * @param {*} callback 
+ * A callback function to handle the result of the database query.
+ *   The callback follows the standard Node.js pattern: (err, result) => {...}
+ * - If an error occurs during the query execution, `err` will contain the error 
+ *   object.
+ * - If the query is successful, `res` will contain the fetched candidates.
+ */
 function getUserInfo(authEmail, callback) {
     connection.query('SELECT * FROM users WHERE email = ?', authEmail, (err, res) => {
         if (err) {

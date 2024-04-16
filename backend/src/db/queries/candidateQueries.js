@@ -232,6 +232,18 @@ function deleteCandidate(candidateId, callback) {
     });
 }
 
+/**
+ * Retrieves connections of a candidate from the database.
+ * 
+ * @param {*} candidateId The ID of the candidate whose connections are to be 
+ * retrieved.
+ * @param {*} callback 
+ * A callback function to handle the result of the database query.
+ *   The callback follows the standard Node.js pattern: (err, result) => {...}
+ * - If an error occurs during the query execution, `err` will contain the error 
+ *   object.
+ * - If the query is successful, `res` will contain the fetched candidates.
+ */
 function getCandidateConnections(candidateId, callback) {
     const query =
     `
