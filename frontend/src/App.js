@@ -4,6 +4,7 @@ import CandidateCreate from "./pages/CandidateCreate"
 import CandidateSearch from "./pages/CandidateSearch"
 import CandidateDashboard from "./pages/CandidateDashboard"
 import CandidateProfile from "./pages/CandidateProfile"
+import EmployerCreate from "./pages/EmployerCreate"
 import EmployerProfile from "./pages/EmployerProfile"
 import EmployerUpdate from "./pages/EmployerUpdate"
 import CandidateUpdate from "./pages/CandidateUpdate"
@@ -27,8 +28,8 @@ function App() {
         <Route path="/candidateupdate" element={<CandidateUpdate />} />
         <Route path="/employerprofile" element={<EmployerProfile />} />
         <Route path="/employerupdate" element={<EmployerUpdate />} />
+        <Route path="/employercreate" element={<EmployerCreate />} />
         <Route path="/candidatecard" element={<EmployerUpdate />} />
-
         <Route path="/login" element={<Login />} />
 
       </Routes>
