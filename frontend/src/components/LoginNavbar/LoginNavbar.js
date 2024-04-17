@@ -21,7 +21,7 @@ function Navbar() {
             cursor: 'pointer',
             backgroundColor: '#f0f0f0',
             border: 'none',
-            borderRadius: '5px'
+            borderRadius: '5px',
           }}>Log In</button>
         </div>
       </nav>

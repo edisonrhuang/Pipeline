@@ -93,46 +93,42 @@ const CreateCandidate = () => {
         //<form onSubmit={handleSubmit} method="POST">
         <form style={{textAlign: 'center', fontFamily: 'Georgia'}}>
             <Navbar/>
-            <h1 style={{marginTop: '100px'}}>
+            <h1 style={{marginTop: '50px'}}>
                 Create your account
             </h1>
             <p>
                 Create an account to get connected with recruiters!
             </p>
-            <label>
-                First Name:    
+            <br />
+            <label>  
                 <input type="text" name="first_name" value={formData.first_name} onChange={handleChange} 
-                style={{marginLeft: '8px'}} />
+                style={{marginLeft: '12px'}} placeholder="First Name"/>
             </label>
             <br />
             <label>
-                Last Name:
                 <input type="text" name="last_name" value={formData.last_name} onChange={handleChange}
-                style={{marginTop: '10px', marginLeft: '12px'}}/>
+                style={{marginTop: '10px', marginLeft: '12px'}} placeholder="Last Name"/>
             </label>
             <br />
             <label>
-                Email:
                 <input type="email" name="email" value={formData.email} onChange={handleChange} 
-                style={{marginTop: '10px', marginLeft: '12px'}}/>
+                style={{marginTop: '10px', marginLeft: '12px'}} placeholder="Email"/>
             </label>
             <br />
             <label>
-                Phone Number:
                 <input type="text" name="phone_number" value={formData.phone_number} onChange={handleChange} 
-                style={{marginTop: '10px', marginLeft: '12px'}}/>
+                style={{marginTop: '10px', marginLeft: '12px'}} placeholder="Phone Number"/>
             </label>
             <br />
             <label>
                 Date of Birth:
                 <input type="date" name="date_of_birth" value={formData.date_of_birth} onChange={handleChange} 
-                style={{marginTop: '10px', marginLeft: '12px'}}/>
+                style={{marginTop: '10px', marginLeft: '12px'}} placeholder="Date of Birth"/>
             </label>
             <br />
             <label>
-                Additional Information:
                 <textarea name="info" value={formData.info} onChange={handleChange} 
-                style={{marginTop: '10px', marginLeft: '12px'}}/>
+                style={{marginTop: '10px', marginLeft: '12px', width: "250px", height: "100px"}} placeholder="Tell us about yourself!"/>
             </label>
             <br />
             <label>
@@ -169,15 +165,13 @@ const CreateCandidate = () => {
             </label>
             <br />
             <label>
-                Field of Study:
                 <input type="text" name="field_of_study" value={formData.field_of_study} onChange={handleChange} 
-                style={{marginTop: '10px', marginLeft: '12px'}}/>
+                style={{marginTop: '10px', marginLeft: '12px'}} placeholder="Field of Study"/>
             </label>
             <br />
             <label>
-                Website:
                 <input type="text" name="website" value={formData.website} onChange={handleChange} 
-                style={{marginTop: '10px', marginLeft: '12px'}}/>
+                style={{marginTop: '10px', marginLeft: '12px'}} placeholder="Website"/>
             </label>
             <br />
             <label>
@@ -186,8 +180,9 @@ const CreateCandidate = () => {
                 style={{marginTop: '10px', marginLeft: '12px'}} />
             </label>
             <br />
+            <br />
             <label>Select Skills:</label>
-            <div style={{ border: '1px solid #ccc', padding: '10px', maxHeight: '200px', maxWidth: maxWidth + 'px', overflowY: 'auto', whiteSpace: 'pre-wrap' }}>
+            <div style={{ border: '1px solid #ccc', padding: '10px', maxHeight: '200px', maxWidth: maxWidth + 'px', overflowY: 'auto', whiteSpace: 'pre-wrap', marginTop: '10px'}}>
                 {skillsList.map(skill => (
                     <div key={skill.skill} style={{ marginBottom: '5px' }}>
                         <label>
