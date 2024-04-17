@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/LoginNavbar/LoginNavbar.js';
+import Button from '../../components/Submit_Button/Button.js'
 //import axios from 'axios';
 
 const CreateCandidate = () => {
@@ -91,6 +92,7 @@ const CreateCandidate = () => {
 
     return (
         //<form onSubmit={handleSubmit} method="POST">
+
         <form style={{textAlign: 'center', fontFamily: 'Georgia'}}>
             <Navbar/>
             <h1 style={{marginTop: '50px'}}>
@@ -198,7 +200,7 @@ const CreateCandidate = () => {
                 ))}
             </div>
             <br />
-            <button type="submit">Submit</button>
+            <Button/>
         </form>
     );
 };

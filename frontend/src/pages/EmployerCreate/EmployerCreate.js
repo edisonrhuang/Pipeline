@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/LoginNavbar/LoginNavbar.js';
+import Button from '../../components/Submit_Button/Button.js'
 //import axios from 'axios';
 
 const CreateEmployer = () => {
@@ -93,11 +94,11 @@ const CreateEmployer = () => {
         //<form onSubmit={handleSubmit} method="POST">
         <form style={{textAlign: 'center', fontFamily: 'Georgia'}}>
             <Navbar/>
-            <h1 style={{marginTop: '50px'}}>
+            <h1 style={{marginTop: '175px'}}>
                 Create your account
             </h1>
             <p>
-                Create an account to get connected with recruiters!
+                Create an account to connect with potential employees!
             </p>
             <br />
             <label>  
@@ -116,63 +117,11 @@ const CreateEmployer = () => {
             </label>
             <br />
             <label>
-                <input type="text" name="phone_number" value={formData.phone_number} onChange={handleChange} 
-                style={{marginTop: '10px', marginLeft: '12px'}} placeholder="Phone Number"/>
-            </label>
-            <br />
-            <label>
-                Date of Birth:
-                <input type="date" name="date_of_birth" value={formData.date_of_birth} onChange={handleChange} 
-                style={{marginTop: '10px', marginLeft: '12px'}} placeholder="Date of Birth"/>
-            </label>
-            <br />
-            <label>
-                <textarea name="info" value={formData.info} onChange={handleChange} 
-                style={{marginTop: '10px', marginLeft: '12px', width: "250px", height: "100px"}} placeholder="Tell us about yourself!"/>
-            </label>
-            <br />
-            <label>
-                Gender:
-                <select name="gender" value={formData.gender} onChange={handleChange} 
-                style={{marginTop: '10px', marginLeft: '12px'}}>
-                    <option value="">Select</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Prefer not to say">Prefer not to say</option>
-                    <option value="Others">Others</option>
-                </select>
-            </label>
-            <br />
-            <label>
-                Ethnicity:
-                <select name="ethnicity" value={formData.ethnicity} onChange={handleChange}
-                style={{marginTop: '10px', marginLeft: '12px'}}>
-                    <option value="">Select</option>
-                    <option value="American Indian or Alaskan Native">American Indian or Alaskan Native</option>
-                    <option value="Asian/Pacific Islander">Asian/Pacific Islander</option>
-                    <option value="Black or African American">Black or African American</option>
-                    <option value="Hispanic">Hispanic</option>
-                    <option value="White/Caucasian">White/Caucasian</option>
-                    <option value="Two or more">Two or more</option>
-                    <option value="Other">Other</option>
-                </select>
-            </label>
-            <br />
-            <label>
-                Graduation Date:
-                <input type="date" name="graduation_date" value={formData.graduation_date} onChange={handleChange} 
-                style={{marginTop: '10px', marginLeft: '12px'}}/>
-            </label>
-            <br />
-            <label>
                 <input type="text" name="field_of_study" value={formData.field_of_study} onChange={handleChange} 
-                style={{marginTop: '10px', marginLeft: '12px'}} placeholder="Field of Study"/>
+                style={{marginTop: '10px', marginLeft: '12px'}} placeholder="Company"/>
             </label>
             <br />
-            <label>
-                <input type="text" name="website" value={formData.website} onChange={handleChange} 
-                style={{marginTop: '10px', marginLeft: '12px'}} placeholder="Website"/>
-            </label>
+            <br />
             <br />
             <label>
                 Profile Picture:
@@ -181,24 +130,7 @@ const CreateEmployer = () => {
             </label>
             <br />
             <br />
-            <label>Select Skills:</label>
-            <div style={{ border: '1px solid #ccc', padding: '10px', maxHeight: '200px', maxWidth: maxWidth + 'px', overflowY: 'auto', whiteSpace: 'pre-wrap', marginTop: '10px'}}>
-                {skillsList.map(skill => (
-                    <div key={skill.skill} style={{ marginBottom: '5px' }}>
-                        <label>
-                            <input
-                                type="checkbox"
-                                name={skill.skill}
-                                checked={selectedSkills[skill.skill] || false}
-                                onChange={handleSkillChange}
-                            />
-                            {skill.skill}
-                        </label>
-                    </div>
-                ))}
-            </div>
-            <br />
-            <button type="submit">Submit</button>
+            <Button/>
         </form>
     );
 };
@@ -210,5 +142,6 @@ function getDate() {
     const day = String(currentDate.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
 }
+
 
 export default CreateEmployer;
