@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../../components/LoginNavbar/LoginNavbar.js';
-import Button from '../../components/Submit_Button/Button.js';
+import logoImage from "./assets/logo.png"
 import './employerorcandidate.css'
 //import axios from 'axios';
 
@@ -95,10 +94,22 @@ const EmployerOrCandidate = () => {
         //<form onSubmit={handleSubmit} method="POST">
         <div style={{backgroundImage: 'url(' + require('./assets/img.webp') + ')', backgroundSize: "cover", minHeight: "100vh"}}>
         <form style={{textAlign: 'center', fontFamily: 'Georgia'}}>
-            <div class="asdf">
-
+            <div class="center">
+                <img src={logoImage} alt="Pipeline" style={{height: '450px', marginRight: '50px', marginTop: '-50px'}} /> <br/>
+                <label class="text_label">
+                    Join a network of professionals and budding talent!
+                </label>
+                <br/>
+                <br/>
+                <button class="button-30" role="button">Employer</button>
+                <br/>
+                <br/>
+                <br/>
+                <label class="or_label">or</label>
+                <br/>
+                <br/>
+                <button class="button-30" role="button">Candidate</button>
             </div>
-            
         </form>
         </div>
     );
