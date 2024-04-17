@@ -1,4 +1,5 @@
 const connection = require('../connection');
+const { createSkills } = require('./skillQueries');
 
 /**
  * Retrieves all candidates along with their associated skills from the 
@@ -136,11 +137,23 @@ function selectCandidateByFilter(filters, callback) {
  * - If the query is successful, `res` will contain the fetched candidates.
  */
 function createCandidate(candidateData, callback) {
+    const candidateSkills = candidateData.skills;
     connection.query('INSERT INTO candidate SET ?', candidateData, (err, res) => {
         if (err) {
             console.error('Error inserting candidate: ', err);
             return callback(err, null);
         }
+
+        if (Object.keys(candidateSkills).length !== 0) {
+            createSkills(res.insertId, candidateSkills, (err, results) => {
+                if (err) {
+                    console.error('Error inserting candidate skills: ', err);
+                    return callback(err, null);
+                }
+                return callback(null, results);
+            });
+        }
+
         return callback(null, res);
     });
 }
