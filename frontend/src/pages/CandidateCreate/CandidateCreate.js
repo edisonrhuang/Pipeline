@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/LoginNavbar/LoginNavbar.js';
 import Button from '../../components/Submit_Button/Button.js'
-//import axios from 'axios';
+import axios from 'axios';
 
 const CreateCandidate = () => {
     const [formData, setFormData] = useState({
@@ -27,7 +27,7 @@ const CreateCandidate = () => {
     const jsonData = JSON.stringify(formData);
     const jsonSkills = JSON.stringify(selectedSkills);
 
-    /*useEffect(() => {
+    useEffect(() => {
         const fetchSkills = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_HOST}/api/get-skills`);
@@ -43,7 +43,7 @@ const CreateCandidate = () => {
         };
 
         fetchSkills();
-    }, []); */
+    }, []); 
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -62,7 +62,7 @@ const CreateCandidate = () => {
         });
     };
 
-    /*const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const res = await axios.post(`${process.env.REACT_APP_API_HOST}/api/create-candidates`, { data: jsonData, skills: jsonSkills });
@@ -88,12 +88,12 @@ const CreateCandidate = () => {
             console.error('Error inserting candidate:', error.response.data);
             alert('Error inserting candidate');
         }
-    }; */
+    }; 
 
     return (
         //<form onSubmit={handleSubmit} method="POST">
 
-        <form style={{textAlign: 'center', fontFamily: 'Georgia'}}>
+        <form onSubmit={handleSubmit} method="POST" style={{textAlign: 'center', fontFamily: 'Georgia'}}>
             <Navbar/>
             <h1 style={{marginTop: '50px'}}>
                 Create your account
