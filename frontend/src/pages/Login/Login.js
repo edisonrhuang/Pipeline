@@ -10,10 +10,17 @@ const Login = () => {
      const signInWithGoogle = async () => {
           try {
                signInWithPopup(auth, googleProvider).then((userCredential) => {
-                    
-                    console.log(userCredential)
 
-                    
+                    userCredential.user.getIdToken().then((JWT) => {
+                         fetch('http://127.0.0.1:3001/', {
+                              method: 'POST',
+                              headers: { 'Authorization': `${JWT}`, 'Content-Type': "application/json" },
+                              body: JSON.stringify(JWT)
+                         }).then((res) => res.json()).then((data) => {
+                         }).catch(error => console.log("log:" + error))
+                    })
+
+
                })
           } catch (err) {
                console.error(err)
