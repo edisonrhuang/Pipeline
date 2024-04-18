@@ -1,6 +1,7 @@
 import { auth, googleProvider } from "./firebase"
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth"
 import { useState } from "react"
+import logoImage from "./assets/logo.png"
 
 const Login = () => {
 
@@ -27,10 +28,21 @@ const Login = () => {
           }
      }
 
-     return <div>
-
-          <button onClick={signInWithGoogle}>Sign In With Google</button>
-     </div>
+     return (
+     <div style={{backgroundImage: 'url(' + require('./assets/img.webp') + ')', backgroundSize: "cover", minHeight: "100vh"}}>
+        <form style={{textAlign: 'center', fontFamily: 'Georgia'}}>
+            <div class="center">
+                <img src={logoImage} alt="Pipeline" style={{height: '450px', marginRight: '50px', marginTop: '-50px'}} /> <br/>
+                <label class="text_label">
+                    Join a network of professionals and budding talent!
+                </label>
+                <br/>
+                <br/>
+                <button class="button-30" onClick={signInWithGoogle} role="button">Login with Google</button>
+            </div>
+        </form>
+        </div> 
+     );
 }
 
 export default Login
