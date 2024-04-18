@@ -4,7 +4,7 @@ const { createEmployer } = require('./employerQueries');
 
 /**
  * Retrieves user information from the database based on the provided email address.
- * @param {*} authEmail The email address of the user whose information is to be 
+ * @param {*} email The email address of the user whose information is to be 
  * retrieved.
  * @param {*} callback 
  * A callback function to handle the result of the database query.
@@ -21,8 +21,8 @@ function getUserInfo(email, callback) {
         }
 
         // Extract user type and user id from the fetched user information
-        const userType = res.uers_type;
-        const userId = res.user_id;
+        const userType = res.user_type;
+        const userId = (res.candidate_id !== null) ? res.candidate_id : (res.employer_id !== null) ? res.employer_id : null;
 
         // If the user type is "Candidate"
         if (userType == 'Candidate') {
