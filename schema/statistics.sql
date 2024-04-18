@@ -35,20 +35,9 @@ SELECT user_type, COUNT(*) AS count
 FROM authentication
 GROUP BY user_type;
 
--- Percentage of candidates and employers who have completed their profiles
-SELECT user_type, SUM(CASE WHEN candidate_id IS NOT NULL THEN 1 ELSE 0 END) / COUNT(*) AS completion_percentage
-FROM authentication
-GROUP BY user_type;
-
 -- Number of connections established between candidates and employers
 SELECT COUNT(*) AS count
 FROM connection;
-
--- Distribution of connections by candidate attributes
-SELECT c.gender, c.ethnicity, COUNT(*) AS count
-FROM connection con
-JOIN candidate c ON con.candidate_id = c.candidate_id
-GROUP BY c.gender, c.ethnicity;
 
 -- Total number of candidates, skills, employers, and connections in the database
 SELECT
@@ -90,15 +79,7 @@ FROM authentication
 WHERE candidate_id IS NOT NULL;
 
 -- Percentage of employers who have provided profile information
-SELECT 'Profile Provided' AS profile_status,
+SELECT 'Completed Profile' AS profile_status,
        COUNT(*) * 100.0 / (SELECT COUNT(*) FROM authentication WHERE employer_id IS NOT NULL) AS percentage
 FROM authentication
 WHERE employer_id IS NOT NULL;
-
--- Percentage of connections by candidate attributes
-SELECT c.gender,
-       c.ethnicity,
-       COUNT(*) * 100.0 / (SELECT COUNT(*) FROM connection) AS percentage
-FROM connection con
-JOIN candidate c ON con.candidate_id = c.candidate_id
-GROUP BY c.gender, c.ethnicity;
