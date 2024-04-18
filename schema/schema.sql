@@ -83,7 +83,7 @@ CREATE TABLE connection (
 );
 
 /* Main candidate insertion */
-INSERT INTO candidate (first_name, last_name, email, phone_number, date_of_birth, info, gender, ethnicity, school_name, graduation_date, field_of_study, website, resume, account_created, profile_picture)
+INSERT INTO candidate (first_name, last_name, email, phone_number, date_of_birth, info, gender, ethnicity, school_name, graduation_date, field_of_study, website, resume_file, account_created, profile_picture)
 VALUES
 ('Edison', 'Huang', 'edisonrhuang@vt.edu', '3016559732', '2002-11-26', NULL, 'Male', 'Asian/Pacific Islander', 'Virginia Tech', '2025-05-12', 'Computer Science', NULL, NULL, '2025-1-1', NULL),
 ('Sandiliya', 'Bhamidipati', 'sandiroc@vt.edu', '9083427668', '2003-08-19', NULL, 'Male', 'Asian/Pacific Islander', 'Virginia Tech', '2024-05-13', 'Computational Modeling and Data Analytics', NULL, NULL, '2025-1-1', NULL),
@@ -92,7 +92,7 @@ VALUES
 ('Ethan', 'Chi', 'ethanc03@example.com', '7034209566', '2003-11-05', NULL, 'Male', 'Asian/Pacific Islander', 'Virginia Tech', '2025-05-12', 'Industrial and Systems Engineering', NULL, NULL, '2025-1-1', NULL);
 
 /* Filler candidate insertion */
-INSERT INTO candidate (first_name, last_name, email, phone_number, date_of_birth, info, gender, ethnicity, school_name, graduation_date, field_of_study, website, resume, account_created, profile_picture) VALUES
+INSERT INTO candidate (first_name, last_name, email, phone_number, date_of_birth, info, gender, ethnicity, school_name, graduation_date, field_of_study, website, resume_file, account_created, profile_picture) VALUES
 ('John', 'Doe', 'john.doe@example.com', '1234567890', '1990-05-15', 'Experienced software engineer specializing in backend development.', 'Male', 'White/Caucasian', 'Harvard University', '2012-06-30', 'Computer Science', 'http://www.johndoe.com', NULL, '2024-04-03', NULL),
 ('Jane', 'Smith', 'jane.smith@example.com', '1987654321', '1992-09-20', 'Recent graduate with a passion for data analysis and visualization.', 'Female', 'Black or African American', 'Stanford University', '2023-05-25', 'Data Science', 'http://www.janesmith.com', NULL, '2024-04-03', NULL),
 ('David', 'Brown', 'david.brown@example.com', '1122334455', '1991-03-10', 'Seasoned marketing professional with expertise in digital marketing strategies.', 'Male', 'Hispanic', 'MIT', '2013-08-15', 'Marketing', 'http://www.davidbrown.com', NULL, '2024-04-03', NULL),
