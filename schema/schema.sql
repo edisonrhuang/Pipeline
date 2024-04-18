@@ -23,7 +23,7 @@ CREATE TABLE candidate (
     graduation_date DATE NOT NULL,
     field_of_study VARCHAR(75) NOT NULL,
     website VARCHAR(2048),
-    resume MEDIUMBLOB,
+    resume_file MEDIUMBLOB,
     
     /* Candidate's account information */
     account_created DATE NOT NULL,
