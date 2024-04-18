@@ -26,4 +26,3 @@ SELECT * FROM employer;
 
 /* Query the authentication table */
 SELECT * FROM authentication;
-

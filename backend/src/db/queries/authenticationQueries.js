@@ -46,7 +46,7 @@ function getUserInfo(email, callback) {
         }
         // If no user was found with the provided email address
         else {
-            console.error('Error: Could not find user with email ', authEmail, ' in the database.');
+            console.error('Error: Could not find user with email ', email, ' in the database.');
             return callback(null, undefined);
         }
     });
