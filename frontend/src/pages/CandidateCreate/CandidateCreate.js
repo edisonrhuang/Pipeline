@@ -34,7 +34,7 @@ const CreateCandidate = () => {
                 setSkillsList(response.data);
 
                 const maxSkillWidth = response.data.reduce((max, skill) => {
-                    return Math.max(max, skill.skill.length);
+                    return Math.max(max, skill.skill_name.length);
                 }, 0);
                 setMaxWidth(maxSkillWidth * 8);
             } catch (error) {
@@ -93,7 +93,7 @@ const CreateCandidate = () => {
     return (
         //<form onSubmit={handleSubmit} method="POST">
 
-        <form onSubmit={handleSubmit} method="POST" style={{textAlign: 'center', fontFamily: 'Georgia'}}>
+        <form onSubmit={handleSubmit} method="GET" style={{textAlign: 'center', fontFamily: 'Georgia'}}>
             <Navbar/>
             <h1 style={{marginTop: '50px'}}>
                 Create your account
@@ -186,15 +186,15 @@ const CreateCandidate = () => {
             <label>Select Skills:</label>
             <div style={{ border: '1px solid #ccc', padding: '10px', maxHeight: '200px', maxWidth: maxWidth + 'px', overflowY: 'auto', whiteSpace: 'pre-wrap', marginTop: '10px'}}>
                 {skillsList.map(skill => (
-                    <div key={skill.skill} style={{ marginBottom: '5px' }}>
+                    <div key={skill.skill_name} style={{ marginBottom: '5px' }}>
                         <label>
                             <input
                                 type="checkbox"
-                                name={skill.skill}
-                                checked={selectedSkills[skill.skill] || false}
+                                name={skill.skill_name}
+                                checked={selectedSkills[skill.skill_name] || false}
                                 onChange={handleSkillChange}
                             />
-                            {skill.skill}
+                            {skill.skill_name}
                         </label>
                     </div>
                 ))}

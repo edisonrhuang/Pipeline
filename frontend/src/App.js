@@ -30,14 +30,9 @@ function App() {
         <Route path="/candidatedashboard" element={<CandidateDashboard />} />
         <Route path="/candidateupdate" element={<CandidateUpdate />} />
         <Route path="/employerprofile" element={<EmployerProfile />} />
-        <Route path="/employerupdate" element={<EmployerUpdate />} />
-<<<<<<< Updated upstream
         <Route path="/employercreate" element={<EmployerCreate />} />
-        <Route path="/candidatecard" element={<EmployerUpdate />} />
-=======
+        <Route path="/employerupdate" element={<EmployerUpdate />} />
         <Route path="/candidatecard" element={<CandidateCard />} />
-
->>>>>>> Stashed changes
         <Route path="/login" element={<Login />} />
 
       </Routes>
