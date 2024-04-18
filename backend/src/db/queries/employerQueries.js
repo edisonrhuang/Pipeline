@@ -1,5 +1,4 @@
-const connection = require('../connection');
-
+import connection from '../connection.js'
 /**
  * Retrieves all employers from the database.
  * 
@@ -11,7 +10,7 @@ const connection = require('../connection');
  * - If the query is successful, `res` will contain the fetched candidates.
  */
 function selectAllEmployers(callback) {
-    connection.query('SELECT * FROM employers', (err, res) => {
+    connection.query('SELECT * FROM employer', (err, res) => {
         if (err) {
             console.error('Error fetching employers: ', err);
             return callback(err, null);
@@ -32,7 +31,7 @@ function selectAllEmployers(callback) {
  * - If the query is successful, `res` will contain the fetched candidates.
  */
 function selectEmployerByID(employerId, callback) {
-    connection.query('SELECT * FROM employers WHERE employer_id = ?', employerId, (err, res) => {
+    connection.query('SELECT * FROM employer WHERE employer_id = ?', employerId, (err, res) => {
         if (err) {
             console.error('Error fetching employer with ID ', employerId, ': ', err);
             return callback(err, null);
@@ -54,7 +53,7 @@ function selectEmployerByID(employerId, callback) {
  * - If the query is successful, `res` will contain the fetched candidates.
  */
 function createEmployer(employerData, callback) {
-    connection.query('INSERT INTO employers SET ?', employerData, (err, res) => {
+    connection.query('INSERT INTO employer SET ?', employerData, (err, res) => {
         if (err) {
             console.error('Error inserting employer: ', err);
             return callback(err, null);
@@ -77,7 +76,7 @@ function createEmployer(employerData, callback) {
  * - If the query is successful, `res` will contain the fetched candidates.
  */
 function updateEmployer(employerData, employerId, callback) {
-    connection.query('UPDATE employers SET ? WHERE employer_id = ?', [employerData, employerId], (err, res) => {
+    connection.query('UPDATE employer SET ? WHERE employer_id = ?', [employerData, employerId], (err, res) => {
         if (err) {
             console.error('Error updating employer: ', err);
             return callback(err, null);
@@ -99,9 +98,9 @@ function updateEmployer(employerData, employerId, callback) {
  */
 function deleteEmployer(employerId, callback) {
     // Delete notifications associated with the employer
-    connection.query('DELETE FROM notifications where employer_id = ?', employerId, (err, res) => {
+    connection.query('DELETE FROM connection where employer_id = ?', employerId, (err, res) => {
         if (err) {
-            console.error('Error deleting notifications: ', err);
+            console.error('Error deleting connections: ', err);
             return callback(err, null);
         }
     })
@@ -115,7 +114,7 @@ function deleteEmployer(employerId, callback) {
     })
 
     // Delete the employer from the database
-    connection.query('DELETE FROM employers WHERE employer_id = ?', employerId, (err, res) => {
+    connection.query('DELETE FROM employer WHERE employer_id = ?', employerId, (err, res) => {
         if (err) {
             console.error('Error deleting employer: ', err);
             return callback(err, null);
@@ -124,11 +123,39 @@ function deleteEmployer(employerId, callback) {
     })
 }
 
+/**
+ * Retrieves connections of a candidate from the database.
+ * @param {*} candidateId The ID of the candidate whose connections are to be 
+ * retrieved.
+ * @param {*} callback 
+ * A callback function to handle the result of the database query.
+ *   The callback follows the standard Node.js pattern: (err, result) => {...}
+ * - If an error occurs during the query execution, `err` will contain the error 
+ *   object.
+ * - If the query is successful, `res` will contain the fetched candidates.
+ */
+function getEmployerConnections(employerId, callback) {
+    const query =
+    `
+    SELECT c.*
+    FROM connection cn
+    JOIN candidate c ON cn.candidate_id = c.candidate_id
+    WHERE cn.employer_id = ?;
+    `;
+    connection.query(query, employerId, (err, res) => {
+        if (err) {
+            console.error('Error fetching employer connections: ', err);
+            return callback(err, null);
+        }
+        return callback(null, res);
+    });
+}
 
-module.exports = {
+export {
     selectAllEmployers,
     selectEmployerByID,
     createEmployer,
     updateEmployer,
     deleteEmployer,
+    getEmployerConnections,
 }

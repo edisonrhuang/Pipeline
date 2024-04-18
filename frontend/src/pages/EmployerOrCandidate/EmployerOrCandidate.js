@@ -1,126 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import logoImage from "./assets/logo.png"
 import './employerorcandidate.css'
-//import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const EmployerOrCandidate = () => {
-    const [formData, setFormData] = useState({
-        first_name: '',
-        last_name: '',
-        email: '',
-        phone_number: '',
-        date_of_birth: '',
-        info: '',
-        gender: '',
-        ethnicity: '',
-        graduation_date: '',
-        field_of_study: '',
-        website: '',
-        account_created: getDate(),
-        profile_picture: null
-    });
 
-    const [skillsList, setSkillsList] = useState([]);
-    const [maxWidth, setMaxWidth] = useState(0);
-    const [selectedSkills, setSelectedSkills] = useState({});
+    const handleEmployer = () => {
 
-    const jsonData = JSON.stringify(formData);
-    const jsonSkills = JSON.stringify(selectedSkills);
+        // fetch('http://127.0.0.1:5002/login', {
+        //     method: 'POST',
+        //     headers: { 'Authorization': `${JWT}`, 'Content-Type': "application/json" },
+        //     body: ''
+        // }).then((res) => res.json()).then((data) => {
+        //     sessionStorage.setItem('JWT', JWT);
+        //     navigate("/employerorcandidate")
+        // }).catch(error => console.log("log:" + error))
+        navigate("/employercreate")
+    }
 
-    /*useEffect(() => {
-        const fetchSkills = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_HOST}/api/get-skills`);
-                setSkillsList(response.data);
+    const handleCandidate = () => {
+        navigate("/candidatecreate")
+    }
+    const navigate = useNavigate()
 
-                const maxSkillWidth = response.data.reduce((max, skill) => {
-                    return Math.max(max, skill.skill.length);
-                }, 0);
-                setMaxWidth(maxSkillWidth * 8);
-            } catch (error) {
-                console.error('Error fetching skills:', error.response.data);
-            }
-        };
-
-        fetchSkills();
-    }, []); */
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
-    const handleSkillChange = (e) => {
-        const { name, checked } = e.target;
-        setSelectedSkills(prevState => {
-            const updatedSkills = { ...prevState };
-            if (checked) {
-                updatedSkills[name] = true;
-            } else {
-                delete updatedSkills[name];
-            }
-            return updatedSkills;
-        });
-    };
-
-    /*const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const res = await axios.post(`${process.env.REACT_APP_API_HOST}/api/create-candidates`, { data: jsonData, skills: jsonSkills });
-            alert('Candidate inserted successfully');
-            setFormData({
-                first_name: '',
-                last_name: '',
-                email: '',
-                phone_number: '',
-                date_of_birth: '',
-                info: '',
-                gender: '',
-                ethnicity: '',
-                graduation_date: '',
-                field_of_study: '',
-                website: '',
-                account_created: getDate(),
-                profile_picture: null,
-            });
-            setSelectedSkills({});
-            console.log(res.data);
-        } catch (error) {
-            console.error('Error inserting candidate:', error.response.data);
-            alert('Error inserting candidate');
-        }
-    }; */
 
     return (
         //<form onSubmit={handleSubmit} method="POST">
-        <div style={{backgroundImage: 'url(' + require('./assets/img.webp') + ')', backgroundSize: "cover", minHeight: "100vh"}}>
-        <form style={{textAlign: 'center', fontFamily: 'Georgia'}}>
-            <div class="center">
-                <img src={logoImage} alt="Pipeline" style={{height: '450px', marginRight: '50px', marginTop: '-50px'}} /> <br/>
-                <label class="text_label">
-                    Join a network of professionals and budding talent!
-                </label>
-                <br/>
-                <br/>
-                <button class="button-30" role="button">Employer</button>
-                <br/>
-                <br/>
-                <br/>
-                <label class="or_label">or</label>
-                <br/>
-                <br/>
-                <button class="button-30" role="button">Candidate</button>
-            </div>
-        </form>
+        <div style={{ backgroundImage: 'url(' + require('./assets/img.webp') + ')', backgroundSize: "cover", minHeight: "100vh" }}>
+            <form style={{ textAlign: 'center', fontFamily: 'Georgia' }}>
+                <div className="center">
+                    <img src={logoImage} alt="Pipeline" style={{ height: '450px', marginRight: '50px', marginTop: '-50px' }} /> <br />
+                    <label className="text_label">
+                        Join a network of professionals and budding talent!
+                    </label>
+                    <br />
+                    <br />
+                    <button className="button-30" role="button" onClick={handleEmployer}>Employer</button>
+                    <br />
+                    <br />
+                    <br />
+                    <label className="or_label">or</label>
+                    <br />
+                    <br />
+                    <button className="button-30" role="button" onClick={handleCandidate}>Candidate</button>
+                </div>
+            </form>
         </div>
     );
-};
-
-function getDate() {
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const day = String(currentDate.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
 }
 
 export default EmployerOrCandidate;

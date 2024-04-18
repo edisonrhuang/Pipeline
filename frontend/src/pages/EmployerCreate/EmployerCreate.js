@@ -1,147 +1,77 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/LoginNavbar/LoginNavbar.js';
-import Button from '../../components/Submit_Button/Button.js'
-//import axios from 'axios';
 
 const CreateEmployer = () => {
     const [formData, setFormData] = useState({
         first_name: '',
         last_name: '',
         email: '',
-        phone_number: '',
-        date_of_birth: '',
-        info: '',
-        gender: '',
-        ethnicity: '',
-        graduation_date: '',
-        field_of_study: '',
-        website: '',
-        account_created: getDate(),
-        profile_picture: null
+        company_name: '',
+        info: ''
+        // profile_picture: null
     });
 
-    const [skillsList, setSkillsList] = useState([]);
-    const [maxWidth, setMaxWidth] = useState(0);
-    const [selectedSkills, setSelectedSkills] = useState({});
 
-    const jsonData = JSON.stringify(formData);
-    const jsonSkills = JSON.stringify(selectedSkills);
-
-    /*useEffect(() => {
-        const fetchSkills = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_HOST}/api/get-skills`);
-                setSkillsList(response.data);
-
-                const maxSkillWidth = response.data.reduce((max, skill) => {
-                    return Math.max(max, skill.skill.length);
-                }, 0);
-                setMaxWidth(maxSkillWidth * 8);
-            } catch (error) {
-                console.error('Error fetching skills:', error.response.data);
-            }
-        };
-
-        fetchSkills();
-    }, []); */
-
+    const handleSubmit = (e) => {
+        const JWT = sessionStorage.getItem("JWT")
+        console.log(formData)
+        fetch('http://127.0.0.1:5002/employer', {
+            method: 'POST',
+            headers: { 'Authorization': `${JWT}`, 'Content-Type': "application/json" },
+            body: JSON.stringify(formData)
+        }).then((res) => res.json()).then((data) => {
+            console.log(data)
+        }).catch(error => console.log("log:" + error))
+    }
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSkillChange = (e) => {
-        const { name, checked } = e.target;
-        setSelectedSkills(prevState => {
-            const updatedSkills = { ...prevState };
-            if (checked) {
-                updatedSkills[name] = true;
-            } else {
-                delete updatedSkills[name];
-            }
-            return updatedSkills;
-        });
-    };
-
-    /*const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const res = await axios.post(`${process.env.REACT_APP_API_HOST}/api/create-candidates`, { data: jsonData, skills: jsonSkills });
-            alert('Candidate inserted successfully');
-            setFormData({
-                first_name: '',
-                last_name: '',
-                email: '',
-                phone_number: '',
-                date_of_birth: '',
-                info: '',
-                gender: '',
-                ethnicity: '',
-                graduation_date: '',
-                field_of_study: '',
-                website: '',
-                account_created: getDate(),
-                profile_picture: null,
-            });
-            setSelectedSkills({});
-            console.log(res.data);
-        } catch (error) {
-            console.error('Error inserting candidate:', error.response.data);
-            alert('Error inserting candidate');
-        }
-    }; */
 
     return (
-        //<form onSubmit={handleSubmit} method="POST">
-        <form style={{textAlign: 'center', fontFamily: 'Georgia'}}>
-            <Navbar/>
-            <h1 style={{marginTop: '175px'}}>
+        <div style={{ textAlign: 'center', fontFamily: 'Georgia' }}>
+            <Navbar />
+            <h1 style={{ marginTop: '175px' }}>
                 Create your account
             </h1>
             <p>
                 Create an account to connect with potential employees!
             </p>
             <br />
-            <label>  
-                <input type="text" name="first_name" value={formData.first_name} onChange={handleChange} 
-                style={{marginLeft: '12px'}} placeholder="First Name"/>
+            <label>
+                <input type="text" name="first_name" value={formData.first_name} onChange={handleChange}
+                    style={{ marginLeft: '12px' }} placeholder="First Name" />
             </label>
             <br />
             <label>
                 <input type="text" name="last_name" value={formData.last_name} onChange={handleChange}
-                style={{marginTop: '10px', marginLeft: '12px'}} placeholder="Last Name"/>
+                    style={{ marginTop: '10px', marginLeft: '12px' }} placeholder="Last Name" />
             </label>
             <br />
             <label>
-                <input type="email" name="email" value={formData.email} onChange={handleChange} 
-                style={{marginTop: '10px', marginLeft: '12px'}} placeholder="Email"/>
+                <input type="email" name="email" value={formData.email} onChange={handleChange}
+                    style={{ marginTop: '10px', marginLeft: '12px' }} placeholder="Email" />
             </label>
             <br />
             <label>
-                <input type="text" name="field_of_study" value={formData.field_of_study} onChange={handleChange} 
-                style={{marginTop: '10px', marginLeft: '12px'}} placeholder="Company"/>
+                <input type="text" name="company_name" value={formData.company_name} onChange={handleChange}
+                    style={{ marginTop: '10px', marginLeft: '12px' }} placeholder="Company" />
             </label>
             <br />
             <br />
             <br />
             <label>
                 Profile Picture:
-                <input type="file" name="profile_picture" accept="image/*" onChange={handleChange}
-                style={{marginTop: '10px', marginLeft: '12px'}} />
+                <input type="file" name="profile_picture" accept="image/*" 
+                    style={{ marginTop: '10px', marginLeft: '12px' }} />
             </label>
             <br />
             <br />
-            <Button/>
-        </form>
+            <button className="button" onClick={handleSubmit}>Submit</button>    
+        </div>
+    
     );
 };
-
-function getDate() {
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const day = String(currentDate.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-}
 
 
 export default CreateEmployer;
