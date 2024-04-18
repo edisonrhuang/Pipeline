@@ -117,7 +117,7 @@ const CreateEmployer = () => {
             </label>
             <br />
             <label>
-                <input type="text" name="field_of_study" value={formData.field_of_study} onChange={handleChange} 
+                <input type="text" name="company" value={formData.field_of_study} onChange={handleChange} 
                 style={{marginTop: '10px', marginLeft: '12px'}} placeholder="Company"/>
             </label>
             <br />
