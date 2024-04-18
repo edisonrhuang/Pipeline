@@ -8,11 +8,14 @@ import EmployerCreate from "./pages/EmployerCreate"
 import EmployerProfile from "./pages/EmployerProfile"
 import EmployerUpdate from "./pages/EmployerUpdate"
 import CandidateUpdate from "./pages/CandidateUpdate"
+import CandidateCard from "./components/CandidateCard"
+
 import Login from './pages/Login';
 
 // import EmployerProfile from "./pages/EmployerProfile"
 
 import { Route, Routes } from "react-router-dom"
+
 
 function App() {
   return (
@@ -28,11 +31,17 @@ function App() {
         <Route path="/candidateupdate" element={<CandidateUpdate />} />
         <Route path="/employerprofile" element={<EmployerProfile />} />
         <Route path="/employerupdate" element={<EmployerUpdate />} />
+<<<<<<< Updated upstream
         <Route path="/employercreate" element={<EmployerCreate />} />
         <Route path="/candidatecard" element={<EmployerUpdate />} />
+=======
+        <Route path="/candidatecard" element={<CandidateCard />} />
+
+>>>>>>> Stashed changes
         <Route path="/login" element={<Login />} />
 
       </Routes>
+
     </div>
   );
 }

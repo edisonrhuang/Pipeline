@@ -1,0 +1,30 @@
+.candidate-profile {
+    display: flex;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.profile-details {
+    margin-left: 5rem;
+}
+.profile-picture img {
+    width: 250px;
+    height: 250px;
+    margin-top: 50px;
+    margin-left: 50px;
+}
+
+.skills {
+    margin-top: 20px;
+}
+
+.skills ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.skills ul li {
+    margin-bottom: 5px;
+}
