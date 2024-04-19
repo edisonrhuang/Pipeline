@@ -1,11 +1,11 @@
-/* Drops the pipeline_database if it already exists */
+-- Drops the pipeline_database if it exists
 DROP DATABASE IF EXISTS pipeline_database;
 
-/* Creates/Recreates the pipeline_database and selects it */
+-- Create and select the pipeline_database
 CREATE DATABASE pipeline_database;
 USE pipeline_database;
 
-/* Creates a table for candidates */
+-- Candidate table creation
 CREATE TABLE candidate (
 	/* Candidate's personal information */
     candidate_id INT NOT NULL AUTO_INCREMENT,
@@ -31,17 +31,17 @@ CREATE TABLE candidate (
 	PRIMARY KEY (candidate_id)
 );
 
-/* Creates an index on the candidate_id of the candidates table */
+-- Creates an index on the candidate_id of the candidates table
 CREATE INDEX candidate_index ON candidate (candidate_id);
 
-/* Creates a table for skills */
+-- Skill table creation
 CREATE TABLE skill (
 	skill_id INT NOT NULL AUTO_INCREMENT,
     skill_name VARCHAR(100),
     PRIMARY KEY (skill_id)
 );
 
-/* Creates a table that forms the relationship between candidates and skills */
+-- Candidate and skill relation table
 CREATE TABLE candidate_skill (
 	candidate_id INT,
     skill_id INT,
@@ -49,10 +49,10 @@ CREATE TABLE candidate_skill (
     FOREIGN KEY (skill_id) REFERENCES skill(skill_id)
 );
 
-/* Creates an index on the candidate_id and skill_id of the candidate_skill table */
+-- Creates an index on the candidate_id and skill_id of the candidate_skill table
 CREATE INDEX candidate_skill_index ON candidate_skill (candidate_id, skill_id);
 
-/* Creates a table for employers */
+-- Employer table creation
 CREATE TABLE employer (
     employer_id INT NOT NULL AUTO_INCREMENT,
     first_name VARCHAR(50),
@@ -64,7 +64,7 @@ CREATE TABLE employer (
     PRIMARY KEY (employer_id)
 );
 
-/* Creates a table for authentication */
+-- Authentication table creation
 CREATE TABLE authentication (
 	email VARCHAR(254) NOT NULL UNIQUE,
     user_type ENUM('Candidate', 'Employer') NOT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE authentication (
     FOREIGN KEY (employer_id) REFERENCES employer(employer_id)
 );
 
-/* Creates a table for notifications */ 
+-- Connection table creation
 CREATE TABLE connection (
     candidate_id INT NOT NULL,
     FOREIGN KEY (candidate_id) REFERENCES candidate(candidate_id),
@@ -82,7 +82,7 @@ CREATE TABLE connection (
     FOREIGN KEY (employer_id) REFERENCES employer(employer_id)
 );
 
-/* Main candidate insertion */
+-- Candidate Insertions
 INSERT INTO candidate (first_name, last_name, email, phone_number, date_of_birth, info, gender, ethnicity, school_name, graduation_date, field_of_study, website, resume_file, account_created, profile_picture)
 VALUES
 ('Edison', 'Huang', 'edisonrhuang@vt.edu', '3016559732', '2002-11-26', NULL, 'Male', 'Asian/Pacific Islander', 'Virginia Tech', '2025-05-12', 'Computer Science', NULL, NULL, '2025-1-1', NULL),
@@ -91,7 +91,7 @@ VALUES
 ('Tessa', 'Ryan', 'tessar@vt.edu', '5716068839', '2003-04-08', NULL, 'Female', 'Asian/Pacific Islander', 'Virginia Tech', '2025-05-12', 'Computational Modeling and Data Analytics', NULL, NULL, '2025-1-1', NULL),
 ('Ethan', 'Chi', 'ethanc03@example.com', '7034209566', '2003-11-05', NULL, 'Male', 'Asian/Pacific Islander', 'Virginia Tech', '2025-05-12', 'Industrial and Systems Engineering', NULL, NULL, '2025-1-1', NULL);
 
-/* Filler candidate insertion */
+-- Filler candidate insertions
 INSERT INTO candidate (first_name, last_name, email, phone_number, date_of_birth, info, gender, ethnicity, school_name, graduation_date, field_of_study, website, resume_file, account_created, profile_picture) VALUES
 ('John', 'Doe', 'john.doe@example.com', '1234567890', '1990-05-15', 'Experienced software engineer specializing in backend development.', 'Male', 'White/Caucasian', 'Harvard University', '2012-06-30', 'Computer Science', 'http://www.johndoe.com', NULL, '2024-04-03', NULL),
 ('Jane', 'Smith', 'jane.smith@example.com', '1987654321', '1992-09-20', 'Recent graduate with a passion for data analysis and visualization.', 'Female', 'Black or African American', 'Stanford University', '2023-05-25', 'Data Science', 'http://www.janesmith.com', NULL, '2024-04-03', NULL),
@@ -109,7 +109,7 @@ INSERT INTO candidate (first_name, last_name, email, phone_number, date_of_birth
 ('Sophia', 'Jackson', 'sophia.jackson@example.com', '2229998888', '1992-07-14', 'Dedicated social worker committed to advocating for marginalized communities.', 'Female', 'Black or African American', 'University of Michigan', '2014-08-25', 'Social Work', 'http://www.sophiajackson.com', NULL, '2024-04-03', NULL),
 ('Ethan', 'Hernandez', 'ethan.hernandez@example.com', '9994443322', '1991-04-05', 'Innovative product manager skilled in product development and launch strategies.', 'Male', 'Hispanic', 'University of Southern California', '2013-10-10', 'Product Management', 'http://www.ethanhernandez.com', NULL, '2024-04-03', NULL);
 
-/* Filler employer insertion */
+-- Filler employer insertions
 INSERT INTO employer (first_name, last_name, email, company_name, info, profile_picture) VALUES
 ('John', 'Doe', 'john.doe@example.com', 'ABC Company', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', NULL),
 ('Jane', 'Smith', 'jane.smith@example.com', 'XYZ Corporation', 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', NULL),
@@ -132,7 +132,7 @@ INSERT INTO employer (first_name, last_name, email, company_name, info, profile_
 ('Justin', 'Lee', 'justin.lee@example.com', 'Future Dynamics Inc.', 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', NULL),
 ('Laura', 'Walker', 'laura.walker@example.com', 'Tech Genius Group', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL);
 
-/* Insertion of CS programming languages */
+-- Inserting programming languages
 INSERT INTO skill (skill_name) VALUES
 ('Python'),
 ('Java'),
@@ -155,53 +155,122 @@ INSERT INTO skill (skill_name) VALUES
 ('Shell Scripting (e.g., Bash)'),
 ('TypeScript');
 
-/* Insertion of CS skills */
+-- Inserting Computer Science skills
 INSERT INTO skill (skill_name) VALUES
-('Programming (e.g., Python, Java, C/C++)'),
-('Data Structures and Algorithms'),
-('Database Management (e.g., SQL)'),
-('Web Development (e.g., HTML, CSS, JavaScript)'),
-('Operating Systems Concepts'),
-('Computer Architecture'),
-('Networking Concepts'),
-('Software Engineering Principles'),
-('Object-Oriented Design'),
-('Problem-Solving and Critical Thinking'),
-('Mathematical Foundations (e.g., Discrete Mathematics, Calculus)'),
-('Machine Learning and Artificial Intelligence'),
-('Cybersecurity Principles'),
-('Version Control Systems (e.g., Git)'),
-('Linux/Unix Shell'),
-('Parallel and Distributed Computing'),
-('Mobile Development (e.g., Android, iOS)'),
-('Cloud Computing'),
-('Data Science and Big Data Technologies'),
-('Natural Language Processing'),
+('Algorithm Design and Analysis'),
+('Data Structures'),
+('Computer Programming'),
+('Software Engineering'),
+('Operating Systems'),
+('Database Management'),
 ('Computer Graphics'),
-('UI/UX Design Principles');
+('Artificial Intelligence'),
+('Machine Learning'),
+('Computer Vision'),
+('Natural Language Processing'),
+('Web Development'),
+('Mobile App Development'),
+('Cloud Computing'),
+('Parallel Computing'),
+('Computer Networks'),
+('Cryptography'),
+('Blockchain Technology'),
+('Computer Security'),
+('Distributed Systems');
 
-/* Insertion of CMDA skills */
+-- Inserting Computational Modeling and Data Analytics skills
 INSERT INTO skill (skill_name) VALUES
-('Statistics and Probability'),
-('Data Analysis Techniques'),
+('Statistics'),
+('Mathematical Modeling'),
+('Data Mining'),
 ('Machine Learning Algorithms'),
-('Data Visualization (e.g., Matplotlib, Seaborn)'),
-('Big Data Technologies (e.g., Hadoop, Spark)'),
-('Predictive Modeling'),
+('Predictive Analytics'),
+('Data Visualization'),
+('Big Data Analytics'),
 ('Time Series Analysis'),
 ('Optimization Techniques'),
-('Experimental Design'),
-('Statistical Programming Languages (e.g., R, Python)'),
-('Mathematical Modeling'),
-('Quantitative Research Methods'),
+('Computational Fluid Dynamics'),
+('Finite Element Analysis'),
 ('Geospatial Analysis'),
-('Text Mining and Natural Language Processing'),
+('Text Mining'),
+('Social Network Analysis'),
+('Image Processing'),
 ('Deep Learning'),
-('Web Scraping'),
-('Data Cleaning and Preprocessing'),
-('Business Intelligence Tools'),
-('Communication Skills for Data Presentation and Reporting');
+('Reinforcement Learning'),
+('Quantitative Analysis'),
+('Business Intelligence'),
+('Data Warehousing');
+
+-- Inserting Network Engineering skills
+INSERT INTO skill (skill_name) VALUES
+('Network Protocols'),
+('TCP/IP Networking'),
+('Routing and Switching'),
+('Network Security'),
+('Firewall Configuration'),
+('Wireless Networking'),
+('Network Performance Optimization'),
+('Quality of Service (QoS)'),
+('Software-Defined Networking (SDN)'),
+('Network Monitoring'),
+('LAN/WAN Configuration'),
+('Virtual Private Networks (VPNs)'),
+('Network Troubleshooting'),
+('Internet of Things (IoT)'),
+('Cloud Networking'),
+('Voice over IP (VoIP)'),
+('Network Design'),
+('Network Automation'),
+('Network Administration'),
+('Load Balancing');
+
+-- Inserting Cyber Security skills
+INSERT INTO skill (skill_name) VALUES
+('Ethical Hacking'),
+('Penetration Testing'),
+('Vulnerability Assessment'),
+('Intrusion Detection and Prevention'),
+('Incident Response'),
+('Security Information and Event Management (SIEM)'),
+('Digital Forensics'),
+('Malware Analysis'),
+('Web Application Security'),
+('Network Security Monitoring'),
+('Security Compliance'),
+('Identity and Access Management (IAM)'),
+('Security Risk Assessment'),
+('Encryption Techniques'),
+('Secure Coding Practices'),
+('Cyber Threat Intelligence'),
+('Security Operations Center (SOC)'),
+('Cloud Security'),
+('Endpoint Security'),
+('Security Awareness Training');
+
+-- Inserting DevOps skills
+INSERT INTO skill (skill_name) VALUES
+('Continuous Integration (CI)'),
+('Continuous Deployment (CD)'),
+('Infrastructure as Code (IaC)'),
+('Configuration Management'),
+('Containerization'),
+('Orchestration Tools'),
+('Microservices Architecture'),
+('Monitoring and Logging'),
+('Automated Testing'),
+('Version Control'),
+('Release Management'),
+('Deployment Automation'),
+('Container Orchestration'),
+('Site Reliability Engineering (SRE)'),
+('DevSecOps'),
+('Cloud Infrastructure Management'),
+('Agile Methodologies'),
+('Collaboration Tools'),
+('GitOps'),
+('CI/CD Pipelines');
 
 INSERT INTO candidate_skill VALUES
-(1, 1), (1, 2), (1, 3), (1, 5), (1, 6), (1, 21), (1, 22), (1, 23), (1, 24), (1, 25), (1, 28), (1, 29), (1, 30), (1, 31), (1, 32), (1, 33), (1, 34), (1, 45),
-(2, 1), (2, 2), (2, 3), (2, 7), (2, 15), (2, 21), (2, 22), (2, 29), (2, 31), (2, 32), (2, 34), (2, 39), (2, 45), (2, 46), (2, 48), (2, 49), (2, 52), (2, 57);
+(1, 1), (1, 2), (1, 3), (1, 5), (1, 6), (1, 15), (1, 19), (1, 21), (1, 22), (1, 23), (1, 24), (1, 25), (1, 26), (1, 28), (1, 29), (1, 32), (1, 37), (1, 41), (1, 44), (1, 65), (1, 110),
+(2, 1), (2, 2), (2, 3), (2, 7), (2, 15), (2, 21), (2, 22), (2, 24), (2, 29), (2, 30), (2, 35), (2, 41), (2, 48), (2, 49), (2, 56), (2, 57), (2, 110),
+(5, 2), (5, 6), (5, 12), (5, 15), (5, 16), (5, 22), (5, 26), (5, 27), (5, 41), (5, 48), (5, 63);

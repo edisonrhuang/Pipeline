@@ -213,7 +213,6 @@ function updateCandidate(candidateData, candidateId, callback) {
     });
 }
 
-
 /**
  * Deletes a candidate from the database along with associated data such as 
  * notifications, authentication, and skills.
