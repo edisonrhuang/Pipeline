@@ -1,4 +1,4 @@
-const connection = require('../connection');
+const executeQuery = require('./executeQuery');
 
 /**
  * Retrieves all employers from the database.
@@ -11,13 +11,7 @@ const connection = require('../connection');
  * - If the query is successful, `res` will contain the fetched candidates.
  */
 function selectAllEmployers(callback) {
-    connection.query('SELECT * FROM employer', (err, res) => {
-        if (err) {
-            console.error('Error fetching employers: ', err);
-            return callback(err, null);
-        }
-        return callback(null, res);
-    })
+    return executeQuery('SELECT * FROM employer', [], callback);
 }
 
 /**

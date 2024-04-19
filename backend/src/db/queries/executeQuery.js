@@ -9,3 +9,5 @@ function executeQuery(query, params, callback) {
         return callback(null, res);
     });
 }
+
+module.exports = executeQuery;
