@@ -169,6 +169,10 @@ const CandidateUpdate = () => {
             </div>
             <br />
             <Button/>
+            <br />
+            <br />
+            <br />
+            <button className="delete">Delete</button>
         </form>
     );
 };
