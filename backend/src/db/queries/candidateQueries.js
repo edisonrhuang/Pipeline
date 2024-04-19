@@ -173,14 +173,46 @@ function createCandidate(candidateData, callback) {
  * - If the query is successful, `res` will contain the fetched candidates.
  */
 function updateCandidate(candidateData, candidateId, callback) {
+    const deleteSkills = candidateData.deleteSkills;
+    const newSkills = candidateData.newSkills;
+    
+    // If there are skills to delete
+    if (deleteSkills && deleteSkills.length > 0) {
+        // Delete from the candidate_skill table
+        deleteSkills.forEach(skill => {
+            connection.query('DELETE FROM candidate_skill WHERE candidate_id = ? AND skill_id = (SELECT skill_id FROM skill WHERE skill_name = ?)', [candidateId, skill], (err, res) => {
+                if (err) {
+                    console.error('Error deleting skill: ', err);
+                    return callback(err, null);
+                }
+            });
+        });
+    }
+
+    // If there are new skills to add
+    if (newSkills && newSkills.length > 0) {
+        // Add to the candidate_skill table
+        newSkills.forEach(skill => {
+            connection.query('INSERT INTO candidate_skill (candidate_id, skill_id) SELECT ?, skill_id FROM skill WHERE skill_name = ?', [candidateId, skill], (err, res) => {
+                if (err) {
+                    console.error('Error adding skill: ', err);
+                    return callback(err, null);
+                }
+            });
+        });
+    }
+
+    // Update candidate data in the candidate table
     connection.query('UPDATE candidate SET ? WHERE candidate_id = ?', [candidateData, candidateId], (err, res) => {
         if (err) {
             console.error('Error updating candidate: ', err);
             return callback(err, null);
         }
+
         return callback(null, res);
     });
 }
+
 
 /**
  * Deletes a candidate from the database along with associated data such as 
