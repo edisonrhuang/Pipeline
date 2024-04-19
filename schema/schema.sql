@@ -19,7 +19,7 @@ CREATE TABLE candidate (
     ethnicity ENUM ('American Indian or Alaskan Native', 'Asian/Pacific Islander', 'Black or African American', 'Hispanic', 'White/Caucasian', 'Two or more', 'Other'),
     
     /* Candidate's academic information */
-    school_name VARCHAR(75) NOT NULL DEFAULT ('Default'),
+    school_name VARCHAR(75) NOT NULL,
     graduation_date DATE NOT NULL,
     field_of_study VARCHAR(75) NOT NULL,
     website VARCHAR(2048),
