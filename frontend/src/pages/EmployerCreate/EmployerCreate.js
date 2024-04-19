@@ -8,14 +8,7 @@ const CreateEmployer = () => {
         first_name: '',
         last_name: '',
         email: '',
-        phone_number: '',
-        date_of_birth: '',
-        info: '',
-        gender: '',
-        ethnicity: '',
-        graduation_date: '',
-        field_of_study: '',
-        website: '',
+        company: '',
         account_created: getDate(),
         profile_picture: null
     });
@@ -117,7 +110,7 @@ const CreateEmployer = () => {
             </label>
             <br />
             <label>
-                <input type="text" name="company" value={formData.field_of_study} onChange={handleChange} 
+                <input type="text" name="company" value={formData.company} onChange={handleChange} 
                 style={{marginTop: '10px', marginLeft: '12px'}} placeholder="Company"/>
             </label>
             <br />

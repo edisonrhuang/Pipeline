@@ -12,7 +12,7 @@ function Navbar() {
         height: '60px',
         backgroundColor: '#ffffff', // White background
         color: 'purple',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        boxShadow: '0 5px 15px rgba(0,0,0,0.1)'
       }}>
         <img src={logoImage} alt="Pipeline" style={{height: '300px', marginRight: '0.2rem', marginLeft: '-3rem'}} /> 
         <div>
