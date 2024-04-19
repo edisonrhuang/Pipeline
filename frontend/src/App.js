@@ -10,6 +10,7 @@ import EmployerUpdate from "./pages/EmployerUpdate"
 import CandidateUpdate from "./pages/CandidateUpdate"
 import CandidateCard from "./components/CandidateCard"
 import EmployerDashboard from "./pages/EmployerDashboard"
+import Statistics from "./pages/Statistics"
 
 import Login from './pages/Login';
 
@@ -36,6 +37,7 @@ function App() {
         <Route path="/employerdashboard" element={<EmployerDashboard />} />
         <Route path="/candidatecard" element={<CandidateCard />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/statistics" element={<Statistics />} />
 
       </Routes>
 
