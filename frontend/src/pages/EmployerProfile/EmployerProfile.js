@@ -1,7 +1,7 @@
 import React from 'react'
 import "./employerprofile.css"
 import image from '../../components/Assets/bivashPic.jpg';
-import Navbar from '../../components/LoginNavbar/LoginNavbar.js'
+import Navbar from '../../components/Navbar/Navbar.js'
 
 const profileData = {
      name: 'Bivash Oli',
@@ -17,6 +17,7 @@ const CandidateProfile = () => {
      const { name, schoolName, gradDate, major, biography, skills } = profileData;
      return (
           <body>
+               <Navbar/>
           </body>
      );
 }

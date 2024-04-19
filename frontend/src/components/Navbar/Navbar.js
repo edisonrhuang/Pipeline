@@ -1,6 +1,6 @@
 import React from 'react';
 import logoImage from "../Assets/logo.png"
-import "../Navbar/navbar.css"
+import "./navbar.css"
 
 function Navbar() {
     return (
@@ -15,9 +15,6 @@ function Navbar() {
         boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
       }}>
         <img src={logoImage} alt="Pipeline" style={{height: '300px', marginRight: '0.2rem', marginLeft: '-3rem'}} /> 
-        <div>
-          <button className="login_button">Log In</button>
-        </div>
       </nav>
     );
   }
