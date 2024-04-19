@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/LoginNavbar/LoginNavbar.js';
 import Button from '../../components/Submit_Button/Button.js'
+import "./employerupdate.css"
 //import axios from 'axios';
 
 const EmployerUpdate = () => {
@@ -8,14 +9,7 @@ const EmployerUpdate = () => {
         first_name: '',
         last_name: '',
         email: '',
-        phone_number: '',
-        date_of_birth: '',
-        info: '',
-        gender: '',
-        ethnicity: '',
-        graduation_date: '',
-        field_of_study: '',
-        website: '',
+        company: '',
         account_created: getDate(),
         profile_picture: null
     });
@@ -126,6 +120,10 @@ const EmployerUpdate = () => {
             <br />
             <br />
             <Button/>
+            <br />
+            <br />
+            <br />
+            <button className="delete">Delete</button>
         </form>
     );
 };
