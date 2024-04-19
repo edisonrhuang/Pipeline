@@ -1,9 +1,10 @@
-import "./employerdashboard.css"
+import React from 'react';
+import Navbar from '../../components/Navbar/Navbar.js'
 
 const EmployerDashboard = () => {
      return (
-          <div></div>
-       );
+          <Navbar/>
+     );
 }
- 
+
 export default EmployerDashboard;

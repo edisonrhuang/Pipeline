@@ -9,6 +9,7 @@ import EmployerProfile from "./pages/EmployerProfile"
 import EmployerUpdate from "./pages/EmployerUpdate"
 import CandidateUpdate from "./pages/CandidateUpdate"
 import CandidateCard from "./components/CandidateCard"
+import EmployerDashboard from "./pages/EmployerDashboard"
 
 import Login from './pages/Login';
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/employerprofile" element={<EmployerProfile />} />
         <Route path="/employercreate" element={<EmployerCreate />} />
         <Route path="/employerupdate" element={<EmployerUpdate />} />
+        <Route path="/employerdashboard" element={<EmployerDashboard />} />
         <Route path="/candidatecard" element={<CandidateCard />} />
         <Route path="/login" element={<Login />} />
 
