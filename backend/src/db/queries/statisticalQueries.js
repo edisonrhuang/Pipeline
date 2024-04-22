@@ -1,4 +1,4 @@
-const connection = require('../config/connection');
+const connection = require('../connection');
 
 /**
  * Retrieves the gender distribution of candidates from the database.
