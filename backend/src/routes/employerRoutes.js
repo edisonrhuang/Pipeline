@@ -1,5 +1,5 @@
 const express = require('express');
-const { selectAllEmployers, selectEmployerByID, updateEmployer, deleteEmployer } = require('../db/queries/employerQueries');
+const { selectAllEmployers, selectEmployerByID, updateEmployer, deleteEmployer, getEmployerConnections } = require('../db/queries/employerQueries');
 
 const router = express.Router();
 
@@ -11,7 +11,7 @@ router.get('/employer-data', (req, res) => {
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         // If successful, send the fetched employers as JSON response
-        res.json(employers);
+        return res.json(employers);
     });
 });
 
@@ -26,7 +26,7 @@ router.post('/api/create-employers', (req, res) => {
         }
         // If successful, return 201 Created along with a success message and employer ID
         res.status(201).json({ message: 'Employer inserted successfully', employerId: results.insertId });
-        console.log("Employer inserted successfully");
+        return console.log("Employer inserted successfully");
     })
 });
 
@@ -42,7 +42,7 @@ router.put('/api/update-employers', (req, res) => {
         }
         // If successful, return 200 Created along with a success message and employer ID
         res.status(200).json({ message: 'Employer updated successfully', employerId: results.employerId });
-        console.log("Employer updated successfully");
+        return console.log("Employer updated successfully");
     });
 })
 
@@ -57,35 +57,49 @@ router.delete('/api/delete-employers', (req, res) => {
         }
         // If successful, return 200 Created along with a success message and employer ID
         res.status(200).json({ message: 'Employer deleted successfully', employerId: results.employerId });
-        console.log("Employer deleted successfully");
+        return console.log("Employer deleted successfully");
     });
 });
 
 // Route to fetch all employers
 router.get('/api/get-employers', (req, res) => {
-    selectAllEmployers((err, employers) => {
+    selectAllEmployers((err, results) => {
         if (err) {
             // If an error occurs during database query, return 500 Internal Server Error
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         // If successful, send the fetched employers as JSON response
-        res.send(employers);
+        return res.send(results);
     });
 });
 
 // Route to fetch a specific employer by ID
 router.get('/api/get-employer/:id', (req, res) => {
     // Extract employer ID from request parameters
-    const employerId = req.params.id;
-    selectEmployerByID(employerId, (err, employer) => {
+    const employerId = req.body.data;
+    selectEmployerByID(employerId, (err, results) => {
         if (err) {
             // If an error occurs during database query, return 500 Internal Server Error
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         // If successful, send the fetched employer as JSON response
-        res.send(employer);
+        return res.send(results);
     });
 });
 
+// Route to fetch connections for an employer by ID
+router.get('/api/get-employer-connections/:id', (req, res) => {
+    // Extract employer ID from request parameters
+    const employerId = req.params.id;
+    // Call function to get connections for the specified employer
+    getEmployerConnections(employerId, (err, results) => {
+        // If an error occurs during fetching connections, return 500 Internal Server Error
+        if (err) {
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+        // If successful, send the fetched connections as JSON response
+        return res.send(results);
+    });
+});
 
 module.exports = router;
