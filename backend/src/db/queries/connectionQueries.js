@@ -19,3 +19,8 @@ function deleteConnection(candidateId, employerId, callback) {
         return callback(null, res);
     })
 }
+
+module.exports = {
+    createConnection,
+    deleteConnection,
+}
