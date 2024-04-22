@@ -91,29 +91,46 @@ function selectCandidateByFilter(filters, callback) {
     WHERE 1=1
     `;
 
+    const params = [];
+
     // Check if school filter is provided
-    if (filters.school) {
+    if (filters.school_name) {
         query += ' AND c.school_name = ?';
+        params.push(filters.school_name);
     }
 
     // Check if both graduation start and end date are provided in the filters
     if (filters.graduation_start_date && filters.graduation_end_date) {
         query += ' AND c.graduation_date BETWEEN ? AND ?';
+        params.push(filters.graduation_start_date);
+        params.push(filters.graduation_end_date);
+    } 
+    // Otherwise check if at least the graduation start date is provided
+    else if (filters.graduation_start_date) {
+        query += ' AND c.graduation_date >= ?';
+        params.push(filters.graduation_start_date);
+    } 
+    // Lastly check if at least the graduation end date is provided
+    else if (filters.graduation_end_date) {
+        query += ' AND c.graduation_date <= ?';
+        params.push(filters.graduation_end_date);
     }
 
     // Check if field of study filter is provided
     if (filters.field_of_study) {
         query += ' AND c.field_of_study = ?';
+        params.push(filters.field_of_study);
     }
 
     // Check if skills filter is provided and contains at least one skill
     if (filters.skills && filters.skills.length > 0) {
         sqlQuery += ` AND s.skill_name IN (?)`;
+        params.push(filters.skills)
     }
 
     query += ' GROUP BY c.candidate_id;'
 
-    connection.query(query, [filters.graduationStartDate, filters.graduationEndDate, filters.fieldOfStudy, filters.skills], (err, res) => {
+    connection.query(query, params, (err, res) => {
         if (err) {
             console.error('Error fetching candidates with filters: ', err);
             return callback(err, null);
