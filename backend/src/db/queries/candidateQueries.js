@@ -1,3 +1,4 @@
+const executeQuery = require('./executeQuery');
 const connection = require('../connection');
 const { createSkills } = require('./skillQueries');
 
@@ -20,13 +21,7 @@ function selectAllCandidates(callback) {
     LEFT JOIN skill s on cs.skill_id = s.skill_id
     GROUP BY c.candidate_id;
     `;
-    connection.query(query, (err, res) => {
-        if (err) {
-            console.error('Error fetching candidates: ', err);
-            return callback(err, null);
-        }
-        return callback(null, res);
-    });
+    return executeQuery(query, [], callback);
 }
 
 
