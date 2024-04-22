@@ -56,7 +56,14 @@ function createSkills(candidateId, skillsData, callback) {
             if (skillId) {
                 skillInserts.push([candidateId, skillId]);
             } else {
-                console.warn(`Skill '${skillName}' not found in the database.`);
+                connection.query('INSERT INTO skill (skill_name) VALUES (?)', [skillName], (err, skillInsertResult) => {
+                    if (err) {
+                        console.error('Error inserting skill: ', err);
+                        return callback(err, null);
+                    }
+                    skillId = skillInsertResult.insertId;
+                })
+                skillInserts.push([candidateId, skillId]);
             }
         });
         
