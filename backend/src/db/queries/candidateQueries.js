@@ -1,4 +1,4 @@
-const connection = require('../connection');
+const executeQuery = require('./executeQuery');
 const { createSkills } = require('./skillQueries');
 
 /**
@@ -20,13 +20,7 @@ function selectAllCandidates(callback) {
     LEFT JOIN skill s on cs.skill_id = s.skill_id
     GROUP BY c.candidate_id;
     `;
-    connection.query(query, (err, res) => {
-        if (err) {
-            console.error('Error fetching candidates: ', err);
-            return callback(err, null);
-        }
-        return callback(null, res);
-    });
+    return executeQuery(query, null, callback);
 }
 
 
@@ -52,13 +46,7 @@ function selectCandidateByID(candidateId, callback) {
     WHERE c.candidate_id = ?
     GROUP BY c.candidate_id;
     `;
-    connection.query(query, candidateId, (err, res) => {
-        if (err) {
-            console.error('Error fetching candidate with ID ', candidateId, ': ', err);
-            return callback(err, null);
-        }
-        return callback(null, res);
-    });
+    return executeQuery(query, candidateId, callback);
 }
 
 /**
@@ -91,35 +79,46 @@ function selectCandidateByFilter(filters, callback) {
     WHERE 1=1
     `;
 
+    const params = [];
+
     // Check if school filter is provided
-    if (filters.school) {
+    if (filters.school_name) {
         query += ' AND c.school_name = ?';
+        params.push(filters.school_name);
     }
 
     // Check if both graduation start and end date are provided in the filters
     if (filters.graduation_start_date && filters.graduation_end_date) {
         query += ' AND c.graduation_date BETWEEN ? AND ?';
+        params.push(filters.graduation_start_date);
+        params.push(filters.graduation_end_date);
+    } 
+    // Otherwise check if at least the graduation start date is provided
+    else if (filters.graduation_start_date) {
+        query += ' AND c.graduation_date >= ?';
+        params.push(filters.graduation_start_date);
+    } 
+    // Lastly check if at least the graduation end date is provided
+    else if (filters.graduation_end_date) {
+        query += ' AND c.graduation_date <= ?';
+        params.push(filters.graduation_end_date);
     }
 
     // Check if field of study filter is provided
     if (filters.field_of_study) {
         query += ' AND c.field_of_study = ?';
+        params.push(filters.field_of_study);
     }
 
     // Check if skills filter is provided and contains at least one skill
     if (filters.skills && filters.skills.length > 0) {
         sqlQuery += ` AND s.skill_name IN (?)`;
+        params.push(filters.skills)
     }
 
     query += ' GROUP BY c.candidate_id;'
 
-    connection.query(query, [filters.graduationStartDate, filters.graduationEndDate, filters.fieldOfStudy, filters.skills], (err, res) => {
-        if (err) {
-            console.error('Error fetching candidates with filters: ', err);
-            return callback(err, null);
-        }
-        return callback(null, res);
-    });
+    return executeQuery(query, params, callback);
 }
 
 /**
@@ -138,20 +137,14 @@ function selectCandidateByFilter(filters, callback) {
  */
 function createCandidate(candidateData, callback) {
     const candidateSkills = candidateData.skills;
-    connection.query('INSERT INTO candidate SET ?', candidateData, (err, res) => {
+    executeQuery('INSERT INTO candidate SET ?', candidateData, (err, res) => {
         if (err) {
             console.error('Error inserting candidate: ', err);
             return callback(err, null);
         }
 
-        if (Object.keys(candidateSkills).length !== 0) {
-            createSkills(res.insertId, candidateSkills, (err, results) => {
-                if (err) {
-                    console.error('Error inserting candidate skills: ', err);
-                    return callback(err, null);
-                }
-                return callback(null, results);
-            });
+        if (Object,keys(candidateSkills).length != 0) {
+            return createSkills(res.insertId, candidateSkills, callback);
         }
 
         return callback(null, res);
@@ -180,12 +173,7 @@ function updateCandidate(candidateData, candidateId, callback) {
     if (deleteSkills && deleteSkills.length > 0) {
         // Delete from the candidate_skill table
         deleteSkills.forEach(skill => {
-            connection.query('DELETE FROM candidate_skill WHERE candidate_id = ? AND skill_id = (SELECT skill_id FROM skill WHERE skill_name = ?)', [candidateId, skill], (err, res) => {
-                if (err) {
-                    console.error('Error deleting skill: ', err);
-                    return callback(err, null);
-                }
-            });
+            executeQuery('DELETE FROM candidate_skill WHERE candidate_id = ? AND skill_id = (SELECT skill_id FROM skill WHERE skill_name = ?)', [candidateId, skill], callback);
         });
     }
 
@@ -193,29 +181,17 @@ function updateCandidate(candidateData, candidateId, callback) {
     if (newSkills && newSkills.length > 0) {
         // Add to the candidate_skill table
         newSkills.forEach(skill => {
-            connection.query('INSERT INTO candidate_skill (candidate_id, skill_id) SELECT ?, skill_id FROM skill WHERE skill_name = ?', [candidateId, skill], (err, res) => {
-                if (err) {
-                    console.error('Error adding skill: ', err);
-                    return callback(err, null);
-                }
-            });
+            executeQuery('INSERT INTO candidate_skill (candidate_id, skill_id) SELECT ?, skill_id FROM skill WHERE skill_name = ?', [candidateId, skill], callback);
         });
     }
 
     // Update candidate data in the candidate table
-    connection.query('UPDATE candidate SET ? WHERE candidate_id = ?', [candidateData, candidateId], (err, res) => {
-        if (err) {
-            console.error('Error updating candidate: ', err);
-            return callback(err, null);
-        }
-
-        return callback(null, res);
-    });
+    return executeQuery('UPDATE candidate SET ? WHERE candidate_id = ?', [candidateData, candidateId], callback);
 }
 
 /**
  * Deletes a candidate from the database along with associated data such as 
- * notifications, authentication, and skills.
+ * connection, authentication, and skills.
  * 
  * @param {*} candidateId The unique identifier of the candidate to be deleted.
  * @param {*} callback 
@@ -226,57 +202,34 @@ function updateCandidate(candidateData, candidateId, callback) {
  * - If the query is successful, `res` will contain the fetched candidates.
  */
 function deleteCandidate(candidateId, callback) {
-    // Delete notifications associated with the candidate
-    connection.query('DELETE FROM connection WHERE candidate_id = ?', candidateId, (err, notificationDeleteResult) => {
-        if (err) {
-            console.error('Error deleting candidate connections: ', err);
-            return callback(err, null);
-        }
-    });
+    // Delete connections associated with the candidate
+    executeQuery('DELETE FROM connection WHERE candidate_id = ?', candidateId, callback);
 
     // Delete authentication data associated with the candidate
-    connection.query('DELETE FROM authentication WHERE candidate_id = ?', candidateId, (err, authenticationDeleteResult) => {
-        if (err) {
-            console.error('Error deleting candidate authentication: ', err);
-            return callback(err, null);
-        }
-    });
+    executeQuery('SELECT * FROM authentication WHERE candidate_id = ?', candidateId, callback);
 
     // Check the number of skills associated with the candidate
-    connection.query('SELECT COUNT(*) AS skill_count FROM candidate_skill WHERE candidate_id = ?', candidateId, (err, skillCountResult) => {
+    executeQuery('SELECT COUNT(*) AS skill_count FROM candidate_skill WHERE candidate_id = ?', candidateId, (err, res) => {
         if (err) {
             console.error('Error checking candidate skills: ', err);
             return callback(err, null);
         }
 
-        const skillCount = skillCountResult[0].skillCount;
+        const skillCount = res[0].skillCount;
 
         // If candidate has no skills, directly delete the candidate
         if (skillCount === 0) {
-            connection.query('DELETE FROM candidate WHERE candidate_id = ?', candidateId, (err, candidateDeleteResult) => {
-                if (err) {
-                    console.error('Error deleting candidate: ', err);
-                    return callback(err, null);
-                }
-
-                callback(null, candidateDeleteResult);
-            });
+            return executeQuery('DELETE FROM candidate WHERE candidate_id = ?', candidateId, callback);
         }
         // Else, first delete the associated skills, then delete the candidate
         else {
-            connection.query('DELETE FROM candidate_skill WHERE candidate_id = ?', candidateId, (err, skillDeleteResult) => {
+            executeQuery('DELETE FROM candidate_skill WHERE candidate_id = ?', candidateId, (err, res) => {
                 if (err) {
                     console.error('Error deleting candidate skills: ', err);
                     return callback(err, null);
                 }
 
-                connection.query('DELETE FROM candidate WHERE candidate_id = ?', candidateId, (err, candidateDeleteResult) => {
-                    if (err) {
-                        console.error('Error deleting candidate: ', err);
-                        return callback(err, null);
-                    }
-                    return callback(null, candidateDeleteResult);
-                });
+                return executeQuery('DELETE FROM candidate WHERE candidate_id = ?', candidateId, callback);
             });
         }
     });
@@ -302,13 +255,7 @@ function getCandidateConnections(candidateId, callback) {
     JOIN employer e ON cn.employer_id = e.employer_id
     WHERE cn.candidate_id = ?;
     `;
-    connection.query(query, candidateId, (err, res) => {
-        if (err) {
-            console.error('Error fetching candidate connections: ', err);
-            return callback(err, null);
-        }
-        return callback(null, res);
-    });
+    return executeQuery(query, candidateId, callback);
 }
 
 module.exports = {

@@ -1,4 +1,4 @@
-const connection = require('../connection');
+const executeQuery = require('./executeQuery');
 const { createCandidate } = require('./candidateQueries');
 const { createEmployer } = require('./employerQueries');
 
@@ -14,7 +14,7 @@ const { createEmployer } = require('./employerQueries');
  * - If the query is successful, `res` will contain the fetched candidates.
  */
 function getUserInfo(email, callback) {
-    connection.query('SELECT * FROM authentication WHERE email = ?', email, (err, res) => {
+    executeQuery('SELECT * FROM authentication WHERE email = ?', email, (err, res) => {
         if (err) {
             console.error('Error fetching user with email ', email, ': ', err);
             return callback(err, null);
@@ -26,23 +26,11 @@ function getUserInfo(email, callback) {
 
         // If the user type is "Candidate"
         if (userType == 'Candidate') {
-            connection.query('SELECT * FROM candidate WHERE candidate_id = ?', userId, (err, res) => {
-                if (err) {
-                    console.error('Error fetching candidate with id ', userId, ': ', err);
-                    return callback(err, null);
-                }
-                return callback(null, res);
-            })
+            return executeQuery('SELECT * FROM candidate WHERE candidate_id = ?', userId, callback);
         }
         // If the user type is "Employer"
         else if (userType == 'Employer') {
-            connection.query('SELECT * FROM employer WHERE employer_id = ?', userId, (err, res) => {
-                if (err) {
-                    console.error('Error fetching employer with id ', userId, ': ', err);
-                    return callback(err, null);
-                }
-                return callback(null, res);
-            });
+            return executeQuery('SELECT * FROM employer WHERE employer_id = ?', userId, callback);
         }
         // If no user was found with the provided email address
         else {
@@ -67,9 +55,8 @@ function getUserInfo(email, callback) {
  * - If the query is successful, `res` will contain the fetched candidates.
  */
 function createUser(email, userType, info, callback) {
-    connection.query('INSERT INTO authentication (email, user_type) VALUES (?, ?)', [email, userType], (err, res) => {
+    executeQuery('INSERT INTO authentication (email, user_type) VALUES (?, ?)', [email, userType], (err, res) => {
         if (err) {
-            console.error('Error creating user with email ', email, ': ', err);
             return callback(err, null);
         }
 
@@ -80,14 +67,7 @@ function createUser(email, userType, info, callback) {
                     return callback(err, null);
                 }
                 
-                const candidate_id = res.insertId;
-                connection.query('UPDATE authentication SET candidate_id = ? WHERE email = ?', [candidate_id, email], (err, res) => {
-                    if (err) {
-                        console.error('Error updating user_id for candidate with email ', email, ': ', err);
-                        return callback(err, null);
-                    }
-                    return callback(null, res);
-                });
+                return executeQuery('UPDATE authentication SET candidate_id = ? WHERE email = ?', [res.insertId, email], callback);
             });
         } 
         else if (userType == 'Employer') {
@@ -97,14 +77,7 @@ function createUser(email, userType, info, callback) {
                     return callback(err, null);
                 }
                 
-                const employer_id = res.insertId;
-                connection.query('UPDATE authentication SET employer_id = ? WHERE email = ?', [employer_id, email], (err, res) => {
-                    if (err) {
-                        console.error('Error updating user_id for employer with email ', email, ': ', err);
-                        return callback(err, null);
-                    }
-                    return callback(null, res);
-                });
+                return executeQuery('UPDATE authentication SET employer_id = ? WHERE email = ?', [res.insertId, email], callback);
             });
         }
     });
