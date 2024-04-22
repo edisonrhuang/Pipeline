@@ -1,4 +1,4 @@
-const executeQuery = require('./executeQuery');
+const connection = require('../connection');
 
 /**
  * Retrieves all employers from the database.
@@ -11,7 +11,13 @@ const executeQuery = require('./executeQuery');
  * - If the query is successful, `res` will contain the fetched candidates.
  */
 function selectAllEmployers(callback) {
-    return executeQuery('SELECT * FROM employer', null, callback);
+    connection.query('SELECT * FROM employer', (err, res) => {
+        if (err) {
+            console.error('Error fetching employers: ', err);
+            return callback(err, null);
+        }
+        return callback(null, res);
+    })
 }
 
 /**
@@ -26,7 +32,13 @@ function selectAllEmployers(callback) {
  * - If the query is successful, `res` will contain the fetched candidates.
  */
 function selectEmployerByID(employerId, callback) {
-    return executeQuery('SELECT * FROM employer WHERE employer_id = ?', employerId, callback);
+    connection.query('SELECT * FROM employer WHERE employer_id = ?', employerId, (err, res) => {
+        if (err) {
+            console.error('Error fetching employer with ID ', employerId, ': ', err);
+            return callback(err, null);
+        }
+        return callback(null, res);
+    })
 }
 
 /**
@@ -42,7 +54,13 @@ function selectEmployerByID(employerId, callback) {
  * - If the query is successful, `res` will contain the fetched candidates.
  */
 function createEmployer(employerData, callback) {
-    return executeQuery('INSERT INTO employer SET ?', employerData, callback);
+    connection.query('INSERT INTO employer SET ?', employerData, (err, res) => {
+        if (err) {
+            console.error('Error inserting employer: ', err);
+            return callback(err, null);
+        }
+        return callback(null, res);
+    })
 }
 
 /**
@@ -59,12 +77,17 @@ function createEmployer(employerData, callback) {
  * - If the query is successful, `res` will contain the fetched candidates.
  */
 function updateEmployer(employerData, employerId, callback) {
-    return executeQuery('UPDATE employer SET ? WHERE employer_id = ?', [employerData, employerId], callback);
+    connection.query('UPDATE employer SET ? WHERE employer_id = ?', [employerData, employerId], (err, res) => {
+        if (err) {
+            console.error('Error updating employer: ', err);
+            return callback(err, null);
+        }
+        return callback(null, res);
+    })
 }
 
 /**
- * Deletes an employer from the database along with associated data such as 
- * connections and authentication.
+ * Deletes an employer from the database along with associated data such as notifications and authentication.
  * 
  * @param {*} employerId The unique identifier of the employer to be deleted.
  * @param {*} callback 
@@ -75,14 +98,30 @@ function updateEmployer(employerData, employerId, callback) {
  * - If the query is successful, `res` will contain the fetched candidates.
  */
 function deleteEmployer(employerId, callback) {
-    // Delete connections associated with the employer
-    executeQuery('DELETE FROM connection WHERE employer_id = ?', employerId, callback);
+    // Delete notifications associated with the employer
+    connection.query('DELETE FROM connection where employer_id = ?', employerId, (err, res) => {
+        if (err) {
+            console.error('Error deleting connections: ', err);
+            return callback(err, null);
+        }
+    })
 
     // Delete authentication data associated with the employer
-    executeQuery('DELETE FROM authentication WHERE employer_id = ?', employerId, callback);
+    connection.query('DELETE FROM authentication WHERE employer_id = ?', employerId, (err, res) => {
+        if (err) {
+            console.error('Error deleting authentication: ', err);
+            return callback(err, null);
+        }
+    })
 
     // Delete the employer from the database
-    return executeQuery('DELETE FROM employer WHERE employer_id = ?', employerId, callback);
+    connection.query('DELETE FROM employer WHERE employer_id = ?', employerId, (err, res) => {
+        if (err) {
+            console.error('Error deleting employer: ', err);
+            return callback(err, null);
+        }
+        return callback(null, res);
+    })
 }
 
 /**
@@ -104,7 +143,13 @@ function getEmployerConnections(employerId, callback) {
     JOIN candidate c ON cn.candidate_id = c.candidate_id
     WHERE cn.employer_id = ?;
     `;
-    return executeQuery(query, employerId, callback);
+    connection.query(query, employerId, (err, res) => {
+        if (err) {
+            console.error('Error fetching employer connections: ', err);
+            return callback(err, null);
+        }
+        return callback(null, res);
+    });
 }
 
 module.exports = {
