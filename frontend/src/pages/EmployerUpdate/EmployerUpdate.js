@@ -123,6 +123,9 @@ const EmployerUpdate = () => {
             <br />
             <br />
             <br />
+            Delete your account.
+            <br />
+            <br/>
             <button className="delete">Delete</button>
         </form>
     );
