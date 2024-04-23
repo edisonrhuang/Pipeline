@@ -1,10 +1,9 @@
-const connection = require('../connection');
-const { createCandidate } = require('./candidateQueries');
-const { createEmployer } = require('./employerQueries');
-
+import connection from '../connection.js'
+import { createEmployer } from './employerQueries.js';
+import { createCandidate } from './candidateQueries.js';
 /**
  * Retrieves user information from the database based on the provided email address.
- * @param {*} email The email address of the user whose information is to be 
+ * @param {*} authEmail The email address of the user whose information is to be 
  * retrieved.
  * @param {*} callback 
  * A callback function to handle the result of the database query.
@@ -19,7 +18,11 @@ function getUserInfo(email, callback) {
             console.error('Error fetching user with email ', email, ': ', err);
             return callback(err, null);
         }
+        res = res[0]
+        if (res == undefined) {
+            return callback(null, undefined);
 
+        }
         // Extract user type and user id from the fetched user information
         const userType = res.user_type;
         const userId = (res.candidate_id !== null) ? res.candidate_id : (res.employer_id !== null) ? res.employer_id : null;
@@ -52,20 +55,6 @@ function getUserInfo(email, callback) {
     });
 }
 
-/**
- * Creates a new user in the authentication table, along with the corresponding
- * user in the candidate or employer table.
- * 
- * @param {string} email The email address of the user.
- * @param {string} userType The type of user ('Candidate' or 'Employer').
- * @param {object} info Additional information specific to the user type.
- * @param {*} callback 
- * A callback function to handle the result of the database query.
- *   The callback follows the standard Node.js pattern: (err, result) => {...}
- * - If an error occurs during the query execution, `err` will contain the error 
- *   object.
- * - If the query is successful, `res` will contain the fetched candidates.
- */
 function createUser(email, userType, info, callback) {
     connection.query('INSERT INTO authentication (email, user_type) VALUES (?, ?)', [email, userType], (err, res) => {
         if (err) {
@@ -79,7 +68,7 @@ function createUser(email, userType, info, callback) {
                     console.error('Error creating candidate with email ', email, ': ', err);
                     return callback(err, null);
                 }
-                
+
                 const candidate_id = res.insertId;
                 connection.query('UPDATE authentication SET candidate_id = ? WHERE email = ?', [candidate_id, email], (err, res) => {
                     if (err) {
@@ -89,14 +78,14 @@ function createUser(email, userType, info, callback) {
                     return callback(null, res);
                 });
             });
-        } 
+        }
         else if (userType == 'Employer') {
             createEmployer(info, (err, res) => {
                 if (err) {
                     console.error('Error creating employer with email ', email, ': ', err);
                     return callback(err, null);
                 }
-                
+
                 const employer_id = res.insertId;
                 connection.query('UPDATE authentication SET employer_id = ? WHERE email = ?', [employer_id, email], (err, res) => {
                     if (err) {
@@ -110,7 +99,5 @@ function createUser(email, userType, info, callback) {
     });
 }
 
-module.exports = {
-    getUserInfo,
-    createUser,
-}
+
+export { getUserInfo, createUser }

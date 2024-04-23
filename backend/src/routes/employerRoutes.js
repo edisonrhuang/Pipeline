@@ -1,6 +1,6 @@
 import express from 'express'
 import { selectAllEmployers, selectEmployerByID, updateEmployer, deleteEmployer } from '../db/queries/employerQueries.js'
-import { getUserInfo, createUser } from '../db/queries/authorizationQueries.js'
+import { getUserInfo, createUser } from '../db/queries/authenticationQueries.js'
 import { getCandidateConnections, selectAllCandidates } from '../db/queries/candidateQueries.js';
 const router = express.Router();
 

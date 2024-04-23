@@ -3,7 +3,7 @@ import cors from 'cors'
 import authentication from './src/middleware/Authentication.js'
 import employerRoutes from './src/routes/EmployerRoutes.js'
 import candidateRoutes from './src/routes/CandidateRoutes.js'
-import skillRoutes from './src/routes/skillRoutes.js'
+import skillRoutes from './src/routes/SkillRoutes.js'
 import connectionRoutes from './src/routes/ConnectionRoutes.js'
 import { getGenderDistribution, getEthnicDistribution, getDateOfBirthDistribution, getUserTypeDistribution, getConnectionDistribution, getTotalDistribution } from './src/db/queries/statisticalQueries.js'
 const app = express();

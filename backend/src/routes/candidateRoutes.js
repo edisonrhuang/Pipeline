@@ -11,7 +11,7 @@ import {
 } from '../db/queries/candidateQueries.js'
 
 import { createSkills } from '../db/queries/skillQueries.js'
-import { getUserInfo, createUser } from '../db/queries/authorizationQueries.js'
+import { getUserInfo, createUser } from '../db/queries/authenticationQueries.js'
 import { getEmployerConnections } from '../db/queries/employerQueries.js';
 
 const router = express.Router();
