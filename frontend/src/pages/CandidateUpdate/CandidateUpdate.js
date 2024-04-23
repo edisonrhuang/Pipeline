@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../../components/Navbar/Navbar.js';
+import Navbar from '../../components/CandidateNavbar/CandidateNavbar.js';
 import Button from '../../components/Submit_Button/Button.js'
 import axios from 'axios';
 
@@ -93,7 +93,7 @@ const CandidateUpdate = () => {
     return (
         //<form onSubmit={handleSubmit} method="POST">
 
-        <form onSubmit={handleSubmit} method="POST" style={{textAlign: 'center', fontFamily: 'Georgia'}}>
+        <div onSubmit={handleSubmit} method="POST" style={{textAlign: 'center', fontFamily: 'Georgia'}}>
             <Navbar/>
             <h1 style={{marginTop: '50px'}}>
                 Update Your Candidate Profile
@@ -176,7 +176,7 @@ const CandidateUpdate = () => {
             <br/>
             <br/>
             <button className="delete">Delete</button>
-        </form>
+        </div>
     );
 };
 

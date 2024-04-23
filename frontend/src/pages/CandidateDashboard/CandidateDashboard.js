@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from '../../components/Navbar/Navbar.js'
+import Navbar from '../../components/CandidateNavbar/CandidateNavbar.js'
 
 const CandidateDashboard = () => {
      return (
