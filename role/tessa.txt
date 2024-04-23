@@ -1,0 +1,6 @@
+Contributions:
+- Designed and styled frontend of candidate profile page
+- Designed and styled frontend of candidate card component
+- Designed and styled frontend of employee profile page
+- Designed and styled frontend of candidate search page
+- Created frontend skills tag box for candidate create page
