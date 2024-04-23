@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../../components/LoginNavbar/LoginNavbar.js';
+import Navbar from '../../components/Navbar/Navbar.js';
 import Button from '../../components/Submit_Button/Button.js'
 import axios from 'axios';
 
@@ -172,6 +172,9 @@ const CandidateUpdate = () => {
             <br />
             <br />
             <br />
+            Delete your account.
+            <br/>
+            <br/>
             <button className="delete">Delete</button>
         </form>
     );
