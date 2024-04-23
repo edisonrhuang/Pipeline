@@ -80,7 +80,7 @@ function selectCandidateByID(candidateId, callback) {
  *   The callback follows the standard Node.js pattern: (err, result) => {...}
  * - If an error occurs during the query execution, `err` will contain the error 
  *   object.
- * - If the query is successful, `res` will contain the fetched candidates.
+ * - If the query is succes sful, `res` will contain the fetched candidates.
  */
 function selectCandidateByFilter(filters, callback) {
     let query =

@@ -12,7 +12,34 @@ const Authentication = (req, res, next) => {
      if (!idToken) {
           return res.status(403).send('Unauthorized');
      }
+     if (idToken == "login"){
+          req.user = {email : '', password : ''}
 
+          req.user.email = req.body.username;
+          req.user.password = req.body.password 
+          console.log(req.user.email)
+          getUserInfo(req.user.email, (err, response) => {
+               if (response == undefined) {
+                    req.doesUserExist = false
+                    next()
+
+               } else {
+                    response = response[0]
+                    if ("candidate_id" in response) {
+                         req.userType = "candidate"
+                         req.authorizationId = response.candidate_id
+                    } else if ("employer_id" in response) {
+                         req.userType = "employer"
+                         req.authorizationId = response.employer_id
+                    }
+                    req.doesUserExist = true
+
+                    next();
+
+               }
+
+          })
+     }
      admin.auth().verifyIdToken(idToken)
           .then(decodedToken => {
                req.user = decodedToken;

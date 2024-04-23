@@ -1,12 +1,12 @@
 import React from 'react'
 import './candidatecard.css'
-import profile_icon from './Assets/bivashPic.jpg'
+import profile_icon from './Assets/bivashPic.png'
 
 const skillsData = [
-    { name: 'Meowing'},
-    { name: 'Barking'},
-    { name: 'Purring'},
-    { name: 'Growling'},
+    { name: 'Java'},
+    { name: 'MySQL'},
+    { name: 'C++'},
+    { name: 'Python'},
     // Add more skills as needed
 ];
 

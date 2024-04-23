@@ -2,8 +2,69 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/LoginNavbar/LoginNavbar.js';
 import './Button.css'
+import './candidatecreate.css'
+
+
 
 const CandidateCreate = () => {
+    const [tag, setTag] = useState("");
+    const [tags, setTags] = useState([]);
+
+
+
+    const handleKeyDown = (e) => {
+        const code = e.keyCode || e.which;
+        const newTag = tag.trim();
+        if (
+            (code !== 13 && code !== 188) || tag.length === 0
+        ) {
+            return;
+        }
+        if (!tags.includes(tag)) {
+            setTags([...tags, tag]);
+        }
+        setTimeout(() => {
+            setTag("");
+        }, 0);
+
+        console.log(tags)
+    }
+    const deleteTag = (index) => {
+        const dupTags = [...tags];
+        dupTags.splice(index, 1);
+        setTags(dupTags);
+    }
+    // const TagInputComponent = () => {
+
+
+    //     return (
+    //         <div className="tag-input-box">
+    //             <p>Separate skills with commas</p>
+    //             <div className="tags-container" >
+    //                 {
+    //                     tags.map((tag, index) => (
+    //                         <div className="tag">
+    //                             <span className="name">{tag}</span>
+    //                             <span
+    //                                 className="icon"
+    //                                 onClick={() => deleteTag(index)}
+    //                             >&times;</span>
+    //                         </div>
+    //                     ))
+    //                 }
+    //                 <input
+    //                     type="text"
+    //                     id="tag-input"
+    //                     placeholder="Type skill here"
+    //                     value={tag}
+    //                     maxLength={50}
+    //                     onChange={(e) => setTag(e.target.value)}
+    //                     onKeyDown={handleKeyDown}
+    //                 />
+    //             </div >
+    //         </div >
+    //     );
+    // }
 
     const [formData, setFormData] = useState({
         first_name: '',
@@ -33,7 +94,17 @@ const CandidateCreate = () => {
             body: JSON.stringify(formData)
         }).then((res) => res.json()).then((data) => {
             console.log(data)
-            navigate("/candidatedashboard")
+            sessionStorage.setItem("id", data.authorizationId)
+            sessionStorage.setItem("userType", data.userType)
+            const skillData = {id : data.authorizationId, skills : tags}
+            fetch('http://127.0.0.1:5002/skills', {
+                method: 'POST',
+                headers: { 'Authorization': `${JWT}`, 'Content-Type': "application/json" },
+                body: JSON.stringify(skillData)
+            }).then((res) => res.json()).then((data2) => {
+                console.log(data2) 
+                navigate("/candidatedashboard")
+            }).catch(error => console.log("log:" + error))
         }).catch(error => console.log("log:" + error))
 
     }
@@ -137,6 +208,32 @@ const CandidateCreate = () => {
                 <input type="file" name="profile_picture" value={formData.profile_picture} accept="image/*" onChange={handleChange}
                     style={{ marginTop: '10px', marginLeft: '12px' }} />
             </label>
+            {/* <TagInputComponent /> */}
+            <div className="tag-input-box">
+                <p>Separate skills with commas</p>
+                <div className="tags-container" >
+                    {
+                        tags.map((tag, index) => (
+                            <div className="tag">
+                                <span className="name">{tag}</span>
+                                <span
+                                    className="icon"
+                                    onClick={() => deleteTag(index)}
+                                >&times;</span>
+                            </div>
+                        ))
+                    }
+                    <input
+                        type="text"
+                        id="tag-input"
+                        placeholder="Type skill here"
+                        value={tag}
+                        maxLength={50}
+                        onChange={(e) => setTag(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                    />
+                </div >
+            </div >
             <br />
             <button className="button" onClick={handleSubmit}>Submit</button>
         </div>

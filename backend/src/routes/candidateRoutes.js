@@ -27,9 +27,9 @@ const router = express.Router();
 // });
 
 router.post('/candidates/:employerId', (req, res) => {
-    const employerId = req.params.employerId 
+    const employerId = req.params.employerId
     getEmployerConnections(employerId, (err, response) => {
-        res.send({candidates : response})
+        res.send({ candidates: response })
     })
     // selectAllCandidates((err, response) => {
     //     if (response != undefined) {
@@ -41,11 +41,17 @@ router.post('/candidates/:employerId', (req, res) => {
     // })
 });
 
+router.get('/candidates', (req, res) => {
+    selectAllCandidates((err, response) => {
+        res.send(response)
+    })
+})
+
 
 router.get('/candidate/:id', (req, res) => {
     const id = req.params.id
     selectCandidateByID(id, (err, response) => {
-        res.send({candidate : response[0]}) 
+        res.send({ candidate: response[0] })
     })
 });
 
@@ -53,17 +59,25 @@ router.get('/candidate/:id', (req, res) => {
 
 router.post('/candidate', (req, res) => {
     const candidate = req.body
-    createUser(req.user.email, "Candidate", candidate, (err, response) => { 
-        res.send(response)
+    createUser(req.user.email, "Candidate", candidate, (err, response) => {
+
+        getUserInfo(req.user.email, (err, response) => {
+            response = response[0]
+            req.userType = "candidate"
+            req.authorizationId = response.candidate_id
+            req.doesUserExist = true
+            res.send({userType : req.userType, authorizationId : req.authorizationId, doesUserExist : req.doesUserExist})
+
+        })
     })
 
 });
 
 router.put('/candidate/:id', (req, res) => {
     const id = req.params.id
-    const candidate = req.body 
+    const candidate = req.body
     updateCandidate(candidate, id, (err, response) => {
-        res.send(response) 
+        res.send(response)
     })
 });
 
@@ -71,7 +85,7 @@ router.delete('/candidate/:id', (req, res) => {
     const id = req.params.id
 
     deleteCandidate(id, (err, response) => {
-        res.send(response) 
+        res.send(response)
 
     })
 });

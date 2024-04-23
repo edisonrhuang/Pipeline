@@ -1,0 +1,6 @@
+Contributions:
+- Designed and implemented the basic structure of the full stack project
+- Designed and implemented the initial GUI for basic CRUD functionalities
+- Designed and implemented the initial routes for basic CRUD functionalities
+- Designed and implemented the sql queries for CRUD functionalities
+- Designed and implemented the sql queries for statistical analysis

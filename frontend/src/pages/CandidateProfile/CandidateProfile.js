@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import "./candidateprofile.css"
-import Navbar from '../../components/LoginNavbar/LoginNavbar.js';
+import Navbar from '../../components/CandidateNavbar/CandidateNavbar.js'
+import Navbar2 from '../../components/Navbar/Navbar.js'
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-
-
+import pfp from "./bivashPic.jpg"
+import { useNavigate } from 'react-router-dom';
 const CandidateProfile = () => {
      const [connectedFlag, setConnectedFlag] = useState(false)
      const [formData, setFormData] = useState({
@@ -22,29 +23,48 @@ const CandidateProfile = () => {
           website: '',
           resume_file: null,
           account_created: '',
-          profile_picture: null,
+          profile_picture: null
      });
-     const candidateId  = "3"
+     const { candidateId } = useParams("candidateId")
+     console.log(candidateId)
      const JWT = sessionStorage.getItem("JWT")
+     const navigate = useNavigate()
      const handleConnect = () => {
-          const params = {employerId : '', candidateId : ''}  
-          params.employerId = sessionStorage.getItem("id") 
-          params.candidateId = candidateId
-          
+          const params = { employerId: 0, candidateId: 0 }
+          params.employerId = Number(sessionStorage.getItem("id"))
+          params.candidateId = Number(candidateId)
+          console.log(params)
           fetch('http://127.0.0.1:5002/connection', {
                method: 'POST',
                headers: { 'Authorization': `${JWT}`, 'Content-Type': "application/json" },
-               body: JSON.stringify(params) 
+               body: JSON.stringify(params)
           }).then((res) => res.json()).then((data) => {
                console.log(data)
-               setFormData(data.candidate)
+               // setFormData(data.candidate)
 
           }).catch(error => console.log("log:" + error))
           setConnectedFlag(true)
      }
 
      const handleRemove = () => {
+          const params = { employerId: 0, candidateId: 0 }
+          params.employerId = Number(sessionStorage.getItem("id"))
+          params.candidateId = Number(candidateId)
+          console.log(params)
+          fetch('http://127.0.0.1:5002/connection', {
+               method: 'DELETE',
+               headers: { 'Authorization': `${JWT}`, 'Content-Type': "application/json" },
+               body: JSON.stringify(params)
+          }).then((res) => res.json()).then((data) => {
+               console.log(data)
+               // setFormData(data.candidate)
+
+          }).catch(error => console.log("log:" + error))
           setConnectedFlag(false)
+     }
+
+     const handleEdit = () => {
+          navigate("/candidateupdate")
      }
      // const { candidateId } = useParams()
 
@@ -54,7 +74,7 @@ const CandidateProfile = () => {
                method: 'GET',
                headers: { 'Authorization': `${JWT}`, 'Content-Type': "application/json" }
           }).then((res) => res.json()).then((data) => {
-               console.log(data)
+               console.log(JSON.stringify(data))
                setFormData(data.candidate)
 
           }).catch(error => console.log("log:" + error))
@@ -62,10 +82,21 @@ const CandidateProfile = () => {
 
      return (
           <div>
-               <Navbar />
+               {
+                    (sessionStorage.getItem("userType") == "employer") &&
+
+                    <Navbar2 />
+
+               }
+               {
+                    (sessionStorage.getItem("userType") == "candidate") &&
+
+                    <Navbar />
+
+               }
                <div className="candidate-profile">
                     <div className="profile-picture">
-                         <img src={formData.profile_picture} alt="Profile" />
+                         <img src={pfp} alt="Profile" />
                     </div>
                     <div className="profile-details">
                          <h2 style={{ fontSize: "36px", fontFamily: "Georgia", fontWeight: "bold", marginBottom: "20px" }}>{formData.first_name + " " + formData.last_name}</h2> { }
@@ -89,8 +120,15 @@ const CandidateProfile = () => {
                          <p style={{ fontSize: "18px" }}>{formData.info}</p> {/* Adjust font size */}
                          <div className="skills" style={{ fontSize: "18px" }}>
                               <h3>Skills:</h3>
-                              
+
                          </div>
+
+                         {
+                              (sessionStorage.getItem("userType") == "candidate") &&
+
+                              <button onClick={handleEdit}>Edit</button>
+
+                         }
                     </div>
                </div>
           </div>

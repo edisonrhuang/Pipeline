@@ -13,7 +13,6 @@ const CreateEmployer = () => {
     });
     const navigate = useNavigate()
 
-
     const handleSubmit = (e) => {
         const JWT = sessionStorage.getItem("JWT")
         console.log(formData)
@@ -22,6 +21,9 @@ const CreateEmployer = () => {
             headers: { 'Authorization': `${JWT}`, 'Content-Type': "application/json" },
             body: JSON.stringify(formData)
         }).then((res) => res.json()).then((data) => {
+            sessionStorage.setItem("id", data.authorizationId)
+            sessionStorage.setItem("userType", data.userType)
+
             console.log(data)
             navigate("/employerdashboard")
         }).catch(error => console.log("log:" + error))

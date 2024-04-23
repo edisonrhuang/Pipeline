@@ -34,31 +34,38 @@ function selectAllSkills(callback) {
  */
 function createSkills(candidateId, skillsData, callback) {
     const skills = Object.keys(skillsData);
-
+    
     // Retrieve skill IDs for the provided skill names
     connection.query('SELECT skill_id, skill_name FROM skill WHERE skill_name IN (?)', [skills], (err, res) => {
         if (err) {
             console.error('Error retrieving skill IDs: ', err);
             return callback(err, null);
         }
-
+        
         // Map skill names to their respective IDs
         const skillIdMap = {};
         res.forEach(row => {
             skillIdMap[row.skill_name] = row.skill_id;
         });
-
+        
         // Prepare skill inserts for the candidate
-        const skillInserts = [];
+        let skillInserts = [];
         skills.forEach(skillName => {
-            const skillId = skillIdMap[skillName];
+            let skillId = skillIdMap[skillName];
             if (skillId) {
                 skillInserts.push([candidateId, skillId]);
             } else {
-                console.warn(`Skill '${skillName}' not found in the database.`);
+                connection.query('INSERT INTO skill (skill_name) VALUES (?)', [skillName], (err, skillInsertResult) => {
+                    if (err) {
+                        console.error('Error inserting skill: ', err);
+                        return callback(err, null);
+                    }
+                    skillId = skillInsertResult.insertId;
+                })
+                skillInserts.push([candidateId, skillId]);
             }
         });
-
+        
         // Insert candidate skills into the database
         const insertSkillsQuery = 'INSERT INTO candidate_skill (candidate_id, skill_id) VALUES ?';
         connection.query(insertSkillsQuery, [skillInserts], (err, skillResult) => {

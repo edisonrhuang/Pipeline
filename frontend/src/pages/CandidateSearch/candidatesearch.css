@@ -1,0 +1,27 @@
+.CandidateSearch {
+     /*display: flex;*/
+     position: relative;
+ }
+ 
+ .label {
+     /*
+     flex: 1; 
+     margin-right: 5rem; 
+     */
+     top: 5%;
+ }
+ .left{
+     position: absolute;
+     left: 60%;
+ }
+ .right{
+     position: relative;
+     right: 60%;
+
+ }
+
+ .container {
+     display: grid;
+     grid-template-columns: repeat(3, auto);
+
+}

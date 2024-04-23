@@ -2,11 +2,32 @@ import { auth, googleProvider } from "./firebase"
 import { signInWithPopup, signOut } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 import logoImage from "./assets/logo.png"
+import { useState } from "react"
 
 
 const Login = () => {
 
      const navigate = useNavigate()
+     const [formData, setFormData] = useState()
+     const handleS = () => {
+          fetch('http://127.0.0.1:5002/login', {
+               method: 'POST',
+               headers: { 'Authorization': `login`, 'Content-Type': "application/json" },
+               body: JSON.stringify(formData)
+          }).then((res) => res.json()).then((data) => {
+               sessionStorage.setItem('JWT', "login");
+               sessionStorage.setItem('id', data.authorizationId);
+               sessionStorage.setItem('userType', data.userType);
+
+               if (data.doesUserExist == false)
+                    navigate("/employerorcandidate")
+               else if (data.userType == "candidate") {
+                    navigate("/candidatedashboard")
+               } else if (data.userType == "employer") {
+                    navigate("/employerdashboard")
+               }
+          }).catch(error => console.error(error))
+     }
      const signInWithGoogle = async () => {
 
           try {
@@ -23,8 +44,6 @@ const Login = () => {
                               sessionStorage.setItem('id', data.authorizationId);
                               sessionStorage.setItem('userType', data.userType);
 
-                              console.log(data)
-
                               if (data.doesUserExist == false)
                                    navigate("/employerorcandidate")
                               else if (data.userType == "candidate") {
@@ -32,7 +51,7 @@ const Login = () => {
                               } else if (data.userType == "employer") {
                                    navigate("/employerdashboard")
                               }
-                         }).catch(error => console.log("log:" + error))
+                         }).catch(error => console.error(error))
                     })
 
 
@@ -41,6 +60,9 @@ const Login = () => {
                console.error(err)
           }
      }
+     const handleChange = (e) => {
+          setFormData({ ...formData, [e.target.name]: e.target.value });
+      };
 
      return <div>
 
@@ -54,6 +76,18 @@ const Login = () => {
                          <br />
                          <br />
                          <button class="button-30" onClick={signInWithGoogle} role="button">Login with Google</button>
+                         <br />
+                         <br />
+                         <br />
+                         <br />
+                         <label htmlFor="a">Username</label>
+                         <input type="text" name="username" onChange={handleChange} id="a" />
+                         <br />
+                         <label htmlFor="b">Password</label>
+
+                         <input type="password" name="password"  onChange={handleChange}  id="b" />
+                         <br />
+                         <button onClick={handleS}>Submit</button>
                     </div>
                </div>
           </div>

@@ -16,6 +16,7 @@ import TestCandidateCard from './components/CandidateCard/Test';
 import { Route, Routes } from "react-router-dom"
 import EmployerDashboard from './pages/EmployerDashboard/EmployerDashboard';
 import CreateCandidate from './pages/Forms/CreateCandidate';
+import Statistics from './pages/Statistics';
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
       <Routes>
         <Route path="/employerorcandidate" element={<EmployerOrCandidate />} />
         <Route path="/candidatecreate" element={<CandidateCreate />} />
-        <Route path="/candidateprofile" element={<CandidateProfile />} />
+        <Route path="/candidateprofile/:candidateId" element={<CandidateProfile />} />
         <Route path="/employerorcandidate" element={<EmployerOrCandidate />} />
         <Route path="/candidatesearch" element={<CandidateSearch />} />
         <Route path="/candidatedashboard" element={<CandidateDashboard />} />
@@ -38,6 +39,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/x" element={<CreateCandidate/>}></Route>
         <Route path="/test" element={<TestCandidateCard/>}></Route>
+        <Route path="/stats" element={<Statistics/>}></Route>
 
       </Routes>
     </div>

@@ -1,7 +1,7 @@
-import connection from "../connection"
+import connection from "../connection.js"
 
 function createConnection(candidateId, employerId, callback) {
-     connection.query('INSERT INTO connection (candidate_id, employer_idi) VALUES (?, ?)', [candidateId, employerId], (err, res) => {
+     connection.query('INSERT INTO connection (candidate_id, employer_id) VALUES (?, ?)', [candidateId, employerId], (err, res) => {
           if (err) {
                console.error('Error creating connection: ', err);
                return callback(err, null);

@@ -1,48 +1,64 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import "./employerprofile.css"
 import img from "./bivashPic.jpg"
 import logoImage from "./logo.png"
-
-const profileData = {
-     name: 'Bivash Oli',
-     company: 'Virginia Tech',
-     email: 'bivasholi@vt.edu',
-   };
+import { useState } from 'react'
+import Navbar from '../../components/Navbar/Navbar.js'
+import { useNavigate } from 'react-router-dom';
+// const profileData = {
+//      name: 'Bivash Oli',
+//      company: 'Virginia Tech',
+//      email: 'bivasholi@vt.edu',
+// };
 
 
 const EmployerProfile = () => {
-     const { name, company, email} = profileData;
+     const JWT = sessionStorage.getItem('JWT')
+     const [profileData, setProfileData] = useState({})
+     const navigate = useNavigate()
+     const handleEdit = () => {
+          navigate("/employerupdate")
+     }
+     useEffect(() => {
+          fetch(`http://127.0.0.1:5002/employer/${sessionStorage.getItem('id')}`, {
+               method: 'GET',
+               headers: { 'Authorization': `${JWT}`, 'Content-Type': "application/json" }
+          }).then((res) => res.json()).then((data) => {
+               console.log(data.employer)
+               setProfileData(data.employer)
+          }).catch(error => console.log("log:" + error))
+     }, [])
+
      return (
           <div className="profile">
-               <nav className = "navbar" style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: '0.8rem 2rem',
-                    height: '60px',
-                    backgroundColor: '#ffffff', // White background
-                    color: 'purple',
-                    boxShadow: '0 5px 15px rgba(0,0,0,0.1)'
-               }}>
-                    <img src={logoImage} alt="Pipeline" style={{height: '300px', marginRight: '0.2rem', marginLeft: '-3rem'}} /> 
-                    <div>
-                         <button className="login_button">Update</button>
-                    </div>
-               </nav>
-               <div id ="content">
+
+               <Navbar />
+               <div id="content">
                     <div id="white" className="half">
                          <div id="p_info">
-                              <h1 id="name">{name}</h1>
-                              <p><b>Company:</b> {company}</p>
-                              <p><b>Email:</b> {email}</p>
+                              <h1>asd</h1>
+                              <h1 id="name">{profileData.first_name + " " + profileData.last_name}</h1>
+                              <p><b>Company:</b> {profileData.company_name}</p>
+                              <p><b>Email:</b> {profileData.email}</p>
+                              <br />
+                              <br />
+                              <br />
+
+                              {
+                         (sessionStorage.getItem("userType") == "employer") &&
+
+                         <button onClick={handleEdit}>Edit</button>
+
+                    }
                          </div>
                     </div>
                     <div id="purple" className="half">
                          <img src={img} alt="image" />
                     </div>
+                   
                </div>
-               
-               
+
+
           </div>
      );
 }
