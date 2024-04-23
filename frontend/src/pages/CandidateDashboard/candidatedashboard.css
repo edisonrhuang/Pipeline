@@ -1,0 +1,10 @@
+.CandidateSearch {
+    display: flex;
+}
+
+.label {
+    
+    flex: 1; 
+    margin-right: 5rem; 
+    
+}
