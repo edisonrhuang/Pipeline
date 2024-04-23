@@ -1,5 +1,6 @@
 Contributions:
 - Designed and styled frontend of various candidate CRUD operations
 - Designed and styled frontend of various employee CRUD operations
-- Designed assets for the website such as logo and backgrounds
+- Designed and sourced assets for the website such as logo and backgrounds
 - Helped implement various key features such as search and skill description
+- Designed key ReactJS components such as different navbars, commonly used buttons, etc.
