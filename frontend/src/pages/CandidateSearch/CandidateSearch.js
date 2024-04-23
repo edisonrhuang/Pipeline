@@ -4,7 +4,6 @@ import Navbar from '../../components/Navbar/Navbar.js';
 import { useEffect, useState } from "react"
 import CandidateCard from "../../components/CandidateCard/CandidateCard.js";
 import { useNavigate } from "react-router-dom";
-// import data from dataFile
 
 function CandidateSearch() {
 
@@ -12,9 +11,6 @@ function CandidateSearch() {
 
      const JWT = sessionStorage.getItem("JWT")
      const navigate = useNavigate()
-     const handleClick = () => {
-
-     }
 
      useEffect(() => {
           fetch(`http://127.0.0.1:5002/candidates`, {

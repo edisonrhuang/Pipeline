@@ -20,7 +20,6 @@ app.use(skillRoutes)
 app.use(connectionRoutes)
 
 app.post('/', (req, res) => {
-    console.log(req)
     
     res.send({doesUserExist : req.doesUserExist, userType : req.userType, authorizationId : req.authorizationId});
 });

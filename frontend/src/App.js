@@ -11,7 +11,6 @@ import CandidateUpdate from "./pages/CandidateUpdate"
 import Login from './pages/Login';
 import CandidateCard from './components/CandidateCard/CandidateCard';
 import TestCandidateCard from './components/CandidateCard/Test';
-// import EmployerProfile from "./pages/EmployerProfile"
 
 import { Route, Routes } from "react-router-dom"
 import EmployerDashboard from './pages/EmployerDashboard/EmployerDashboard';

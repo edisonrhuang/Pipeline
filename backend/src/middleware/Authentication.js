@@ -17,7 +17,6 @@ const Authentication = (req, res, next) => {
 
           req.user.email = req.body.username;
           req.user.password = req.body.password 
-          console.log(req.user.email)
           getUserInfo(req.user.email, (err, response) => {
                if (response == undefined) {
                     req.doesUserExist = false
@@ -43,7 +42,6 @@ const Authentication = (req, res, next) => {
      admin.auth().verifyIdToken(idToken)
           .then(decodedToken => {
                req.user = decodedToken;
-               console.log(req.user.email)
                getUserInfo(req.user.email, (err, response) => {
                     if (response == undefined) {
                          req.doesUserExist = false

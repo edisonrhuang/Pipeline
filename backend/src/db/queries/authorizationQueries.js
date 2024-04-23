@@ -25,16 +25,13 @@ function getUserInfo(email, callback) {
         }
         // Extract user type and user id from the fetched user information
         const userType = res.user_type;
-        const userId = res.user_id;
-        const candidateId = res.candidate_id;
-        const employerId = res.employer_id;
-        console.log(userType)
+        const userId = (res.candidate_id !== null) ? res.candidate_id : (res.employer_id !== null) ? res.employer_id : null;
+
         // If the user type is "Candidate"
         if (userType == 'Candidate') {
-            connection.query('SELECT * FROM candidate WHERE candidate_id = ?', candidateId, (err, res) => {
+            connection.query('SELECT * FROM candidate WHERE candidate_id = ?', userId, (err, res) => {
                 if (err) {
-                    //  console.error('Error fetching candidate with id ', userId, ': ', err);
-                    console.log("ASDsa")
+                    console.error('Error fetching candidate with id ', userId, ': ', err);
                     return callback(err, null);
                 }
                 return callback(null, res);
@@ -42,11 +39,9 @@ function getUserInfo(email, callback) {
         }
         // If the user type is "Employer"
         else if (userType == 'Employer') {
-            connection.query('SELECT * FROM employer WHERE employer_id = ?', employerId, (err, res) => {
+            connection.query('SELECT * FROM employer WHERE employer_id = ?', userId, (err, res) => {
                 if (err) {
-                    //  console.error('Error fetching employer with id ', userId, ': ', err);
-                    console.log("ASDsa")
-
+                    console.error('Error fetching employer with id ', userId, ': ', err);
                     return callback(err, null);
                 }
                 return callback(null, res);
@@ -54,7 +49,7 @@ function getUserInfo(email, callback) {
         }
         // If no user was found with the provided email address
         else {
-            //    console.error('Error: Could not find user with email ', email, ' in the database.');
+            console.error('Error: Could not find user with email ', email, ' in the database.');
             return callback(null, undefined);
         }
     });

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import logoImage from "./assets/logo.png"
-import './employerorcandidate.css'
+import './EmployerOrCandidate.css'
 import { useNavigate } from 'react-router-dom';
 
 const EmployerOrCandidate = () => {
@@ -35,14 +35,14 @@ const EmployerOrCandidate = () => {
                     </label>
                     <br />
                     <br />
-                    <button className="button-30" role="button" onClick={handleEmployer}>Employer</button>
+                    <button className="button-30" onClick={handleEmployer}>Employer</button>
                     <br />
                     <br />
                     <br />
                     <label className="or_label">or</label>
                     <br />
                     <br />
-                    <button className="button-30" role="button" onClick={handleCandidate}>Candidate</button>
+                    <button className="button-30" onClick={handleCandidate}>Candidate</button>
                 </div>
             </form>
         </div>

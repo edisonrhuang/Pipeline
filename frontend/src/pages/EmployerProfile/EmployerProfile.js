@@ -1,15 +1,9 @@
 import React, { useEffect } from 'react'
 import "./employerprofile.css"
-import img from "./bivashPic.jpg"
-import logoImage from "./logo.png"
+import img from "./default_pfp.png"
 import { useState } from 'react'
 import Navbar from '../../components/Navbar/Navbar.js'
 import { useNavigate } from 'react-router-dom';
-// const profileData = {
-//      name: 'Bivash Oli',
-//      company: 'Virginia Tech',
-//      email: 'bivasholi@vt.edu',
-// };
 
 
 const EmployerProfile = () => {
@@ -36,7 +30,6 @@ const EmployerProfile = () => {
                <div id="content">
                     <div id="white" className="half">
                          <div id="p_info">
-                              <h1>asd</h1>
                               <h1 id="name">{profileData.first_name + " " + profileData.last_name}</h1>
                               <p><b>Company:</b> {profileData.company_name}</p>
                               <p><b>Email:</b> {profileData.email}</p>
@@ -45,7 +38,7 @@ const EmployerProfile = () => {
                               <br />
 
                               {
-                         (sessionStorage.getItem("userType") == "employer") &&
+                         (sessionStorage.getItem("userType") === "employer") &&
 
                          <button onClick={handleEdit}>Edit</button>
 
@@ -53,7 +46,7 @@ const EmployerProfile = () => {
                          </div>
                     </div>
                     <div id="purple" className="half">
-                         <img src={img} alt="image" />
+                         <img src={img} alt="Default profile picture" />
                     </div>
                    
                </div>

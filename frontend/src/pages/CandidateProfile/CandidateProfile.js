@@ -4,8 +4,10 @@ import Navbar from '../../components/CandidateNavbar/CandidateNavbar.js'
 import Navbar2 from '../../components/Navbar/Navbar.js'
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import pfp from "./bivashPic.jpg"
+import pfp from "./default_pfp.png"
 import { useNavigate } from 'react-router-dom';
+import {format} from 'date-fns'
+
 const CandidateProfile = () => {
      const [connectedFlag, setConnectedFlag] = useState(false)
      const [formData, setFormData] = useState({
@@ -40,7 +42,6 @@ const CandidateProfile = () => {
                body: JSON.stringify(params)
           }).then((res) => res.json()).then((data) => {
                console.log(data)
-               // setFormData(data.candidate)
 
           }).catch(error => console.log("log:" + error))
           setConnectedFlag(true)
@@ -57,7 +58,6 @@ const CandidateProfile = () => {
                body: JSON.stringify(params)
           }).then((res) => res.json()).then((data) => {
                console.log(data)
-               // setFormData(data.candidate)
 
           }).catch(error => console.log("log:" + error))
           setConnectedFlag(false)
@@ -66,7 +66,6 @@ const CandidateProfile = () => {
      const handleEdit = () => {
           navigate("/candidateupdate")
      }
-     // const { candidateId } = useParams()
 
      useEffect(() => {
           const JWT = sessionStorage.getItem("JWT")
@@ -75,21 +74,21 @@ const CandidateProfile = () => {
                headers: { 'Authorization': `${JWT}`, 'Content-Type': "application/json" }
           }).then((res) => res.json()).then((data) => {
                console.log(JSON.stringify(data))
+               data.candidate.graduation_date = format(new Date(data.candidate.graduation_date), "yyyy-MM-dd")
                setFormData(data.candidate)
-
           }).catch(error => console.log("log:" + error))
      }, [])
 
      return (
           <div>
                {
-                    (sessionStorage.getItem("userType") == "employer") &&
+                    (sessionStorage.getItem("userType") === "employer") &&
 
                     <Navbar2 />
 
                }
                {
-                    (sessionStorage.getItem("userType") == "candidate") &&
+                    (sessionStorage.getItem("userType") === "candidate") &&
 
                     <Navbar />
 
@@ -100,18 +99,18 @@ const CandidateProfile = () => {
                     </div>
                     <div className="profile-details">
                          <h2 style={{ fontSize: "36px", fontFamily: "Georgia", fontWeight: "bold", marginBottom: "20px" }}>{formData.first_name + " " + formData.last_name}</h2> { }
-                         <p style={{ fontSize: "22px", margin: "-10px" }}>{formData.school_name} {formData.graduation_date}</p> {/* Adjust font size */}
+                         <p style={{ fontSize: "22px" }}>{formData.school_name} {formData.graduation_date}</p> {/* Adjust font size */}
                          <p style={{ fontSize: "22px" }}>{formData.field_of_study}</p> {/* Adjust font size */}
                          {/* <Connect/> */}
 
                          {
-                              (sessionStorage.getItem("userType") == "employer" && !connectedFlag) &&
+                              (sessionStorage.getItem("userType") === "employer" && !connectedFlag) &&
 
                               <button onClick={handleConnect}>Connect</button>
 
                          }
                          {
-                              (sessionStorage.getItem("userType") == "employer" && connectedFlag) &&
+                              (sessionStorage.getItem("userType") === "employer" && connectedFlag) &&
 
                               <button onClick={handleRemove}>Remove</button>
 
@@ -124,7 +123,7 @@ const CandidateProfile = () => {
                          </div>
 
                          {
-                              (sessionStorage.getItem("userType") == "candidate") &&
+                              (sessionStorage.getItem("userType") === "candidate") &&
 
                               <button onClick={handleEdit}>Edit</button>
 

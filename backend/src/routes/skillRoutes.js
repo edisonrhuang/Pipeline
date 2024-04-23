@@ -4,7 +4,6 @@ import { createSkills } from '../db/queries/skillQueries.js'
 const router = express.Router();
 
 router.post('/skills', (req, res) => {
-    console.log(req.body.id, req.body.skills)
     createSkills(req.body.id, req.body.skills, (err, response) => {
         res.send(response)
     })

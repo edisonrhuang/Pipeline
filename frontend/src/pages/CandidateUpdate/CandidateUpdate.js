@@ -55,7 +55,7 @@ const CandidateUpdate = () => {
                headers: { 'Authorization': `${JWT}`, 'Content-Type': "application/json" },
                body: JSON.stringify(formData)
           }).then((res) => res.json()).then((data) => {
-               navigate("/candidateprofile")
+               navigate(`/candidateprofile/${sessionStorage.getItem('id')}`)
           }).catch(error => console.log("log:" + error))
 
      }

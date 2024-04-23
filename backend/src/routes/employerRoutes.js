@@ -12,7 +12,6 @@ router.get('/employers/:candidateId', (req, res) => {
 })
 
 router.get('/employer/:id', (req, res) => {
-    console.log("Asdsa")
     const id = req.params.id
     selectEmployerByID(id, (err, response) => {
         res.send({ employer: response[0] })

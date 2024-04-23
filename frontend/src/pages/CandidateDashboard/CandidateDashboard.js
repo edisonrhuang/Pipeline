@@ -3,13 +3,6 @@ import { useState } from "react"
 import Navbar from '../../components/CandidateNavbar/CandidateNavbar.js'
 const CandidateDashboard = () => {
 
-     const [formData, setFormData] = useState({
-          first_name: '',
-          last_name: '',
-          email: '',
-          company_name: '',
-          info: ''
-     });
      const [employers, setEmployers] = useState([{}])
      const JWT = sessionStorage.getItem("JWT")
 

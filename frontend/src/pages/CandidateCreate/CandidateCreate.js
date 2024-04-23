@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/LoginNavbar/LoginNavbar.js';
 import './Button.css'
@@ -14,7 +14,7 @@ const CandidateCreate = () => {
 
     const handleKeyDown = (e) => {
         const code = e.keyCode || e.which;
-        const newTag = tag.trim();
+        //const newTag = tag.trim();
         if (
             (code !== 13 && code !== 188) || tag.length === 0
         ) {
@@ -34,37 +34,7 @@ const CandidateCreate = () => {
         dupTags.splice(index, 1);
         setTags(dupTags);
     }
-    // const TagInputComponent = () => {
 
-
-    //     return (
-    //         <div className="tag-input-box">
-    //             <p>Separate skills with commas</p>
-    //             <div className="tags-container" >
-    //                 {
-    //                     tags.map((tag, index) => (
-    //                         <div className="tag">
-    //                             <span className="name">{tag}</span>
-    //                             <span
-    //                                 className="icon"
-    //                                 onClick={() => deleteTag(index)}
-    //                             >&times;</span>
-    //                         </div>
-    //                     ))
-    //                 }
-    //                 <input
-    //                     type="text"
-    //                     id="tag-input"
-    //                     placeholder="Type skill here"
-    //                     value={tag}
-    //                     maxLength={50}
-    //                     onChange={(e) => setTag(e.target.value)}
-    //                     onKeyDown={handleKeyDown}
-    //                 />
-    //             </div >
-    //         </div >
-    //     );
-    // }
 
     const [formData, setFormData] = useState({
         first_name: '',

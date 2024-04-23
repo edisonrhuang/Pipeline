@@ -33,7 +33,7 @@ function selectAllSkills(callback) {
  * - If the query is successful, `res` will contain the fetched candidates.
  */
 function createSkills(candidateId, skillsData, callback) {
-    const skills = Object.keys(skillsData);
+    const skills = skillsData
     
     // Retrieve skill IDs for the provided skill names
     connection.query('SELECT skill_id, skill_name FROM skill WHERE skill_name IN (?)', [skills], (err, res) => {
@@ -49,11 +49,10 @@ function createSkills(candidateId, skillsData, callback) {
         });
         
         // Prepare skill inserts for the candidate
-        let skillInserts = [];
         skills.forEach(skillName => {
             let skillId = skillIdMap[skillName];
             if (skillId) {
-                skillInserts.push([candidateId, skillId]);
+                insertSkill(candidateId, skillId)
             } else {
                 connection.query('INSERT INTO skill (skill_name) VALUES (?)', [skillName], (err, skillInsertResult) => {
                     if (err) {
@@ -61,20 +60,21 @@ function createSkills(candidateId, skillsData, callback) {
                         return callback(err, null);
                     }
                     skillId = skillInsertResult.insertId;
+                    insertSkill(candidateId, skillId);
                 })
-                skillInserts.push([candidateId, skillId]);
             }
         });
-        
-        // Insert candidate skills into the database
-        const insertSkillsQuery = 'INSERT INTO candidate_skill (candidate_id, skill_id) VALUES ?';
-        connection.query(insertSkillsQuery, [skillInserts], (err, skillResult) => {
-            if (err) {
-                console.error('Error inserting candidate skills: ', err);
-                return callback(err, null);
-            }
-            return callback(null, skillResult);
-        });
+
+        return callback(null, res);
+    });
+}
+
+function insertSkill(candidateId, skillId) {
+    const insertSkillsQuery = 'INSERT INTO candidate_skill (candidate_id, skill_id) VALUES (?, ?)';
+    connection.query(insertSkillsQuery, [candidateId, skillId], (err, skillResult) => {
+        if (err) {
+            console.error('Error inserting candidate skills: ', err);
+        }
     });
 }
 
