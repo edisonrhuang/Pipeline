@@ -49,4 +49,4 @@ To setup the database, open and run the `schema.sql` within the `sql/` directory
 
 4. To run the project, return to the `Pipeline/` directory and run `npm run dev`
    - This can be done because the `package.json` file in the `Pipeline/` directory contains a script that runs an installed package called `concurrently`. `concurrently` allows you to run both the front and backend code concurrently in one terminal.
-5. From that point on, you can access the website using `localhost:3000` in your web browser.
+5. `localhost:3000/login` should automatically load in your browser and you can begin to play around with the website!
