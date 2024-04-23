@@ -1,6 +1,7 @@
 import connection from '../connection.js'
 import { createEmployer } from './employerQueries.js';
 import { createCandidate } from './candidateQueries.js';
+
 /**
  * Retrieves user information from the database based on the provided email address.
  * @param {*} authEmail The email address of the user whose information is to be 
