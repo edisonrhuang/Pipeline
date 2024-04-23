@@ -1,5 +1,4 @@
 import connection from '../connection.js'
-
 import {createSkills} from './skillQueries.js'
 
 /**

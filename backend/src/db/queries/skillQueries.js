@@ -11,12 +11,10 @@ import connection from "../connection.js";
  */
 function selectAllSkills(callback) {
     connection.query('SELECT * FROM skill', (err, res) => {
-    connection.query('SELECT * FROM skill', (err, res) => {
         if (err) {
             console.error('Error fetching skills: ', err);
             return callback(err, null);
         }
-        return callback(null, res);
         return callback(null, res);
     });
 }
