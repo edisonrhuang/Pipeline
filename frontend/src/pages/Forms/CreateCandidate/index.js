@@ -89,7 +89,7 @@ const CreateCandidate = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit} method="POST">
+        <form onSubmit={handleSubmit} method="GET">
             <label>
                 First Name:
                 <input type="text" name="first_name" value={formData.first_name} onChange={handleChange} />

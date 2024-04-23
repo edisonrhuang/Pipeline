@@ -1,5 +1,6 @@
-const mysql = require('mysql');
-require('dotenv').config();
+import mysql from 'mysql'
+import dotenv from 'dotenv'
+dotenv.config();
 
 const connection = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -13,4 +14,4 @@ connection.connect((err) => {
     console.log('Sucessfully connected to the Pipeline database.');
 });
 
-module.exports = connection;
+export default connection

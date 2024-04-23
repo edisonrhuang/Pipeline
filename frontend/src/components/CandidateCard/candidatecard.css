@@ -1,0 +1,84 @@
+.pc {
+    width: 350px;
+    margin: 40px;
+    border-radius: 4px;
+    padding-bottom: 20px;
+    background: white;
+    text-align: center;
+}
+
+.gradiant {
+    background-image: linear-gradient(purple, rgb(245, 199, 245));
+    height: 125px;
+    border-radius: 4px 4px 0px 0px;
+}
+
+.profile-down img {
+    height: 150px;
+    border-radius: 100px;
+    margin-top: -100px;
+    float: left;
+    margin-left: 15px;
+    padding: 5px;
+    background: white;
+
+}
+
+.profile-title {
+    font-size: 30px;
+    font-weight: 600;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.major {
+    font-size: 16px;
+    font-weight: 600;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.school {
+    font-size: 16px;
+    font-weight: 600;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.year {
+    font-size: 16px;
+    font-weight: 600;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.skill {
+    background-color: #e1d4f0;
+    color: #fff;
+    border-radius: 50px;
+    padding: 8px 16px;
+    margin: 5px;
+    font-size: 14px;
+    color: black;
+    text-align: center;
+    cursor: pointer;
+}
+
+.level {
+    margin-left: 5px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+a {
+    text-decoration: none;
+    color: white;
+}

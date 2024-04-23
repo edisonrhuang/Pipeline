@@ -1,121 +1,93 @@
-const express = require('express');
-const { selectAllCandidates, selectCandidateByID, createCandidate, updateCandidate, deleteCandidate, getCandidateConnections } = require('../db/queries/candidateQueries');
-const { createSkills } = require('../db/queries/skillQueries');
+import express from 'express'
+
+import {
+    selectAllCandidates,
+    selectCandidateByID,
+    selectCandidateByFilter,
+    createCandidate,
+    updateCandidate,
+    deleteCandidate,
+    getCandidateConnections
+} from '../db/queries/candidateQueries.js'
+
+import { createSkills } from '../db/queries/skillQueries.js'
+import { getUserInfo, createUser } from '../db/queries/authorizationQueries.js'
+import { getEmployerConnections } from '../db/queries/employerQueries.js';
 
 const router = express.Router();
 
-// Route to fetch all candidates' data
-router.get('/candidate-data', (req, res) => {
-    selectAllCandidates((err, candidates) => {
-        if (err) {
-            // If an error occurs during database query, return 500 Internal Server Error
-            return res.status(500).json({ error: 'Internal Server Error' });
-        }
-        // If successful, send the fetched candidates as JSON response
-        return res.json(candidates);
-    });
+
+// router.post('/candidates', (req, res) => {
+//     getUserInfo(req.user.email, (err, response) => {
+//         if (response != undefined){
+//             response = response[0]
+//             res.send(response) 
+//         }
+//     })
+// });
+
+router.post('/candidates/:employerId', (req, res) => {
+    const employerId = req.params.employerId
+    getEmployerConnections(employerId, (err, response) => {
+        res.send({ candidates: response })
+    })
+    // selectAllCandidates((err, response) => {
+    //     if (response != undefined) {
+    //         console.log(response)
+    //         res.send({ candidates: response })
+    //     } else {
+    //         res.send({ candidates: {} })
+    //     }
+    // })
 });
 
-// Route to create a new candidate along with their skills
-router.post('/api/create-candidates', (req, res) => {
-    // Parse request body to extract candidate data and skills
-    const candidateData = JSON.parse(req.body.data);
-    const candidateSkills = JSON.parse(req.body.skills);
-    createCandidate(candidateData, (err, results) => {
-        if (err) {
-            // If an error occurs during candidate creation, return 500 Internal Server Error
-            return res.status(500).json({ error: 'Internal Server Error' });
-        }
+router.get('/candidates', (req, res) => {
+    selectAllCandidates((err, response) => {
+        res.send(response)
+    })
+})
 
-        if (Object.keys(candidateSkills).length !== 0) {
-            // If candidate has skills, insert them into the database
-            createSkills(results.insertId, candidateSkills, (err, results) => {
-                if (err) {
-                    // If an error occurs during skill creation, return 500 Internal Server Error
-                    return res.status(500).json({ error: 'Internal Server Error' });
-                }
-                // If successful, return 201 Created along with a success message and candidate ID
-                res.status(201).json({ message: 'Candidate and skills inserted successfully', candidateId: results.insertId });
-                return console.log("Candidate and skills inserted successfully");
-            })
-        } else {
-            // If candidate has no skills, return 201 Created along with a success message and candidate ID
-            res.status(201).json({ message: 'Candidate inserted successfully', candidateId: results.insertId });
-            return console.log("Candidate inserted successfully");
-        }
-    });
+
+router.get('/candidate/:id', (req, res) => {
+    const id = req.params.id
+    selectCandidateByID(id, (err, response) => {
+        res.send({ candidate: response[0] })
+    })
 });
 
-// Route to update an existing candidate
-router.post('/api/update-candidates', (req, res) => {
-    // Parse request body to extract candidate data and candidate ID
-    const candidateData = JSON.parse(req.body.data);
-    const candidateId = candidateData.candidate_id;
-    updateCandidate(candidateData, candidateId, (err, results) => {
-        if (err) {
-            // If an error occurs during candidate update, return 500 Internal Server Error
-            return res.status(500).json({ error: 'Internal Server Error' });
-        }
-        // If successful, return 200 OK along with a success message and candidate ID
-        res.status(200).json({ message: 'Candidate updated successfully', candidateId: results.candidateId });
-        return console.log("Candidate updated successfully");
-    });
+
+
+router.post('/candidate', (req, res) => {
+    const candidate = req.body
+    createUser(req.user.email, "Candidate", candidate, (err, response) => {
+
+        getUserInfo(req.user.email, (err, response) => {
+            response = response[0]
+            req.userType = "candidate"
+            req.authorizationId = response.candidate_id
+            req.doesUserExist = true
+            res.send({userType : req.userType, authorizationId : req.authorizationId, doesUserExist : req.doesUserExist})
+
+        })
+    })
+
 });
 
-// Route to delete a candidate
-router.post('/api/delete-candidates', (req, res) => {
-    // Extract candidate ID from request body
-    const candidateId = req.body.data;
-    deleteCandidate(candidateId, (err, results) => {
-        if (err) {
-            // If an error occurs during candidate deletion, return 500 Internal Server Error
-            return res.status(500).json({ error: 'Internal Server Error' });
-        }
-        // If successful, return 200 OK along with a success message and candidate ID
-        res.status(200).json({ message: 'Candidate deleted successfully', candidateId: results.candidateId });
-        return console.log("Candidate deleted successfully");
-    });
+router.put('/candidate/:id', (req, res) => {
+    const id = req.params.id
+    const candidate = req.body
+    updateCandidate(candidate, id, (err, response) => {
+        res.send(response)
+    })
 });
 
-// Route to fetch all candidates
-router.get('/api/get-candidates', (req, res) => {
-    selectAllCandidates((err, results) => {
-        if (err) {
-            // If an error occurs during database query, return 500 Internal Server Error
-            return res.status(500).json({ error: 'Internal Server Error' });
-        }
-        // If successful, send the fetched candidates as JSON response
-        return res.send(results);
-    });
+router.delete('/candidate/:id', (req, res) => {
+    const id = req.params.id
+
+    deleteCandidate(id, (err, response) => {
+        res.send(response)
+
+    })
 });
 
-// Route to fetch a specific candidate by ID
-router.get('/api/get-candidate/:id', (req, res) => {
-    // Extract candidate ID from request parameters
-    const candidateId = req.body.data;
-    selectCandidateByID(candidateId, (err, results) => {
-        if (err) {
-            // If an error occurs during database query, return 500 Internal Server Error
-            return res.status(500).json({ error: 'Internal Server Error' });
-        }
-        // If successful, send the fetched candidate as JSON response
-        return res.send(results);
-    });
-});
-
-// Route to fetch connections for a candidate
-router.get('/api/get-candidate-connections/:id', (req, res) => {
-    // Extract candidate ID from request body
-    const candidateId = req.body.data;
-    // Call function to get connections for the specified candidate
-    getCandidateConnections(candidateId, (err, results) => {
-        // If an error occurs during fetching connections, return 500 Internal Server Error
-        if (err) {
-            return res.status(500).json({ error: 'Internal Server Error' });
-        }
-        // If successful, send the fetched connections as JSON response
-        return res.send(results);
-    });
-});
-
-module.exports = router;
+export default router

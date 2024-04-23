@@ -1,5 +1,6 @@
-const connection = require('../connection');
-const { createSkills } = require('./skillQueries');
+import connection from '../connection.js'
+
+import {createSkills} from './skillQueries.js'
 
 /**
  * Retrieves all candidates along with their associated skills from the 
@@ -79,7 +80,7 @@ function selectCandidateByID(candidateId, callback) {
  *   The callback follows the standard Node.js pattern: (err, result) => {...}
  * - If an error occurs during the query execution, `err` will contain the error 
  *   object.
- * - If the query is successful, `res` will contain the fetched candidates.
+ * - If the query is succes sful, `res` will contain the fetched candidates.
  */
 function selectCandidateByFilter(filters, callback) {
     let query =
@@ -161,15 +162,15 @@ function createCandidate(candidateData, callback) {
             return callback(err, null);
         }
 
-        if (Object.keys(candidateSkills).length !== 0) {
-            createSkills(res.insertId, candidateSkills, (err, results) => {
-                if (err) {
-                    console.error('Error inserting candidate skills: ', err);
-                    return callback(err, null);
-                }
-                return callback(null, results);
-            });
-        }
+        // if (Object.keys(candidateSkills).length !== 0) {
+        //     createSkills(res.insertId, candidateSkills, (err, results) => {
+        //         if (err) {
+        //             console.error('Error inserting candidate skills: ', err);
+        //             return callback(err, null);
+        //         }
+        //         return callback(null, results);
+        //     });
+        // }
 
         return callback(null, res);
     });
@@ -328,7 +329,7 @@ function getCandidateConnections(candidateId, callback) {
     });
 }
 
-module.exports = {
+export {
     selectAllCandidates,
     selectCandidateByID,
     selectCandidateByFilter,
@@ -336,4 +337,4 @@ module.exports = {
     updateCandidate,
     deleteCandidate,
     getCandidateConnections
-};
+}

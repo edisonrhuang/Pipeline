@@ -1,0 +1,6 @@
+Contributions:
+- Wrote backend server routes to connect frontend to database
+- Implemented user authentication and login
+- Created CRUD operations for resources such as Employers, Candidates, and skills
+- Created a search feature 
+- Managed database 

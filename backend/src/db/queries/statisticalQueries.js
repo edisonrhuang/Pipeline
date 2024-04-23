@@ -1,5 +1,4 @@
-const connection = require('../connection');
-
+import connection from '../connection.js'
 /**
  * Retrieves the gender distribution of candidates from the database.
  * 
@@ -281,7 +280,7 @@ function getEmployerCompletionPercentage(callback) {
 }
 
 
-module.exports = {
+export  {
     getGenderDistribution,
     getEthnicDistribution,
     getDateOfBirthDistribution,

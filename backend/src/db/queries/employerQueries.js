@@ -1,5 +1,4 @@
-const connection = require('../connection');
-
+import connection from '../connection.js'
 /**
  * Retrieves all employers from the database.
  * 
@@ -152,7 +151,7 @@ function getEmployerConnections(employerId, callback) {
     });
 }
 
-module.exports = {
+export {
     selectAllEmployers,
     selectEmployerByID,
     createEmployer,
