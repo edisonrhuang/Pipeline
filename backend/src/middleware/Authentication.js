@@ -1,6 +1,6 @@
 import admin from 'firebase-admin'
-import serviceAccount from '../../firebase-admin-key.json'  assert {type : "json"};
-import {getUserInfo} from '../db/queries/authorizationQueries.js';
+import serviceAccount from '../../firebase-admin-key.json'  assert {type: "json"};
+import { getUserInfo } from '../db/queries/authorizationQueries.js';
 
 admin.initializeApp({
      credential: admin.credential.cert(serviceAccount)
@@ -19,27 +19,25 @@ const Authentication = (req, res, next) => {
                console.log(req.user.email)
                getUserInfo(req.user.email, (err, response) => {
                     if (response == undefined) {
-                    console.log(response)
-                        console.log("DOESNT EXIST")
-                        req.doesUserExist = false 
-                        next()
-            
-                    } else {
-                        console.log("EXIST")
-                        if (response?.candidate_id) {
-                            req.userType = "candidate"
-                            req.authorizationId = response.candidate_id
-                        } else if (response?.employer_id) {
-                            req.userType = "employer"
-                            req.authorizationId = response.employer_id
-                        }
-                        req.doesUserExist = true 
+                         req.doesUserExist = false
+                         next()
 
-                        next();
+                    } else {
+                         response = response[0]
+                         if ("candidate_id" in response) {
+                              req.userType = "candidate"
+                              req.authorizationId = response.candidate_id
+                         } else if ("employer_id" in response) {
+                              req.userType = "employer"
+                              req.authorizationId = response.employer_id
+                         }
+                         req.doesUserExist = true
+
+                         next();
 
                     }
-            
-                })
+
+               })
           })
           .catch(error => {
                console.error('Error verifying token:', error);

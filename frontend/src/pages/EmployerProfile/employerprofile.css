@@ -1,0 +1,49 @@
+.profile {
+     margin: 0;
+     padding: 0;
+     height: 100vh;
+     width: 100%;
+     display: flex;
+     flex-direction: column;
+     overflow: hidden;
+ }
+ 
+ #content {
+     display: flex;
+     flex: 1;
+     overflow: hidden;
+ }
+ 
+ .half {
+     flex: 1;
+     display: flex;
+     overflow: hidden;
+     z-index: -1;
+     position: relative;
+ 
+     align-items: center;
+     justify-content: center;
+     font-family: "Georgia";
+ }
+ 
+ #white {
+     background-color: white;
+     align-items: center;
+     justify-content: center;
+ }
+ 
+ #purple {
+     background-color: purple;
+ }
+ 
+ #navbar {
+     flex: 0;
+     display: flex;
+     z-index: 1000;
+     position: relative;
+     box-shadow: 0 50px 15px rgba(0,0,0,0.1);
+ }
+ 
+ #name {
+     margin-top: -6rem;
+ }

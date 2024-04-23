@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/LoginNavbar/LoginNavbar.js';
-import axios from 'axios';
 import './Button.css'
 
-const CreateCandidate = () => {
+const CandidateCreate = () => {
+
     const [formData, setFormData] = useState({
         first_name: '',
         last_name: '',
@@ -14,77 +14,36 @@ const CreateCandidate = () => {
         info: '',
         gender: '',
         ethnicity: '',
+        school_name: '',
         graduation_date: '',
         field_of_study: '',
         website: '',
+        resume_file: null,
         account_created: getDate(),
-        profile_picture: null
+        profile_picture: null,
     });
 
-    const [skillsList, setSkillsList] = useState([]);
-    const [maxWidth, setMaxWidth] = useState(0);
-    const [selectedSkills, setSelectedSkills] = useState({});
-
-    const jsonData = JSON.stringify(formData);
-    const jsonSkills = JSON.stringify(selectedSkills);
     const navigate = useNavigate()
 
     const handleSubmit = (e) => {
-            const JWT = sessionStorage.getItem("JWT")
-            console.log(formData)
-            fetch('http://127.0.0.1:5002/candidate', {
-                method: 'POST',
-                headers: { 'Authorization': `${JWT}`, 'Content-Type': "application/json" },
-                body: JSON.stringify(formData)
-            }).then((res) => res.json()).then((data) => {
-                console.log(data)
-                navigate("/candidatedashboard")
-            }).catch(error => console.log("log:" + error))
-        
+        const JWT = sessionStorage.getItem("JWT")
+        fetch('http://127.0.0.1:5002/candidate', {
+            method: 'POST',
+            headers: { 'Authorization': `${JWT}`, 'Content-Type': "application/json" },
+            body: JSON.stringify(formData)
+        }).then((res) => res.json()).then((data) => {
+            console.log(data)
+            navigate("/candidatedashboard")
+        }).catch(error => console.log("log:" + error))
+
     }
-    // useEffect(() => {
-    //     const fetchSkills = async () => {
-    //         try {
-    //             const response = await axios.get(`${process.env.REACT_APP_API_HOST}/api/get-skills`);
-    //             setSkillsList(response.data);
-
-    //             const maxSkillWidth = response.data.reduce((max, skill) => {
-    //                 return Math.max(max, skill.skill.length);
-    //             }, 0);
-    //             setMaxWidth(maxSkillWidth * 8);
-    //         } catch (error) {
-    //             console.error('Error fetching skills:', error.response.data);
-    //         }
-    //     };
-
-    //     fetchSkills();
-    // }, []); 
-
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSkillChange = (e) => {
-        const { name, checked } = e.target;
-        setSelectedSkills(prevState => {
-            const updatedSkills = { ...prevState };
-            if (checked) {
-                updatedSkills[name] = true;
-            } else {
-                delete updatedSkills[name];
-            }
-            return updatedSkills;
-        });
-    };
-
-
-
     return (
-        //<form onSubmit={handleSubmit} method="POST">
-
-        // <form onSubmit={handleSubmit} method="POST" style={{ textAlign: 'center', fontFamily: 'Georgia' }}>
-        <div style={{ textAlign: 'center', fontFamily: 'Georgia' }}>  
-        <Navbar />
+        <div style={{ textAlign: 'center', fontFamily: 'Georgia' }}>
+            <Navbar />
             <h1 style={{ marginTop: '50px' }}>
                 Create your account
             </h1>
@@ -175,27 +134,9 @@ const CreateCandidate = () => {
             <br />
             <label>
                 Profile Picture:
-                <input type="file" name="profile_picture" accept="image/*" onChange={handleChange}
+                <input type="file" name="profile_picture" value={formData.profile_picture} accept="image/*" onChange={handleChange}
                     style={{ marginTop: '10px', marginLeft: '12px' }} />
             </label>
-            <br />
-            <br />
-            <label>Select Skills:</label>
-            <div style={{ border: '1px solid #ccc', padding: '10px', maxHeight: '200px', maxWidth: maxWidth + 'px', overflowY: 'auto', whiteSpace: 'pre-wrap', marginTop: '10px' }}>
-                {skillsList.map(skill => (
-                    <div key={skill.skill} style={{ marginBottom: '5px' }}>
-                        <label>
-                            <input
-                                type="checkbox"
-                                name={skill.skill}
-                                checked={selectedSkills[skill.skill] || false}
-                                onChange={handleSkillChange}
-                            />
-                            {skill.skill}
-                        </label>
-                    </div>
-                ))}
-            </div>
             <br />
             <button className="button" onClick={handleSubmit}>Submit</button>
         </div>
@@ -210,4 +151,4 @@ function getDate() {
     return `${year}-${month}-${day}`;
 }
 
-export default CreateCandidate;
+export default CandidateCreate;

@@ -3,6 +3,7 @@ import cors from 'cors'
 import authentication from './src/middleware/Authentication.js'
 import employerRoutes from './src/routes/EmployerRoutes.js'
 import candidateRoutes from './src/routes/CandidateRoutes.js'
+import skillRoutes from './src/routes/skillRoutes.js'
 const app = express();
 
 
@@ -13,11 +14,14 @@ app.use(authentication)
 
 app.use(employerRoutes)
 app.use(candidateRoutes) 
+app.use(skillRoutes)
 
 app.post('/', (req, res) => {
-    // console.log(req.user)
-    res.send({exist : req.doesUserExist, type : req.userType, aid : req.authorizationId});
+    console.log(req)
+    
+    res.send({doesUserExist : req.doesUserExist, userType : req.userType, authorizationId : req.authorizationId});
 });
+
 
 // app.post('/login', (req, res) => {
 

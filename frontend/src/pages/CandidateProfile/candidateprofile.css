@@ -1,0 +1,32 @@
+.candidate-profile {
+     display: flex;
+     padding-top: -10rem;
+     border: 1px solid #ccc;
+     border-radius: 5px;
+     background-color: white;
+     font-family: 'Georgia'
+ }
+ 
+ .profile-details {
+     margin-left: 5rem;
+     margin-right: 5rem;
+ }
+ .profile-picture img {
+     width: 300px;
+     height: 300px;
+     margin-top: 50px;
+     margin-left: 50px;
+ }
+ 
+ .skills {
+     margin-top: 20px;
+ }
+ 
+ .skills ul {
+     list-style-type: none;
+     padding: 0;
+ }
+ 
+ .skills ul li {
+     margin-bottom: 5px;
+ }

@@ -9,10 +9,13 @@ import EmployerProfile from "./pages/EmployerProfile"
 import EmployerUpdate from "./pages/EmployerUpdate"
 import CandidateUpdate from "./pages/CandidateUpdate"
 import Login from './pages/Login';
-
+import CandidateCard from './components/CandidateCard/CandidateCard';
+import TestCandidateCard from './components/CandidateCard/Test';
 // import EmployerProfile from "./pages/EmployerProfile"
 
 import { Route, Routes } from "react-router-dom"
+import EmployerDashboard from './pages/EmployerDashboard/EmployerDashboard';
+import CreateCandidate from './pages/Forms/CreateCandidate';
 
 function App() {
   return (
@@ -29,8 +32,12 @@ function App() {
         <Route path="/employerprofile" element={<EmployerProfile />} />
         <Route path="/employerupdate" element={<EmployerUpdate />} />
         <Route path="/employercreate" element={<EmployerCreate />} />
-        <Route path="/candidatecard" element={<EmployerUpdate />} />
+        <Route path="/employerdashboard" element={<EmployerDashboard />} />
+
+        <Route path="/candidatecard" element={<CandidateCard  />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/x" element={<CreateCandidate/>}></Route>
+        <Route path="/test" element={<TestCandidateCard/>}></Route>
 
       </Routes>
     </div>

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import Navbar from '../../components/LoginNavbar/LoginNavbar.js';
 
 const CreateEmployer = () => {
@@ -8,8 +10,8 @@ const CreateEmployer = () => {
         email: '',
         company_name: '',
         info: ''
-        // profile_picture: null
     });
+    const navigate = useNavigate()
 
 
     const handleSubmit = (e) => {
@@ -21,6 +23,7 @@ const CreateEmployer = () => {
             body: JSON.stringify(formData)
         }).then((res) => res.json()).then((data) => {
             console.log(data)
+            navigate("/employerdashboard")
         }).catch(error => console.log("log:" + error))
     }
     const handleChange = (e) => {

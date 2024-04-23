@@ -1,5 +1,5 @@
-const express = require('express');
-const { selectAllSkills } = require('../db/queries/skillQueries');
+import express from 'express' 
+import { selectAllSkills } from '../db/queries/skillQueries.js'
 
 const router = express.Router();
 
@@ -16,5 +16,4 @@ router.get('/api/get-skills', (req, res) => {
     })
 })
 
-
-module.exports = router;
+export default router;
